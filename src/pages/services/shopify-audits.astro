@@ -44,6 +44,24 @@ const faqs = [
   >
     <Fragment slot="visual">
       <ShopifyJourney />
+      <ul class="audit-points" data-reveal-group>
+        <li>
+          <strong>Product page clarity</strong>
+          <span>Title, price, variants and delivery timing a shopper can grasp in seconds.</span>
+        </li>
+        <li>
+          <strong>Variant &amp; pricing clarity</strong>
+          <span>Options, bundles and totals that never surprise anyone at checkout.</span>
+        </li>
+        <li>
+          <strong>Mobile shopping usability</strong>
+          <span>Thumb-first layouts, reachable actions and imagery that stays readable.</span>
+        </li>
+        <li>
+          <strong>Cart &amp; checkout friction</strong>
+          <span>Bag confidence, charges surfaced early, fewer reasons to abandon.</span>
+        </li>
+      </ul>
     </Fragment>
 
     <Fragment slot="problem">
@@ -292,6 +310,50 @@ const faqs = [
 
     .journey-map li::after {
       display: none;
+    }
+  }
+  .audit-points {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(0.8rem, 1.8vw, 1.25rem);
+    margin-top: clamp(1rem, 2.5vw, 1.75rem);
+  }
+
+  .audit-points li {
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-top: 3px solid var(--accent, var(--color-rose));
+    border-radius: 14px;
+    padding: 1rem 1.1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    box-shadow: 0 10px 24px -18px rgb(22 22 27 / 0.25);
+  }
+
+  .audit-points strong {
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .audit-points span {
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--color-ink-2);
+  }
+
+  @media (max-width: 64rem) {
+    .audit-points {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .audit-points {
+      grid-template-columns: 1fr;
     }
   }
 </style>

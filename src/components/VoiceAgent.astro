@@ -202,6 +202,10 @@ const capabilities = [
     gap: 1.1rem;
     box-shadow: var(--shadow-panel);
     min-width: 0;
+    /* Fixed while the conversation grows: no stretching, no black void. */
+    align-self: start;
+    position: sticky;
+    top: 5.5rem;
   }
 
   .call-top {
@@ -615,6 +619,10 @@ const capabilities = [
   @media (max-width: 64rem) {
     .vo-body {
       grid-template-columns: 1fr;
+    }
+
+    .vo-call {
+      position: static;
     }
 
     .vo-head {
