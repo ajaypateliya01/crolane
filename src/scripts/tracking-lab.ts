@@ -26,6 +26,7 @@ function initTrackingLab(root: HTMLElement) {
   const status = root.querySelector<HTMLElement>('[data-tr-status]');
   const insightTitle = root.querySelector<HTMLElement>('[data-tr-insight-title]');
   const insightText = root.querySelector<HTMLElement>('[data-tr-insight-text]');
+  const heatStatus = root.querySelector<HTMLElement>('[data-tr-heat-status]');
   const log = root.querySelector<HTMLOListElement>('[data-tr-log]');
   const rows = new Map(
     Array.from(root.querySelectorAll<HTMLElement>('[data-tr-row]')).map((row) => [
@@ -79,6 +80,7 @@ function initTrackingLab(root: HTMLElement) {
       addLog('flow', 'Traffic entered the funnel and reached product pages.', 'flow');
     }
     if (progress > 0.6) {
+      if (heatStatus) heatStatus.textContent = 'Heat is gathering on the product and buy area. Scroll depth is fading further down.';
       els.status.textContent = 'The middle of the funnel is where this demo journey starts leaking.';
       addLog('signal', 'The product-to-cart step is losing far more people than its neighbours.', 'signal');
     }
@@ -93,6 +95,7 @@ function initTrackingLab(root: HTMLElement) {
     els.insightTitle.textContent = 'No leak found yet';
     els.insightText.textContent =
       'The sharpest drop appears here once visitors have flowed through the funnel.';
+    if (heatStatus) heatStatus.textContent = 'Heat stays faint until visitors flow. Play the funnel and watch where attention gathers.';
     els.log.innerHTML = '';
     addLog('setup', 'Funnel mapped across five stages. Waiting for traffic.', 'setup');
     STAGES.forEach((stage) => {
@@ -119,6 +122,7 @@ function initTrackingLab(root: HTMLElement) {
     els.insightTitle.textContent = 'Biggest drop: Product view to Add to cart';
     els.insightText.textContent =
       'In this demo, 450 of every 1,000 visitors leave between viewing a product and adding it. That is where recordings, heatmaps and friction fixes would look first.';
+    if (heatStatus) heatStatus.textContent = 'Strongest heat sits on the product and Add to bag area, yet most visitors still leave before the cart. Attention is not the problem; commitment is.';
     addLog('leak', 'Sharpest drop flagged between Product view and Add to cart.', 'leak');
     addLog('next', 'A real review would pair this with recordings and device splits before recommending a fix.', 'next');
     els.playBtn.disabled = false;

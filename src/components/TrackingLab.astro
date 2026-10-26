@@ -53,7 +53,7 @@ const stages = [
 
     <div class="t-grid">
       <div class="t-funnel">
-        <p class="t-kicker">Funnel · per 1,000 visitors</p>
+        <p class="t-kicker">GA4 funnel report · per 1,000 visitors</p>
         <ol class="t-rows">
           {
             stages.map((s) => (
@@ -88,9 +88,40 @@ const stages = [
       </div>
     </div>
 
+    <div class="t-heat">
+      <div class="t-heat-head">
+        <p class="t-kicker">Hotjar-style heat view · illustrative</p>
+        <span class="t-heat-status" data-tr-heat-status>Heat stays faint until visitors flow. Play the funnel and watch where attention gathers.</span>
+      </div>
+      <div class="t-page" aria-hidden="true">
+        <div class="t-page-nav"><i></i><i></i><i></i><b></b></div>
+        <div class="t-page-main">
+          <div class="t-page-copy">
+            <b class="t-line is-lg"></b>
+            <b class="t-line"></b>
+            <b class="t-line is-short"></b>
+            <span class="t-page-price">$24 · ★ 4.6</span>
+            <span class="t-page-cta">Add to bag</span>
+          </div>
+          <div class="t-page-img"></div>
+        </div>
+        <span class="t-blob" style="--x:82%;--y:64%;--s:96px;--d:0.9s"></span>
+        <span class="t-blob" style="--x:66%;--y:38%;--s:120px;--d:0.4s"></span>
+        <span class="t-blob" style="--x:30%;--y:70%;--s:82px;--d:1.4s"></span>
+        <span class="t-blob" style="--x:14%;--y:16%;--s:58px;--d:1.9s"></span>
+        <span class="t-blob" style="--x:48%;--y:86%;--s:66px;--d:2.3s"></span>
+      </div>
+      <div class="t-heat-legend" aria-hidden="true">
+        <span><i class="is-hot"></i>Most attention</span>
+        <span><i class="is-mid"></i>Some attention</span>
+        <span><i class="is-low"></i>Barely seen</span>
+      </div>
+    </div>
+
     <p class="t-note">
       Illustrative demo with fixed, made-up numbers. Real behaviour analysis uses your tracked
-      journeys and recordings, and treats every drop as a question, not a verdict.
+      journeys and recordings, and treats every drop as a question, not a verdict. The heat view
+      is a Hotjar-style illustration, not a live Hotjar feed.
     </p>
   </div>
 </div>
@@ -443,6 +474,170 @@ const stages = [
     to { opacity: 1; transform: none; }
   }
 
+  .t-heat {
+    margin-top: 1.1rem;
+    background: var(--color-paper);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
+    border-radius: 18px;
+    padding: 1.05rem 1.1rem 1.15rem;
+  }
+
+  .t-heat-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: baseline;
+    margin-bottom: 0.9rem;
+  }
+
+  .t-heat-head .t-kicker {
+    margin-bottom: 0;
+  }
+
+  .t-heat-status {
+    font-size: 0.84rem;
+    color: var(--color-ink-2);
+  }
+
+  .t-page {
+    position: relative;
+    height: 290px;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+  }
+
+  .t-page-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    height: 40px;
+    padding: 0 1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+  }
+
+  .t-page-nav i {
+    width: 44px;
+    height: 8px;
+    border-radius: 99px;
+    background: color-mix(in srgb, var(--color-ink) 13%, transparent);
+  }
+
+  .t-page-nav b {
+    margin-left: auto;
+    width: 30px;
+    height: 18px;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--color-ink) 16%, transparent);
+  }
+
+  .t-page-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    gap: 1.2rem;
+    padding: 1.3rem 1.2rem;
+  }
+
+  .t-page-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .t-line {
+    display: block;
+    width: 72%;
+    height: 11px;
+    border-radius: 99px;
+    background: color-mix(in srgb, var(--color-ink) 14%, transparent);
+  }
+
+  .t-line.is-lg {
+    width: 88%;
+    height: 17px;
+    background: color-mix(in srgb, var(--color-ink) 24%, transparent);
+  }
+
+  .t-line.is-short {
+    width: 46%;
+  }
+
+  .t-page-price {
+    margin-top: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--color-ink-2);
+  }
+
+  .t-page-cta {
+    margin-top: 0.35rem;
+    background: var(--color-ink);
+    color: #fff;
+    font-size: 0.76rem;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 0.55rem 1rem;
+  }
+
+  .t-page-img {
+    border-radius: 12px;
+    background:
+      radial-gradient(60% 60% at 50% 38%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 70%),
+      color-mix(in srgb, var(--color-ink) 7%, #fff);
+    min-height: 168px;
+  }
+
+  .t-blob {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--s);
+    height: var(--s);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0.25);
+    opacity: 0.14;
+    background: radial-gradient(circle, rgb(217 85 47 / 0.62) 0%, rgb(199 116 21 / 0.42) 42%, rgb(199 116 21 / 0) 70%);
+    pointer-events: none;
+  }
+
+  .tracking-lab[data-state='running'] .t-blob,
+  .tracking-lab[data-state='done'] .t-blob {
+    animation: t-heat-grow 1.3s var(--ease-out) forwards;
+    animation-delay: var(--d);
+  }
+
+  @keyframes t-heat-grow {
+    to { transform: translate(-50%, -50%) scale(1); opacity: 0.88; }
+  }
+
+  .t-heat-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.1rem;
+    margin-top: 0.8rem;
+    font-size: 0.74rem;
+    color: var(--color-ink-2);
+  }
+
+  .t-heat-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .t-heat-legend i {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+  }
+
+  .t-heat-legend .is-hot { background: rgb(217 85 47 / 0.75); }
+  .t-heat-legend .is-mid { background: rgb(199 116 21 / 0.55); }
+  .t-heat-legend .is-low { background: rgb(199 116 21 / 0.22); }
+
   .t-note {
     margin-top: 1rem;
     font-size: 0.8rem;
@@ -480,7 +675,7 @@ const stages = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .t-ready i, .t-live-dot, .t-play.attn, .t-drop, .t-log li {
+    .t-ready i, .t-live-dot, .t-play.attn, .t-drop, .t-log li, .t-blob {
       animation: none;
     }
 

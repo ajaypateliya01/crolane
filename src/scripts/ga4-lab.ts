@@ -20,6 +20,16 @@ function initGa4Lab(root: HTMLElement) {
   const issuesEl = root.querySelector<HTMLElement>('[data-ga4-issues]');
   const fixedEl = root.querySelector<HTMLElement>('[data-ga4-fixed]');
   const verdict = root.querySelector<HTMLElement>('[data-ga4-verdict]');
+  const modeBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-ga4-mode]'));
+  const panes = Array.from(root.querySelectorAll<HTMLElement>('[data-ga4-pane]'));
+  const reportBars = Array.from(root.querySelectorAll<HTMLElement>('[data-ga4-bar]'));
+  const reportCounts = Array.from(root.querySelectorAll<HTMLElement>('[data-ga4-count]'));
+  const reportStatus = root.querySelector<HTMLElement>('[data-ga4-report-status]');
+  const reportNote = root.querySelector<HTMLElement>('[data-ga4-report-note]');
+  let mode = 'setup';
+  let reportBuilt = false;
+  let reportRaf = 0;
+
   const rows = new Map(
     Array.from(root.querySelectorAll<HTMLElement>('[data-ga4-row]')).map((row) => [
       row.dataset.ga4Row || '',
@@ -97,8 +107,97 @@ function initGa4Lab(root: HTMLElement) {
     addLog('event', message);
   }
 
+  function setMode(next: string) {
+    mode = next;
+    root.dataset.mode = next;
+    modeBtns.forEach((btn) => {
+      const active = btn.dataset.ga4Mode === next;
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-pressed', String(active));
+    });
+    panes.forEach((pane) => {
+      pane.hidden = pane.dataset.ga4Pane !== next;
+    });
+    if (running) return;
+    els.playBtn.disabled = false;
+    els.playBtn.classList.add('attn');
+    els.playLabel.textContent = 'Play demo';
+    els.status.textContent =
+      next === 'reporting'
+        ? 'Reporting mode. Press Play demo to build the GA4 report.'
+        : 'Ready when you are. Press Play demo to run the validation.';
+  }
+
+  function runReport() {
+    if (running) return;
+    running = true;
+    root.dataset.state = 'running';
+    els.playBtn.disabled = true;
+    els.playBtn.classList.remove('attn');
+    els.playLabel.textContent = 'Building report';
+    els.status.textContent = 'Building the report from the validated events. Bars and totals are illustrative.';
+    if (reportStatus) reportStatus.textContent = 'Pulling the last 7 demo days into GA4...';
+
+    reportBars.forEach((bar) => {
+      bar.style.height = '8%';
+    });
+    reportCounts.forEach((el) => {
+      el.textContent = '0';
+    });
+
+    const finishReport = () => {
+      running = false;
+      reportBuilt = true;
+      root.dataset.state = 'done';
+      els.playBtn.disabled = false;
+      els.playLabel.textContent = 'Replay demo';
+      els.status.textContent = 'Report built. This is the view stakeholders actually argue with.';
+      if (reportStatus) reportStatus.textContent = 'Report built from validated events (illustrative data).';
+      if (reportNote)
+        reportNote.textContent =
+          'Because the setup was validated first, a dip in this report means behaviour changed, not that a tag quietly broke.';
+    };
+
+    if (reduced) {
+      reportBars.forEach((bar) => {
+        bar.style.height = `${bar.dataset.h || 40}%`;
+      });
+      reportCounts.forEach((el) => {
+        el.textContent = Number(el.dataset.ga4Count || 0).toLocaleString('en-US');
+      });
+      finishReport();
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      reportBars.forEach((bar) => {
+        bar.style.height = `${bar.dataset.h || 40}%`;
+      });
+    });
+
+    const start = performance.now();
+    const dur = 1700;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      reportCounts.forEach((el) => {
+        el.textContent = Math.round(Number(el.dataset.ga4Count || 0) * eased).toLocaleString('en-US');
+      });
+      if (t < 1) {
+        reportRaf = requestAnimationFrame(tick);
+      } else {
+        finishReport();
+      }
+    };
+    reportRaf = requestAnimationFrame(tick);
+  }
+
   function play() {
     if (running) return;
+    if (mode === 'reporting') {
+      runReport();
+      return;
+    }
     reset();
     els.playBtn.classList.remove('attn');
     running = true;
@@ -156,6 +255,7 @@ function initGa4Lab(root: HTMLElement) {
     later(finish, 500 + ORDER.length * 1150 + 1400);
   }
 
+  modeBtns.forEach((btn) => btn.addEventListener('click', () => setMode(btn.dataset.ga4Mode || 'setup')));
   els.playBtn.addEventListener('click', play);
   reset();
 }
