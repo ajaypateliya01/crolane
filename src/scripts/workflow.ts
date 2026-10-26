@@ -25,20 +25,23 @@ function initWorkflow(root: HTMLElement) {
   const descEl = root.querySelector<HTMLElement>('[data-wf-desc]');
   const detailEl = root.querySelector<HTMLElement>('[data-wf-detail]');
   const payloadEl = root.querySelector<HTMLElement>('[data-wf-payload]');
+  const payloadLabel = root.querySelector<HTMLElement>('[data-wf-payload-label]');
 
   const btns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-node-btn]'));
   const metas = new Map<string, NodeMeta>();
 
+  // Step data ships as a JSON island inside the stage: no HTML-attribute
+  // escaping can ever mangle quotes or newlines in the payloads.
+  const dataEl = root.querySelector<HTMLScriptElement>('[data-wf-data]');
+  try {
+    const parsed = JSON.parse(dataEl?.textContent || '[]') as NodeMeta[];
+    parsed.forEach((m) => metas.set(m.id, m));
+  } catch {
+    /* static panel content remains as the fallback */
+  }
+
   btns.forEach((btn) => {
-    const id = btn.dataset.nodeBtn || '';
-    metas.set(id, {
-      id,
-      title: btn.dataset.title || '',
-      desc: btn.dataset.desc || '',
-      detail: btn.dataset.detail || '',
-      payload: btn.dataset.payload || '',
-    });
-    btn.addEventListener('click', () => select(id));
+    btn.addEventListener('click', () => select(btn.dataset.nodeBtn || ''));
   });
 
   const statusEl = (id: string) => root.querySelector<HTMLElement>(`[data-node-status='${id}']`);
@@ -59,10 +62,16 @@ function initWorkflow(root: HTMLElement) {
     if (titleEl) titleEl.textContent = meta.title;
     if (descEl) descEl.textContent = meta.desc;
     if (detailEl) detailEl.textContent = meta.detail;
-    if (payloadEl) payloadEl.innerHTML = `<pre></pre>`;
     if (payloadEl) {
+      payloadEl.innerHTML = `<pre></pre>`;
       const pre = payloadEl.querySelector('pre');
       if (pre) pre.textContent = meta.payload;
+      const isOutcome = id === 'n7';
+      payloadEl.classList.toggle('is-outcome', isOutcome);
+      payloadEl.setAttribute('aria-label', isOutcome ? 'Recorded outcome' : 'Sample payload');
+      if (payloadLabel) {
+        payloadLabel.textContent = isOutcome ? 'Outcome · recorded' : 'Sample payload';
+      }
     }
   }
 

@@ -50,7 +50,7 @@ function cleanMultiline(value: unknown, max: number): string {
     .slice(0, max);
 }
 
-function validate(body: Record<string, unknown>) {
+function validate(body: Record<string, unknown>, mode: 'json' | 'form' = 'json') {
   const errors: Record<string, string> = {};
 
   const name = clean(body.name, 120).trim();
@@ -78,11 +78,18 @@ function validate(body: Record<string, unknown>) {
   if (trap.length > 0) errors.__bot = 'Submission rejected.';
 
   // Time gate: the form stamps elapsed milliseconds between render and submit.
+  // A browser with JavaScript disabled submits the field empty; that alone is
+  // not bot evidence (honeypot + rate limit still apply), so the gate is only
+  // enforced when a value was actually supplied.
+  const elapsedProvided =
+    body.elapsed !== undefined && body.elapsed !== null && String(body.elapsed).trim() !== '';
   const elapsedRaw = Number(body.elapsed);
+  const gateApplies = mode === 'json' || elapsedProvided;
   if (
-    !Number.isFinite(elapsedRaw) ||
-    elapsedRaw < 1500 ||
-    elapsedRaw > 12 * 60 * 60 * 1000
+    gateApplies &&
+    (!Number.isFinite(elapsedRaw) ||
+      elapsedRaw < 1500 ||
+      elapsedRaw > 12 * 60 * 60 * 1000)
   ) {
     errors.__bot = 'Submission rejected.';
   }
@@ -144,7 +151,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return json(400, { ok: false, message: 'Invalid payload.' });
   }
 
-  const { errors, payload, serviceName } = validate(body);
+  const { errors, payload, serviceName } = validate(body, mode);
   if (Object.keys(errors).length > 0) {
     const { __bot, ...fieldErrors } = errors;
     if (__bot) {

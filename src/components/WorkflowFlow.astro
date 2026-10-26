@@ -130,10 +130,6 @@ const nodes: Node[] = [
                   type="button"
                   class="wf-card"
                   data-node-btn={n.id}
-                  data-title={n.title}
-                  data-desc={n.desc}
-                  data-detail={n.detail}
-                  data-payload={n.payload}
                   aria-pressed={n.id === 'n1' ? 'true' : 'false'}
                 >
                   <span class="wf-num">{n.num}</span>
@@ -159,6 +155,7 @@ const nodes: Node[] = [
             The trigger is an ordinary event: a customer fills in your enquiry form. Nothing
             exotic, just the start of the process.
           </p>
+          <p class="label-mono wf-payload-label" data-wf-payload-label>Sample payload</p>
           <div class="wf-payload" data-wf-payload aria-label="Sample payload">
             <pre>channel: website form
 name: Rohan S.
@@ -173,6 +170,8 @@ message: "Need a quote for a 40 page site"</pre>
           </div>
         </aside>
       </div>
+
+      <script type="application/json" data-wf-data set:html={JSON.stringify(nodes)} />
 
       <p class="wf-disclaimer">
         This is an illustrative workflow, not a live automation on this site. Real
@@ -390,11 +389,22 @@ message: "Need a quote for a 40 page site"</pre>
     line-height: 1.6;
   }
 
+  .wf-payload-label {
+    margin-bottom: -0.35rem;
+  }
+
   .wf-payload {
     background: #15151a;
+    border: 1.5px solid transparent;
     border-radius: 12px;
     padding: 0.9rem 1rem;
     overflow-x: auto;
+    transition: border-color 0.4s var(--ease-out);
+  }
+
+  .wf-payload.is-outcome {
+    border-color: color-mix(in srgb, var(--color-emerald) 65%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-emerald) 12%, transparent);
   }
 
   .wf-payload pre {
