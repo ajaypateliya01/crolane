@@ -14,7 +14,7 @@ export type Service = {
 };
 
 /**
- * The seven approved CROLANE service categories.
+ * CROLANE service categories.
  * accent values are CSS custom properties defined in the design system.
  */
 export const SERVICES: Service[] = [
@@ -135,7 +135,7 @@ export const SERVICES: Service[] = [
 export const serviceBySlug = (slug: string): Service | undefined =>
   SERVICES.find((s) => s.slug === slug);
 
-/** Service selector options for the contact form (only the seven approved areas). */
+/** Service selector options for the contact form (the approved service areas). */
 export const SERVICE_OPTIONS = SERVICES.map((s) => ({
   value: s.id,
   label: s.title,

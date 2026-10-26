@@ -98,7 +98,7 @@ import { SITE } from '../config/site';
     <div class="field">
       <label for="cf-service">Service interest <span class="req" aria-hidden="true">*</span></label>
       <select id="cf-service" name="service" required aria-describedby="cf-service-err">
-        <option value="" disabled selected>Choose one of the seven services</option>
+        <option value="" disabled selected>Choose a service</option>
         {
           SERVICE_OPTIONS.map((o) => <option value={o.value}>{o.label}</option>)
         }

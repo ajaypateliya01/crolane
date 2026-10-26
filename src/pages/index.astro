@@ -123,10 +123,10 @@ const faqs = [
           hold the work to.
         </p>
       </div>
-      <ol class="why-list">
+      <ol class="why-list" data-reveal-group>
         {
           why.map((w, i) => (
-            <li data-reveal data-reveal-delay={String(0.05 * i)}>
+            <li>
               <span class="why-num">{w.num}</span>
               <div>
                 <h3>{w.title}</h3>
@@ -148,10 +148,10 @@ const faqs = [
         lede="Different services need different work. The way we work together stays simple and legible from the first email to the final read-out."
         id="process-title"
       />
-      <ol class="process-grid">
+      <ol class="process-grid" data-reveal-group>
         {
           processSteps.map((s, i) => (
-            <li class="process-step" data-reveal data-reveal-delay={String(0.06 * i)}>
+            <li class="process-step">
               <span class="pr-num" aria-hidden="true">{s.num}</span>
               <h3>{s.title}</h3>
               <p>{s.body}</p>

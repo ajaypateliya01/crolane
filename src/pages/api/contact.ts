@@ -67,7 +67,7 @@ function validate(body: Record<string, unknown>) {
 
   const service = clean(body.service, 80);
   const serviceOption = SERVICE_OPTIONS.find((o) => o.value === service);
-  if (!serviceOption) errors.service = 'Please choose one of the seven services.';
+  if (!serviceOption) errors.service = 'Please choose a service.';
 
   const details = cleanMultiline(body.details, 4000).trim();
   if (details.length < 10) errors.details = 'Please add a few details about your project.';

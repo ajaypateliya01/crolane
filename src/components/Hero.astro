@@ -12,9 +12,9 @@ const chips = [
 
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero-bg" aria-hidden="true">
-    <span class="orb orb-indigo"></span>
-    <span class="orb orb-amber"></span>
-    <span class="orb orb-cool"></span>
+    <span class="orb orb-indigo" data-parallax="38"></span>
+    <span class="orb orb-amber" data-parallax="-26"></span>
+    <span class="orb orb-cool" data-parallax="22"></span>
     <span class="dot-grid"></span>
   </div>
 
@@ -25,8 +25,8 @@ const chips = [
         Conversion decisions, backed by <span class="display-italic">evidence</span>.
       </h1>
       <p class="lede" data-reveal data-reveal-delay="0.14">
-        CROLANE finds the friction in your customer journey, measures what people actually do,
-        tests the changes that matter and builds practical AI where it saves real time.
+        We find where customers hesitate, measure what they really do, test the fixes that
+        matter, and put practical AI to work where it genuinely saves your team time.
       </p>
       <div class="hero-actions" data-reveal data-reveal-delay="0.22">
         <a class="btn btn-primary" href="/contact/">
@@ -36,7 +36,7 @@ const chips = [
               stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
         </a>
-        <a class="btn btn-ghost" href="/services/">Explore the seven services</a>
+        <a class="btn btn-ghost" href="/services/">Explore services</a>
       </div>
       <ul class="hero-chips" data-reveal data-reveal-delay="0.3" aria-label="Services at a glance">
         {
@@ -89,6 +89,14 @@ const chips = [
         <circle cx="230" cy="300" r="6" fill="#c77415"></circle>
       </svg>
       <canvas class="hero-canvas" data-hero-canvas aria-hidden="true"></canvas>
+      <div class="hero-chip chip-a anim-float" aria-hidden="true">
+        <span class="hc-dot hc-indigo"></span>
+        A/B test in progress · demo
+      </div>
+      <div class="hero-chip chip-b anim-float-late" aria-hidden="true">
+        <span class="hc-dot hc-emerald"></span>
+        Enquiry captured · demo
+      </div>
       <div class="hero-visual-caption" aria-hidden="true">
         <span class="cap-dot"></span>
         Live scene: visitor journeys splitting at an experiment gate
@@ -214,7 +222,7 @@ const chips = [
 
   .hero-visual {
     position: relative;
-    min-height: clamp(21rem, 44vw, 30rem);
+    min-height: clamp(24rem, 46vw, 34rem);
     border-radius: 28px;
     background:
       radial-gradient(120% 90% at 70% 20%, rgb(255 255 255 / 0.9), transparent 60%),
@@ -275,6 +283,52 @@ const chips = [
     50% {
       box-shadow: 0 0 0 6px rgb(23 131 91 / 0.08);
     }
+  }
+
+  .hero-chip {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    background: rgb(255 255 255 / 0.78);
+    backdrop-filter: blur(10px);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+    border-radius: 999px;
+    padding: 0.45rem 0.8rem;
+    box-shadow: 0 14px 30px -14px rgb(22 22 27 / 0.35);
+    z-index: 3;
+  }
+
+  .chip-a {
+    top: 1.1rem;
+    right: 1.1rem;
+  }
+
+  .chip-b {
+    right: 1.4rem;
+    bottom: 4.2rem;
+  }
+
+  .hc-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex: none;
+  }
+
+  .hc-indigo {
+    background: var(--color-indigo);
+    box-shadow: 0 0 0 3px rgb(62 78 245 / 0.18);
+  }
+
+  .hc-emerald {
+    background: var(--color-emerald);
+    box-shadow: 0 0 0 3px rgb(23 131 91 / 0.18);
   }
 
   .hero-scroll {
