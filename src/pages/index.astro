@@ -3,6 +3,7 @@ export const prerender = true;
 
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
+import Ticker from '../components/Ticker.astro';
 import ProblemsBento from '../components/ProblemsBento.astro';
 import ApproachPath from '../components/ApproachPath.astro';
 import ServiceRows from '../components/ServiceRows.astro';
@@ -100,6 +101,7 @@ const faqs = [
 
 <Base title={title} description={description}>
   <Hero />
+  <Ticker />
   <ProblemsBento />
   <ApproachPath />
   <ServiceRows />
@@ -187,6 +189,11 @@ const faqs = [
 </Base>
 
 <style>
+  /* Homepage rhythm: a tighter, landing-page pace than the default section pad. */
+  .section {
+    padding-block: clamp(3.8rem, 7.5vw, 6.4rem);
+  }
+
   .why {
     background: var(--color-paper);
     border-top: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);

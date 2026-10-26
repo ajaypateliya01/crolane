@@ -68,7 +68,7 @@ function initDropdown(header: HTMLElement) {
 
 function initMobile(header: HTMLElement) {
   const toggle = header.querySelector<HTMLButtonElement>('[data-mobile-toggle]');
-  const panel = header.querySelector<HTMLElement>('[data-mobile-panel]');
+  const panel = document.querySelector<HTMLElement>('[data-mobile-panel]');
   const label = header.querySelector<HTMLElement>('[data-menu-label]');
   if (!toggle || !panel) return;
 
