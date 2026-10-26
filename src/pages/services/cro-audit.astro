@@ -3,7 +3,6 @@ export const prerender = true;
 
 import Base from '../../layouts/Base.astro';
 import ServiceLayout from '../../components/service/ServiceLayout.astro';
-import CroJourney from '../../components/CroJourney.astro';
 import CroLab from '../../components/CroLab.astro';
 import { serviceBySlug } from '../../config/services';
 
@@ -48,7 +47,6 @@ const faqs = [
     scopeTitle="What a CRO audit includes (and what it does not)"
   >
     <Fragment slot="visual">
-      <CroJourney />
       <CroLab />
     </Fragment>
 

@@ -3,7 +3,7 @@ export const prerender = true;
 
 import Base from '../../layouts/Base.astro';
 import ServiceLayout from '../../components/service/ServiceLayout.astro';
-import AbLab from '../../components/AbLab.astro';
+import ExperimentLab from '../../components/ExperimentLab.astro';
 import { serviceBySlug } from '../../config/services';
 
 const service = serviceBySlug('ab-testing')!;
@@ -43,7 +43,7 @@ const faqs = [
     scopeTitle="What experimentation includes (and what it does not)"
   >
     <Fragment slot="visual">
-      <AbLab />
+      <ExperimentLab />
     </Fragment>
 
     <Fragment slot="problem">

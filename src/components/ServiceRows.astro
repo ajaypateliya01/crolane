@@ -239,18 +239,19 @@ const LIVE: Record<string, string[]> = {
     position: absolute;
     left: 0;
     right: 0;
-    top: -18%;
-    height: 34%;
-    background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--accent) 26%, transparent), transparent);
-    animation: si-scan 5.2s ease-in-out infinite;
+    top: -14%;
+    height: 26%;
+    background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--accent) 11%, transparent), transparent);
+    opacity: 0.52;
+    animation: si-scan 7.8s ease-in-out infinite;
     animation-delay: calc(var(--i) * -0.9s);
   }
 
   @keyframes si-scan {
     0%, 100% { transform: translateY(0); opacity: 0; }
-    18% { opacity: 1; }
-    55% { transform: translateY(320%); opacity: 1; }
-    72%, 99% { opacity: 0; }
+    20% { opacity: 0.52; }
+    55% { transform: translateY(360%); opacity: 0.42; }
+    74%, 99% { opacity: 0; }
   }
 
   .si-bars {
@@ -261,10 +262,11 @@ const LIVE: Record<string, string[]> = {
     align-items: flex-end;
     gap: 4px;
     padding: 0.5rem 0.55rem;
-    background: rgb(19 19 24 / 0.42);
-    border: 1px solid rgb(255 255 255 / 0.22);
+    background: rgb(19 19 24 / 0.34);
+    border: 1px solid rgb(255 255 255 / 0.18);
     border-radius: 10px;
     backdrop-filter: blur(3px);
+    opacity: 0.78;
   }
 
   .si-bars b {
@@ -291,16 +293,33 @@ const LIVE: Record<string, string[]> = {
     bottom: 0.9rem;
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
-    padding: 0.42rem 0.7rem;
-    background: rgb(19 19 24 / 0.55);
-    border: 1px solid rgb(255 255 255 / 0.22);
+    gap: 0.5rem;
+    max-width: calc(100% - 6.5rem);
+    padding: 0.48rem 0.72rem;
+    background: rgb(255 255 255 / 0.9);
+    border: 1px solid rgb(255 255 255 / 0.72);
+    outline: 1px solid rgb(22 22 27 / 0.08);
     border-radius: 999px;
-    backdrop-filter: blur(4px);
-    color: #fff;
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
+    box-shadow: 0 14px 28px -16px rgb(22 22 27 / 0.45);
+    backdrop-filter: blur(10px) saturate(1.15);
+    color: var(--color-ink);
+    font-size: 0.67rem;
+    font-weight: 650;
+    letter-spacing: 0.025em;
+    line-height: 1.2;
+    white-space: nowrap;
+    animation: si-live-float 5.8s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -0.75s);
+  }
+
+  .si-card:hover .si-live,
+  .si-card:focus-visible .si-live {
+    animation-play-state: paused;
+  }
+
+  @keyframes si-live-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
   }
 
   .si-live i {
@@ -313,6 +332,9 @@ const LIVE: Record<string, string[]> = {
   }
 
   .si-live [data-si-live] {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
     transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
   }
 
@@ -323,30 +345,31 @@ const LIVE: Record<string, string[]> = {
 
   .si-card:hover .si-scan,
   .si-card:focus-visible .si-scan {
-    animation-duration: 1.5s;
+    animation-duration: 3.4s;
   }
 
   .si-card:hover .si-bars b,
   .si-card:focus-visible .si-bars b {
-    animation-duration: 0.8s;
+    animation-duration: 1.4s;
   }
 
   .si-ping {
     position: absolute;
     top: 0.9rem;
     right: 0.9rem;
-    width: 9px;
-    height: 9px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: var(--accent);
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent);
-    animation: si-ping 2.4s ease-out infinite;
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 34%, transparent);
+    opacity: 0.72;
+    animation: si-ping 2.8s ease-out infinite;
     animation-delay: calc(var(--i) * -0.7s);
   }
 
   @keyframes si-ping {
-    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
-    70%, 100% { box-shadow: 0 0 0 12px transparent; }
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 34%, transparent); }
+    70%, 100% { box-shadow: 0 0 0 9px transparent; }
   }
 
   @keyframes si-kenburns {
@@ -454,7 +477,7 @@ const LIVE: Record<string, string[]> = {
       animation: none;
       transition: none;
     }
-    .si-scan, .si-bars b, .si-ping, .si-live i {
+    .si-scan, .si-bars b, .si-ping, .si-live, .si-live i {
       animation: none;
     }
   }
