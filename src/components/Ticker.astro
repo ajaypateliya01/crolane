@@ -1,0 +1,90 @@
+---
+const items = [
+  'CRO Audits',
+  'A/B Testing',
+  'GA4 & Tag Manager',
+  'Conversion Tracking',
+  'Behaviour Analytics',
+  'AI Automation',
+  'Voice Agents',
+  'Shopify Audits',
+];
+---
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    {
+      [0, 1].map(() => (
+        <div class="ticker-group">
+          {items.map((item) => (
+            <>
+              <span class="tk-item">{item}</span>
+              <span class="tk-dot" />
+            </>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .ticker {
+    overflow: hidden;
+    border-block: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+    background: color-mix(in srgb, var(--color-paper) 70%, transparent);
+    padding-block: 0.85rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: tick-move 32s linear infinite;
+  }
+
+  .ticker:hover .ticker-track {
+    animation-play-state: paused;
+  }
+
+  .ticker-group {
+    display: flex;
+    align-items: center;
+    flex: none;
+  }
+
+  .tk-item {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-ink-2);
+    padding-inline: 1.4rem;
+    white-space: nowrap;
+  }
+
+  .tk-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-amber);
+    flex: none;
+  }
+
+  .ticker-group:nth-child(2) .tk-dot {
+    background: var(--color-indigo);
+  }
+
+  @keyframes tick-move {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+      animation: none;
+    }
+  }
+</style>

@@ -6,11 +6,11 @@
 
 type Colour = 'sage' | 'clay' | 'ink';
 
-const PRICES = { single: 1890, pair: 3390 };
+const PRICES = { single: 24, pair: 42 };
 const COLOUR_LABEL: Record<Colour, string> = { sage: 'Sage', clay: 'Clay', ink: 'Ink' };
 
-function formatINR(v: number): string {
-  return `₹${v.toLocaleString('en-IN')}`;
+function formatUSD(v: number): string {
+  return `$${v.toLocaleString('en-US')}`;
 }
 
 function initShop(root: HTMLElement) {
@@ -51,8 +51,8 @@ function initShop(root: HTMLElement) {
 
   function renderPdp() {
     if (colourLabel) colourLabel.textContent = COLOUR_LABEL[colour];
-    if (priceEl) priceEl.textContent = formatINR(PRICES[bundle]);
-    if (ctaPrice) ctaPrice.textContent = formatINR(PRICES[bundle] * qty);
+    if (priceEl) priceEl.textContent = formatUSD(PRICES[bundle]);
+    if (ctaPrice) ctaPrice.textContent = formatUSD(PRICES[bundle] * qty);
     if (qtyVal) qtyVal.textContent = String(qty);
 
     if (img) {
@@ -82,7 +82,7 @@ function initShop(root: HTMLElement) {
     });
     root.querySelectorAll<HTMLElement>('[data-bag-price], [data-bag-total], [data-co-price], [data-co-total]')
       .forEach((el) => {
-        el.textContent = formatINR(total());
+        el.textContent = formatUSD(total());
       });
     root.querySelectorAll<HTMLElement>('[data-bag-img]').forEach((el) => {
       if (el instanceof HTMLImageElement && img) el.style.filter = img.style.filter;

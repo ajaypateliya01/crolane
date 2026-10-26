@@ -8,6 +8,8 @@ const chips = [
   'Voice agents',
   'Shopify audits',
 ];
+
+const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
 ---
 
 <section class="hero" aria-labelledby="hero-title">
@@ -22,11 +24,12 @@ const chips = [
     <div class="hero-copy">
       <p class="eyebrow" data-reveal="fade">CRO · Experimentation · Measurement · Practical AI</p>
       <h1 class="display-xl" id="hero-title" data-reveal data-reveal-delay="0.06">
-        Conversion decisions, backed by <span class="display-italic">evidence</span>.
+        Turn more visitors into <span class="display-italic grad-word">customers</span>, with proof
+        at every step.
       </h1>
       <p class="lede" data-reveal data-reveal-delay="0.14">
-        We find where customers hesitate, measure what they really do, test the fixes that
-        matter, and put practical AI to work where it genuinely saves your team time.
+        We find where your customer journey leaks revenue, measure what people really do, test the
+        fixes that matter, and automate the repetitive work around it all.
       </p>
       <div class="hero-actions" data-reveal data-reveal-delay="0.22">
         <a class="btn btn-primary" href="/contact/">
@@ -49,75 +52,110 @@ const chips = [
       </ul>
     </div>
 
-    <div class="hero-visual" data-reveal="scale" data-reveal-delay="0.18">
-      <!-- Static poster: always present, used as fallback without WebGL -->
-      <svg class="hero-poster" viewBox="0 0 640 560" aria-hidden="true">
-        <defs>
-          <linearGradient id="hero-pane" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#ffffff" stop-opacity="0.95"></stop>
-            <stop offset="1" stop-color="#eef1f7" stop-opacity="0.65"></stop>
-          </linearGradient>
-        </defs>
-        <g stroke-linecap="round">
-          <path
-            d="M60 430 C 160 430 200 330 300 300 C 380 276 400 250 470 210"
-            stroke="#3e4ef5"
-            stroke-opacity="0.4"
-            stroke-width="3"
-            fill="none"></path>
-          <path
-            d="M470 210 C 520 184 540 150 560 110"
-            stroke="#3e4ef5"
-            stroke-opacity="0.7"
-            stroke-width="3"
-            fill="none"></path>
-          <path
-            d="M470 210 C 510 240 530 300 545 360"
-            stroke="#c77415"
-            stroke-opacity="0.55"
-            stroke-width="3"
-            fill="none"></path>
-        </g>
-        <g>
-          <rect x="70" y="330" width="130" height="90" rx="10" fill="url(#hero-pane)" stroke="#16161b" stroke-opacity="0.14"></rect>
-          <rect x="180" y="262" width="130" height="90" rx="10" fill="url(#hero-pane)" stroke="#16161b" stroke-opacity="0.14"></rect>
-          <rect x="290" y="208" width="130" height="90" rx="10" fill="url(#hero-pane)" stroke="#16161b" stroke-opacity="0.14"></rect>
-          <rect x="400" y="152" width="130" height="90" rx="10" fill="url(#hero-pane)" stroke="#16161b" stroke-opacity="0.14"></rect>
-        </g>
-        <circle cx="470" cy="210" r="7" fill="#16161b" fill-opacity="0.5"></circle>
-        <circle cx="560" cy="110" r="10" fill="#3e4ef5"></circle>
-        <circle cx="230" cy="300" r="6" fill="#c77415"></circle>
-      </svg>
-      <canvas class="hero-canvas" data-hero-canvas aria-hidden="true"></canvas>
+    <div class="dash-wrap" data-reveal="scale" data-reveal-delay="0.18">
+      <div class="dash" data-hero-dash data-tilt="5">
+        <div class="dash-top">
+          <span class="dash-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="dash-title">Store performance</span>
+          <span class="live-badge"><span class="live-dot"></span>Live</span>
+          <span class="demo-tag">Illustrative demo</span>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi">
+            <span class="kpi-label">Purchases</span>
+            <span class="kpi-value" data-kpi="purchases">1,284</span>
+            <span class="kpi-sub up">▲ today</span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-label">Add to cart</span>
+            <span class="kpi-value" data-kpi="carts">3,912</span>
+            <span class="kpi-sub up">▲ today</span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-label">Conversion rate</span>
+            <span class="kpi-value" data-kpi="rate">3.42%</span>
+            <span class="kpi-sub">rolling</span>
+          </div>
+        </div>
+
+        <div class="rev-row">
+          <div>
+            <span class="kpi-label">Revenue today</span>
+            <span class="rev-value">$<span data-kpi="revenue">184,520</span></span>
+          </div>
+          <span class="delta-chip">+12.4% vs yesterday · demo</span>
+        </div>
+
+        <div class="chart-box">
+          <svg class="chart" viewBox="0 0 560 190" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="dash-fill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#3e4ef5" stop-opacity="0.28"></stop>
+                <stop offset="1" stop-color="#3e4ef5" stop-opacity="0"></stop>
+              </linearGradient>
+            </defs>
+            <g class="grid-lines" stroke="#16161b" stroke-opacity="0.06">
+              <line x1="0" y1="47" x2="560" y2="47"></line>
+              <line x1="0" y1="95" x2="560" y2="95"></line>
+              <line x1="0" y1="142" x2="560" y2="142"></line>
+            </g>
+            <path data-chart-area fill="url(#dash-fill)"></path>
+            <path data-chart-a fill="none" stroke="#3e4ef5" stroke-width="2.6" stroke-linecap="round"></path>
+            <path
+              data-chart-b
+              fill="none"
+              stroke="#c77415"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-dasharray="1 7"
+              stroke-linejoin="round"></path>
+            <circle data-chart-dot r="4.5" fill="#3e4ef5" stroke="#fff" stroke-width="2"></circle>
+          </svg>
+          <div class="chart-legend" aria-hidden="true">
+            <span><i class="lg lg-a"></i>Variant A</span>
+            <span><i class="lg lg-b"></i>Variant B · test</span>
+            <span class="vis-now"><i class="ev ev-e"></i><b data-kpi="visitors">312</b>&nbsp;visitors now</span>
+          </div>
+          <div class="donut" aria-hidden="true">
+            <svg viewBox="0 0 44 44">
+              <circle class="donut-bg" cx="22" cy="22" r="17"></circle>
+              <circle class="donut-val" cx="22" cy="22" r="17"></circle>
+            </svg>
+            <span>B</span>
+          </div>
+        </div>
+
+        <div class="dash-bottom">
+          <div class="bars" data-bars aria-hidden="true">
+            {bars.map((h) => <span style={`height:${h}%`}></span>)}
+          </div>
+          <ul class="events">
+            <li><i class="ev ev-i"></i>purchase<b data-evt="purchases">1,284</b></li>
+            <li><i class="ev ev-a"></i>add_to_cart<b data-evt="carts">3,912</b></li>
+            <li><i class="ev ev-e"></i>begin_checkout<b data-evt="checkout">986</b></li>
+          </ul>
+        </div>
+      </div>
+
       <div class="hero-chip chip-a anim-float" aria-hidden="true">
         <span class="hc-dot hc-indigo"></span>
         A/B test in progress · demo
       </div>
       <div class="hero-chip chip-b anim-float-late" aria-hidden="true">
         <span class="hc-dot hc-emerald"></span>
-        Enquiry captured · demo
-      </div>
-      <div class="hero-visual-caption" aria-hidden="true">
-        <span class="cap-dot"></span>
-        Live scene: visitor journeys splitting at an experiment gate
+        <span data-toast>Purchase · $120 · just now</span>
       </div>
     </div>
   </div>
 
-  <div class="hero-scroll" aria-hidden="true">
-    <span class="scroll-line"></span>
-    <span class="micro">Scroll</span>
-  </div>
 </section>
 
 <script>
-  import { initHeroScene } from '../scripts/hero-scene';
+  import { initHeroDash } from '../scripts/hero-dash';
 
   const boot = () => {
-    document.querySelectorAll<HTMLElement>('[data-hero-canvas]').forEach((canvas) => {
-      const container = canvas.closest<HTMLElement>('.hero-visual');
-      if (container) initHeroScene(container, canvas);
-    });
+    document.querySelectorAll<HTMLElement>('[data-hero-dash]').forEach((el) => initHeroDash(el));
   };
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot, { once: true });
@@ -129,12 +167,11 @@ const chips = [
 <style>
   .hero {
     position: relative;
-    min-height: min(100svh, 60rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-top: clamp(6.5rem, 12vh, 9rem);
-    padding-bottom: clamp(3.5rem, 8vh, 6rem);
+    padding-top: clamp(6.4rem, 11vh, 8rem);
+    padding-bottom: clamp(2.2rem, 5vh, 3.5rem);
     overflow: clip;
     background: var(--color-paper);
   }
@@ -149,7 +186,7 @@ const chips = [
     position: absolute;
     border-radius: 50%;
     filter: blur(70px);
-    opacity: 0.5;
+    opacity: 0.55;
   }
 
   .orb-indigo {
@@ -157,7 +194,7 @@ const chips = [
     height: 34rem;
     right: -8rem;
     top: -6rem;
-    background: radial-gradient(circle, rgb(62 78 245 / 0.16), transparent 65%);
+    background: radial-gradient(circle, rgb(62 78 245 / 0.18), transparent 65%);
   }
 
   .orb-amber {
@@ -165,7 +202,7 @@ const chips = [
     height: 26rem;
     right: 12%;
     bottom: -8rem;
-    background: radial-gradient(circle, rgb(199 116 21 / 0.14), transparent 65%);
+    background: radial-gradient(circle, rgb(199 116 21 / 0.16), transparent 65%);
   }
 
   .orb-cool {
@@ -173,7 +210,7 @@ const chips = [
     height: 30rem;
     left: -12rem;
     bottom: 6rem;
-    background: radial-gradient(circle, rgb(37 99 217 / 0.08), transparent 65%);
+    background: radial-gradient(circle, rgb(37 99 217 / 0.1), transparent 65%);
   }
 
   .dot-grid {
@@ -189,8 +226,8 @@ const chips = [
   .hero-grid {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    gap: clamp(2rem, 5vw, 4.5rem);
+    grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
+    gap: clamp(2rem, 4.5vw, 4rem);
     align-items: center;
   }
 
@@ -198,12 +235,27 @@ const chips = [
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.5rem;
+    gap: 1.35rem;
     max-width: 38rem;
   }
 
   .hero-copy .display-xl {
-    max-width: 13ch;
+    max-width: 14ch;
+    font-size: clamp(2.5rem, 4.6vw, 3.9rem);
+  }
+
+  .grad-word {
+    background: linear-gradient(100deg, var(--color-indigo), var(--color-violet, #7c4dff), var(--color-amber), var(--color-indigo));
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: grad-pan 7s ease-in-out infinite alternate;
+  }
+
+  @keyframes grad-pan {
+    from { background-position: 0% 50%; }
+    to { background-position: 100% 50%; }
   }
 
   .hero-actions {
@@ -217,74 +269,353 @@ const chips = [
     flex-wrap: wrap;
     gap: 0.5rem;
     list-style: none;
-    margin-top: 0.4rem;
+    margin-top: 0.2rem;
   }
 
-  .hero-visual {
+  /* --- Live analytics dashboard ------------------------------------------ */
+  .dash-wrap {
     position: relative;
-    min-height: clamp(24rem, 46vw, 34rem);
-    border-radius: 28px;
-    background:
-      radial-gradient(120% 90% at 70% 20%, rgb(255 255 255 / 0.9), transparent 60%),
-      linear-gradient(160deg, rgb(238 241 247 / 0.8), rgb(244 241 234 / 0.7));
-    border: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
-    box-shadow: var(--shadow-soft);
+  }
+
+  .dash {
+    position: relative;
+    border-radius: 26px;
+    background: rgb(255 255 255 / 0.88);
+    backdrop-filter: blur(14px);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    box-shadow:
+      0 2px 6px rgb(22 22 27 / 0.05),
+      0 40px 80px -32px rgb(62 78 245 / 0.35),
+      0 24px 48px -24px rgb(22 22 27 / 0.22);
+    padding: 1.15rem 1.25rem 1.25rem;
     overflow: hidden;
   }
 
-  .hero-poster {
+  .dash::before {
+    content: '';
     position: absolute;
-    inset: 6% 4%;
-    width: 92%;
-    height: 88%;
-    opacity: 0.9;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-indigo), var(--color-violet, #7c4dff), var(--color-amber), var(--color-indigo));
+    background-size: 200% 100%;
+    animation: grad-pan 6s linear infinite alternate;
   }
 
-  .hero-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+  .dash-top {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 1rem;
   }
 
-  .hero-visual[data-webgl='failed'] .hero-canvas {
-    display: none;
+  .dash-dots {
+    display: inline-flex;
+    gap: 5px;
   }
 
-  .hero-visual-caption {
-    position: absolute;
-    left: 1rem;
-    bottom: 1rem;
+  .dash-dots i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-ink) 18%, transparent);
+  }
+
+  .dash-dots i:first-child { background: var(--color-coral, #d9552f); opacity: 0.75; }
+  .dash-dots i:nth-child(2) { background: var(--color-amber); opacity: 0.85; }
+  .dash-dots i:last-child { background: var(--color-emerald); opacity: 0.85; }
+
+  .dash-title {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-2);
+  }
+
+  .live-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    color: var(--color-emerald);
+    background: rgb(23 131 91 / 0.1);
+    border: 1px solid rgb(23 131 91 / 0.25);
+    border-radius: 999px;
+    padding: 0.22rem 0.55rem;
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-emerald);
+    animation: cap-pulse 1.6s ease-in-out infinite;
+  }
+
+  .demo-tag {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+    border: 1px dashed color-mix(in srgb, var(--color-ink) 25%, transparent);
+    border-radius: 999px;
+    padding: 0.22rem 0.55rem;
+  }
+
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.7rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .kpi {
+    background: linear-gradient(160deg, #fff, var(--color-paper-3, #eef1f7));
+    border: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+    border-radius: 16px;
+    padding: 0.75rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  .kpi-label {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  .kpi-value {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    line-height: 1.05;
+    display: inline-block;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .kpi-value.tick {
+    animation: kpi-pop 0.5s var(--ease-out);
+  }
+
+  @keyframes kpi-pop {
+    30% { transform: translateY(-3px) scale(1.06); color: var(--color-indigo); }
+  }
+
+  .kpi-sub {
+    font-size: 0.66rem;
+    color: var(--color-ink-3);
+  }
+
+  .kpi-sub.up { color: var(--color-emerald); }
+
+  .rev-row {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.35rem 0.1rem 0.85rem;
+  }
+
+  .rev-row > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .rev-value {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+    line-height: 1;
+  }
+
+  .delta-chip {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    color: var(--color-emerald);
+    background: rgb(23 131 91 / 0.09);
+    border-radius: 999px;
+    padding: 0.3rem 0.6rem;
+    white-space: nowrap;
+  }
+
+  .dash::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 35%, rgb(255 255 255 / 0.35) 50%, transparent 65%);
+    transform: translateX(-130%);
+    animation: dash-shine 5.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes dash-shine {
+    0%, 55% { transform: translateX(-130%); }
+    85%, 100% { transform: translateX(130%); }
+  }
+
+  .vis-now {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  .vis-now b { color: var(--color-ink); }
+
+  .donut {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.6rem;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+  }
+
+  .donut svg {
+    position: absolute;
+    inset: 0;
+    transform: rotate(-90deg);
+  }
+
+  .donut circle {
+    fill: none;
+    stroke-width: 5;
+  }
+
+  .donut-bg { stroke: color-mix(in srgb, var(--color-ink) 9%, transparent); }
+
+  .donut-val {
+    stroke: var(--color-amber);
+    stroke-linecap: round;
+    stroke-dasharray: 72 107;
+    animation: donut-spin 7s linear infinite;
+    transform-origin: center;
+  }
+
+  @keyframes donut-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .donut span {
     font-family: var(--font-mono);
     font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--color-amber);
+  }
+
+  .chart-box {
+    position: relative;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+    border-radius: 16px;
+    background: linear-gradient(180deg, #fff, rgb(238 241 247 / 0.5));
+    padding: 0.6rem 0.6rem 0.3rem;
+  }
+
+  .chart {
+    width: 100%;
+    height: 150px;
+    display: block;
+  }
+
+  .chart-legend {
+    display: flex;
+    gap: 1.1rem;
+    padding: 0.3rem 0.2rem 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-ink-2);
-    background: rgb(255 255 255 / 0.82);
-    backdrop-filter: blur(8px);
-    border: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
-    border-radius: 999px;
-    padding: 0.4rem 0.75rem;
   }
 
-  .cap-dot {
+  .lg {
+    display: inline-block;
+    width: 14px;
+    height: 3px;
+    border-radius: 2px;
+    margin-right: 0.4rem;
+    vertical-align: middle;
+  }
+
+  .lg-a { background: var(--color-indigo); }
+  .lg-b { background: var(--color-amber); }
+
+  .dash-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 1rem;
+    align-items: end;
+    margin-top: 0.9rem;
+  }
+
+  .bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    height: 52px;
+  }
+
+  .bars span {
+    flex: 1;
+    min-height: 12%;
+    border-radius: 4px 4px 2px 2px;
+    background: linear-gradient(180deg, var(--color-indigo), var(--color-azure, #2563d9));
+    opacity: 0.85;
+    transition: height 0.9s var(--ease-out);
+  }
+
+  .bars span:nth-child(3n) {
+    background: linear-gradient(180deg, var(--color-amber), var(--color-coral, #d9552f));
+  }
+
+  .events {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.32rem;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    color: var(--color-ink-2);
+  }
+
+  .events li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .events b {
+    margin-left: auto;
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .ev {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: var(--color-emerald);
-    box-shadow: 0 0 0 3px rgb(23 131 91 / 0.18);
-    animation: cap-pulse 2.4s ease-in-out infinite;
+    flex: none;
   }
 
-  @keyframes cap-pulse {
-    50% {
-      box-shadow: 0 0 0 6px rgb(23 131 91 / 0.08);
-    }
-  }
+  .ev-i { background: var(--color-indigo); }
+  .ev-a { background: var(--color-amber); }
+  .ev-e { background: var(--color-emerald); }
 
+  /* Floating chips over the dashboard */
   .hero-chip {
     position: absolute;
     display: inline-flex;
@@ -295,7 +626,7 @@ const chips = [
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-ink);
-    background: rgb(255 255 255 / 0.78);
+    background: rgb(255 255 255 / 0.82);
     backdrop-filter: blur(10px);
     border: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
     border-radius: 999px;
@@ -304,15 +635,8 @@ const chips = [
     z-index: 3;
   }
 
-  .chip-a {
-    top: 1.1rem;
-    right: 1.1rem;
-  }
-
-  .chip-b {
-    right: 1.4rem;
-    bottom: 4.2rem;
-  }
+  .chip-a { top: -0.9rem; right: 1.2rem; }
+  .chip-b { left: -0.6rem; bottom: 2.2rem; }
 
   .hc-dot {
     width: 7px;
@@ -321,76 +645,51 @@ const chips = [
     flex: none;
   }
 
-  .hc-indigo {
-    background: var(--color-indigo);
-    box-shadow: 0 0 0 3px rgb(62 78 245 / 0.18);
+  .hc-indigo { background: var(--color-indigo); box-shadow: 0 0 0 3px rgb(62 78 245 / 0.18); }
+  .hc-emerald { background: var(--color-emerald); box-shadow: 0 0 0 3px rgb(23 131 91 / 0.18); }
+
+  @keyframes cap-pulse {
+    50% { box-shadow: 0 0 0 6px rgb(23 131 91 / 0.1); }
   }
 
-  .hc-emerald {
-    background: var(--color-emerald);
-    box-shadow: 0 0 0 3px rgb(23 131 91 / 0.18);
-  }
-
-  .hero-scroll {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-top: clamp(2.5rem, 6vh, 4.5rem);
-    padding-inline: var(--gutter);
-    max-width: 80rem;
-    margin-inline: auto;
-    width: 100%;
-    color: var(--color-ink-3);
-  }
-
-  .scroll-line {
-    width: 3.5rem;
-    height: 1px;
-    background: color-mix(in srgb, var(--color-ink) 25%, transparent);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .scroll-line::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--color-indigo);
-    transform: translateX(-100%);
-    animation: scroll-sweep 2.2s var(--ease-out) infinite;
-  }
-
-  @keyframes scroll-sweep {
-    55%,
-    100% {
-      transform: translateX(100%);
-    }
-  }
 
   @media (max-width: 60rem) {
     .hero {
-      min-height: 0;
-      padding-top: 7.5rem;
+      padding-top: 6rem;
     }
 
     .hero-grid {
       grid-template-columns: 1fr;
     }
 
-    .hero-visual {
-      min-height: clamp(19rem, 62vw, 26rem);
+    .chip-b {
+      left: 0.4rem;
     }
 
-    .hero-scroll {
-      display: none;
+  }
+
+  @media (max-width: 30rem) {
+    .kpis {
+      grid-template-columns: 1fr 1fr;
+    }
+    .kpi:last-child {
+      grid-column: span 2;
+    }
+    .dash-bottom {
+      grid-template-columns: 1fr;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .scroll-line::after,
-    .cap-dot {
+    .dash::after,
+    .donut-val,
+    .live-dot,
+    .grad-word,
+    .dash::before {
       animation: none;
+    }
+    .bars span {
+      transition: none;
     }
   }
 </style>

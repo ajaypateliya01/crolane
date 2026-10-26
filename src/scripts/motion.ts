@@ -22,6 +22,10 @@ export function initMotion() {
   initSmoothScroll();
   initProgress();
   initAmbient();
+  initSpotlight();
+  initMagnetic();
+  initTilt();
+  initStageZoom();
   initReveals();
   initRevealGroups();
   initParallax();
@@ -279,6 +283,82 @@ function initParallax() {
           end: 'bottom top',
           scrub: 0.9,
         },
+      }
+    );
+  });
+}
+
+/** Soft spotlight that trails the pointer across the whole page. */
+function initSpotlight() {
+  if (reduced() || !window.matchMedia('(pointer: fine)').matches) return;
+  const glow = document.querySelector<HTMLElement>('.cursor-glow');
+  if (!glow) return;
+  glow.style.opacity = '1';
+  const xTo = gsap.quickTo(glow, 'x', { duration: 0.9, ease: 'power3.out' });
+  const yTo = gsap.quickTo(glow, 'y', { duration: 0.9, ease: 'power3.out' });
+  window.addEventListener(
+    'pointermove',
+    (e) => {
+      xTo(e.clientX);
+      yTo(e.clientY);
+    },
+    { passive: true }
+  );
+}
+
+/** Buttons lean gently toward the cursor and settle back on leave. */
+function initMagnetic() {
+  if (reduced() || !window.matchMedia('(pointer: fine)').matches) return;
+  document.querySelectorAll<HTMLElement>('.btn').forEach((btn) => {
+    const xTo = gsap.quickTo(btn, 'x', { duration: 0.4, ease: 'power3.out' });
+    const yTo = gsap.quickTo(btn, 'y', { duration: 0.4, ease: 'power3.out' });
+    btn.addEventListener('pointermove', (e) => {
+      const r = btn.getBoundingClientRect();
+      xTo((e.clientX - r.left - r.width / 2) * 0.22);
+      yTo((e.clientY - r.top - r.height / 2) * 0.3);
+    });
+    btn.addEventListener('pointerleave', () => {
+      xTo(0);
+      yTo(0);
+    });
+  });
+}
+
+/** [data-tilt] surfaces tip in 3D toward the pointer. */
+function initTilt() {
+  if (reduced() || !window.matchMedia('(pointer: fine)').matches) return;
+  gsap.utils.toArray<HTMLElement>('[data-tilt]').forEach((el) => {
+    const max = parseFloat(el.dataset.tilt || '5');
+    gsap.set(el, { transformPerspective: 900 });
+    const rx = gsap.quickTo(el, 'rotationX', { duration: 0.6, ease: 'power3.out' });
+    const ry = gsap.quickTo(el, 'rotationY', { duration: 0.6, ease: 'power3.out' });
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      ry(px * max * 2);
+      rx(-py * max * 2);
+    });
+    el.addEventListener('pointerleave', () => {
+      rx(0);
+      ry(0);
+    });
+  });
+}
+
+/** Demo stages scale and rise as they travel into the viewport. */
+function initStageZoom() {
+  if (reduced()) return;
+  gsap.utils.toArray<HTMLElement>('.viz-stage').forEach((el) => {
+    gsap.fromTo(
+      el,
+      { scale: 0.93, y: 56, opacity: 0.35 },
+      {
+        scale: 1,
+        y: 0,
+        opacity: 1,
+        ease: 'none',
+        scrollTrigger: { trigger: el, start: 'top 96%', end: 'top 48%', scrub: 0.7 },
       }
     );
   });

@@ -59,6 +59,10 @@ function initVoice(root: HTMLElement) {
   const capIntent = root.querySelector<HTMLElement>('[data-cap-intent]');
   const capNext = root.querySelector<HTMLElement>('[data-cap-next]');
   const capName = root.querySelector<HTMLElement>('[data-cap-name]');
+  const idleEl = root.querySelector<HTMLElement>('[data-vo-idle]');
+  const teaserText = root.querySelector<HTMLElement>('[data-teaser-text]');
+  const teaserWho = root.querySelector<HTMLElement>('[data-teaser-who]');
+  const teaserBubble = root.querySelector<HTMLElement>('[data-teaser-bubble]');
 
   if (!turnsEl || !playBtn) return;
 
@@ -110,15 +114,73 @@ function initVoice(root: HTMLElement) {
     if (capName) capName.textContent = mode === 'hours' ? 'Priya M.' : 'Priya M. (callback)';
   }
 
-  function renderStatic() {
-    const script = SCRIPTS[mode];
+  let hasPlayed = false;
+  let teaserTimer: number | undefined;
+  let teaserOn = false;
+
+  function stopTeaser() {
+    teaserOn = false;
+    window.clearTimeout(teaserTimer);
+  }
+
+  /** Idle state: one line at a time, typed, erased, replaced. Nothing more. */
+  function startTeaser() {
+    if (!teaserText || !teaserWho || !teaserBubble) return;
+    const lines = SCRIPTS[mode].slice(0, 3);
+    if (reduced) {
+      teaserText.textContent = lines[0].text;
+      teaserWho.textContent = 'Agent';
+      return;
+    }
+    stopTeaser();
+    teaserOn = true;
+    let li = 0;
+    const playLine = () => {
+      if (!teaserOn) return;
+      const line = lines[li % lines.length];
+      teaserWho!.textContent = line.who === 'agent' ? 'Agent' : 'Caller';
+      teaserBubble!.classList.toggle('agent', line.who === 'agent');
+      teaserBubble!.classList.toggle('caller', line.who === 'caller');
+      let i = 0;
+      teaserText!.textContent = '';
+      const eraseStep = () => {
+        if (!teaserOn) return;
+        i -= 5;
+        if (i <= 0) {
+          teaserText!.textContent = '';
+          li += 1;
+          teaserTimer = window.setTimeout(playLine, 380);
+        } else {
+          teaserText!.textContent = line.text.slice(0, i);
+          teaserTimer = window.setTimeout(eraseStep, 10);
+        }
+      };
+      const typeStep = () => {
+        if (!teaserOn) return;
+        i += 1;
+        teaserText!.textContent = line.text.slice(0, i);
+        if (i < line.text.length) teaserTimer = window.setTimeout(typeStep, 30);
+        else teaserTimer = window.setTimeout(eraseStep, 1500);
+      };
+      typeStep();
+    };
+    playLine();
+  }
+
+  function renderIdle() {
+    stopTeaser();
+    clearAll();
+    playing = false;
     turnsEl!.innerHTML = '';
-    script.forEach((t) => turnsEl!.append(makeTurn(t)));
+    turnsEl!.setAttribute('hidden', '');
+    idleEl?.removeAttribute('hidden');
     summary?.setAttribute('hidden', '');
     capture?.setAttribute('hidden', '');
     setState('idle', 'Sample call ready');
     setWave('');
+    playBtn!.innerHTML = playBtnHTML(hasPlayed ? 'Replay demo call' : 'Play demo call');
     applyCapture();
+    startTeaser();
   }
 
   function makeTurn(t: Turn): HTMLLIElement {
@@ -143,6 +205,10 @@ function initVoice(root: HTMLElement) {
     if (playing) return;
     clearAll();
     playing = true;
+    hasPlayed = true;
+    stopTeaser();
+    idleEl?.setAttribute('hidden', '');
+    turnsEl!.removeAttribute('hidden');
     capture?.setAttribute('hidden', '');
     summary?.setAttribute('hidden', '');
     turnsEl!.innerHTML = '';
@@ -213,11 +279,11 @@ function initVoice(root: HTMLElement) {
       );
       clearAll();
       stopPlayState();
-      renderStatic();
+      renderIdle();
     });
   });
 
-  renderStatic();
+  renderIdle();
 }
 
 function boot() {

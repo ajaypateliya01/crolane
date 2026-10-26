@@ -20,25 +20,28 @@ function initWorkflow(root: HTMLElement) {
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const runBtn = root.querySelector<HTMLButtonElement>('[data-wf-run]');
-  const summary = root.querySelector<HTMLElement>('[data-wf-summary]');
+  const summary = root.querySelector<HTMLElement>('[data-wf-run-summary]');
   const titleEl = root.querySelector<HTMLElement>('[data-wf-title]');
   const descEl = root.querySelector<HTMLElement>('[data-wf-desc]');
   const detailEl = root.querySelector<HTMLElement>('[data-wf-detail]');
   const payloadEl = root.querySelector<HTMLElement>('[data-wf-payload]');
+  const payloadLabel = root.querySelector<HTMLElement>('[data-wf-payload-label]');
 
   const btns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-node-btn]'));
   const metas = new Map<string, NodeMeta>();
 
+  // Step data ships as a JSON island inside the stage: no HTML-attribute
+  // escaping can ever mangle quotes or newlines in the payloads.
+  const dataEl = root.querySelector<HTMLScriptElement>('[data-wf-data]');
+  try {
+    const parsed = JSON.parse(dataEl?.textContent || '[]') as NodeMeta[];
+    parsed.forEach((m) => metas.set(m.id, m));
+  } catch {
+    /* static panel content remains as the fallback */
+  }
+
   btns.forEach((btn) => {
-    const id = btn.dataset.nodeBtn || '';
-    metas.set(id, {
-      id,
-      title: btn.dataset.title || '',
-      desc: btn.dataset.desc || '',
-      detail: btn.dataset.detail || '',
-      payload: btn.dataset.payload || '',
-    });
-    btn.addEventListener('click', () => select(id));
+    btn.addEventListener('click', () => select(btn.dataset.nodeBtn || ''));
   });
 
   const statusEl = (id: string) => root.querySelector<HTMLElement>(`[data-node-status='${id}']`);
@@ -52,17 +55,32 @@ function initWorkflow(root: HTMLElement) {
     if (cls) el.classList.add(cls);
   }
 
+  let runComplete = false;
+  let selectedId = 'n1';
+
   function select(id: string) {
     const meta = metas.get(id);
     if (!meta) return;
+    selectedId = id;
     btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.nodeBtn === id)));
     if (titleEl) titleEl.textContent = meta.title;
     if (descEl) descEl.textContent = meta.desc;
     if (detailEl) detailEl.textContent = meta.detail;
-    if (payloadEl) payloadEl.innerHTML = `<pre></pre>`;
     if (payloadEl) {
-      const pre = payloadEl.querySelector('pre');
-      if (pre) pre.textContent = meta.payload;
+      let pre = payloadEl.querySelector('pre');
+      if (!pre) {
+        pre = document.createElement('pre');
+        payloadEl.prepend(pre);
+      }
+      pre.textContent = meta.payload;
+      const isOutcome = id === 'n7';
+      payloadEl.classList.toggle('is-outcome', isOutcome);
+      payloadEl.setAttribute('aria-label', isOutcome ? 'Recorded outcome' : 'Sample payload');
+      if (payloadLabel) {
+        payloadLabel.textContent = isOutcome ? 'Outcome · recorded' : 'Sample payload';
+      }
+      // The run summary belongs to the finished outcome, inside the black box.
+      if (summary) summary.hidden = !(runComplete && isOutcome);
     }
   }
 
@@ -71,6 +89,7 @@ function initWorkflow(root: HTMLElement) {
       setStatus(id, 'idle', '');
       nodeEl(id)?.classList.remove('flow-run', 'flow-done');
     });
+    runComplete = false;
     summary?.setAttribute('hidden', '');
     runBtn && (runBtn.textContent = 'Run the demo');
   }
@@ -80,7 +99,8 @@ function initWorkflow(root: HTMLElement) {
 
   function finish() {
     running = false;
-    summary?.removeAttribute('hidden');
+    runComplete = true;
+    if (selectedId === 'n7') summary?.removeAttribute('hidden');
     if (runBtn) runBtn.textContent = 'Run again';
   }
 

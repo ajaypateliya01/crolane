@@ -3,15 +3,9 @@ export const prerender = true;
 
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
-import ProblemsBento from '../components/ProblemsBento.astro';
-import ApproachPath from '../components/ApproachPath.astro';
+import Ticker from '../components/Ticker.astro';
 import ServiceRows from '../components/ServiceRows.astro';
 import AbLab from '../components/AbLab.astro';
-import AnalyticsDash from '../components/AnalyticsDash.astro';
-import TrackingFlow from '../components/TrackingFlow.astro';
-import WorkflowFlow from '../components/WorkflowFlow.astro';
-import VoiceAgent from '../components/VoiceAgent.astro';
-import ShopifyJourney from '../components/ShopifyJourney.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import FaqList from '../components/FaqList.astro';
 import CtaBand from '../components/CtaBand.astro';
@@ -19,29 +13,6 @@ import { SITE } from '../config/site';
 
 const title = `${SITE.name} | Conversion optimization, analytics and practical AI`;
 const description = SITE.description;
-
-const why = [
-  {
-    num: '01',
-    title: 'Evidence over opinion',
-    body: 'Recommendations come from observed behaviour, clean data and tests, not from the loudest voice in the room.',
-  },
-  {
-    num: '02',
-    title: 'Measurement quality first',
-    body: 'A report is only as trustworthy as the events behind it. Validation, not just configuration, is part of the work.',
-  },
-  {
-    num: '03',
-    title: 'Scope said out loud',
-    body: 'You get a written scope of what is included, what is not and what we need from you. No vague bundles, no invented guarantees.',
-  },
-  {
-    num: '04',
-    title: 'Realistic use of AI',
-    body: 'Automation where it genuinely saves time, human review where it genuinely matters, and honesty about what is still not worth automating.',
-  },
-];
 
 const processSteps = [
   {
@@ -100,44 +71,9 @@ const faqs = [
 
 <Base title={title} description={description}>
   <Hero />
-  <ProblemsBento />
-  <ApproachPath />
+  <Ticker />
   <ServiceRows />
   <AbLab />
-  <AnalyticsDash />
-  <TrackingFlow />
-  <WorkflowFlow />
-  <VoiceAgent />
-  <ShopifyJourney />
-
-  <!-- Why CROLANE -->
-  <section class="section why tone-paper" aria-labelledby="why-title">
-    <div class="container-x why-grid">
-      <div class="why-left">
-        <p class="eyebrow" data-reveal="fade">Why CROLANE</p>
-        <h2 class="display-lg" id="why-title" data-reveal>
-          Calm method over <span class="display-italic">loud promises</span>.
-        </h2>
-        <p class="lede" data-reveal data-reveal-delay="0.08">
-          Conversion work is easy to oversell and hard to do properly. These are the standards we
-          hold the work to.
-        </p>
-      </div>
-      <ol class="why-list" data-reveal-group>
-        {
-          why.map((w, i) => (
-            <li>
-              <span class="why-num">{w.num}</span>
-              <div>
-                <h3>{w.title}</h3>
-                <p>{w.body}</p>
-              </div>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
 
   <!-- Process -->
   <section class="section process tone-white" id="process" aria-labelledby="process-title">
@@ -187,63 +123,9 @@ const faqs = [
 </Base>
 
 <style>
-  .why {
-    background: var(--color-paper);
-    border-top: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
-  }
-
-  .why-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
-    gap: clamp(2.5rem, 6vw, 5.5rem);
-    align-items: start;
-  }
-
-  .why-left {
-    position: sticky;
-    top: 7rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.15rem;
-  }
-
-  .why-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .why-list li {
-    display: grid;
-    grid-template-columns: 3rem minmax(0, 1fr);
-    gap: 1.25rem;
-    padding: clamp(1.4rem, 3vw, 2rem) 0;
-    border-top: 1px solid color-mix(in srgb, var(--color-ink) 11%, transparent);
-  }
-
-  .why-list li:last-child {
-    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 11%, transparent);
-  }
-
-  .why-num {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    color: var(--color-indigo);
-    padding-top: 0.35rem;
-  }
-
-  .why-list h3 {
-    font-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
-    font-weight: 590;
-    margin-bottom: 0.5rem;
-  }
-
-  .why-list p {
-    font-size: 0.95rem;
-    line-height: 1.65;
-    color: var(--color-ink-2);
-    max-width: 36rem;
+  /* Homepage rhythm: a tighter, landing-page pace than the default section pad. */
+  .section {
+    padding-block: clamp(3.8rem, 7.5vw, 6.4rem);
   }
 
   /* Process */
@@ -351,12 +233,10 @@ const faqs = [
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .why-grid,
     .faq-grid {
       grid-template-columns: 1fr;
     }
 
-    .why-left,
     .faq-left {
       position: static;
     }

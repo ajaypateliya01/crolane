@@ -107,34 +107,22 @@ const capabilities = [
             <p class="label-mono">Conversation</p>
             <span class="status" data-vo-status>waiting</span>
           </div>
-          <ol class="turns" data-vo-turns>
-            <li class="turn agent" data-static-turn>
+          <div class="vo-idle" data-vo-idle>
+            <div class="turn agent" data-teaser-bubble>
+              <span class="who" data-teaser-who>Agent</span>
+              <p>
+                <span data-teaser-text>Thanks for calling, this is the virtual receptionist for Demo Studio. How can I help?</span><span class="teaser-caret" aria-hidden="true"></span>
+              </p>
+            </div>
+            <p class="idle-hint">
+              Click on <strong>Play demo call</strong> to see the demo
+            </p>
+          </div>
+
+          <ol class="turns" data-vo-turns hidden>
+            <li class="turn agent">
               <span class="who">Agent</span>
               <p>Thanks for calling, this is the virtual receptionist for Demo Studio. How can I help?</p>
-            </li>
-            <li class="turn caller" data-static-turn>
-              <span class="who">Caller</span>
-              <p>Hi, do you have appointments available this week?</p>
-            </li>
-            <li class="turn agent" data-static-turn>
-              <span class="who">Agent</span>
-              <p>Yes. I can check availability for you. Which day works best?</p>
-            </li>
-            <li class="turn caller" data-static-turn>
-              <span class="who">Caller</span>
-              <p>Thursday afternoon, please.</p>
-            </li>
-            <li class="turn agent" data-static-turn>
-              <span class="who">Agent</span>
-              <p>Thursday at 3:30 PM is open. May I take your name and number to hold it?</p>
-            </li>
-            <li class="turn caller" data-static-turn>
-              <span class="who">Caller</span>
-              <p>Priya, on the number that is calling.</p>
-            </li>
-            <li class="turn agent" data-static-turn>
-              <span class="who">Agent</span>
-              <p>Held for Priya. You will get a confirmation message shortly. Anything else I can check?</p>
             </li>
           </ol>
 
@@ -214,6 +202,10 @@ const capabilities = [
     gap: 1.1rem;
     box-shadow: var(--shadow-panel);
     min-width: 0;
+    /* Fixed while the conversation grows: no stretching, no black void. */
+    align-self: start;
+    position: sticky;
+    top: 5.5rem;
   }
 
   .call-top {
@@ -495,6 +487,79 @@ const capabilities = [
     text-align: left;
   }
 
+  .vo-idle {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    min-height: 17rem;
+  }
+
+  .vo-idle[hidden],
+  .turns[hidden] {
+    display: none;
+  }
+
+  .teaser-caret {
+    display: inline-block;
+    width: 2px;
+    height: 0.95em;
+    margin-left: 2px;
+    vertical-align: -0.15em;
+    background: var(--color-violet);
+    animation: caret-blink 1s step-end infinite;
+  }
+
+  @keyframes caret-blink {
+    50% { opacity: 0; }
+  }
+
+  .idle-hint {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .idle-hint::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-violet);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-violet) 18%, transparent);
+    animation: cap-pulse-idle 2s ease-in-out infinite;
+    flex: none;
+  }
+
+  @keyframes cap-pulse-idle {
+    50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-violet) 7%, transparent); }
+  }
+
+  .idle-hint strong {
+    color: var(--color-ink);
+  }
+
+  /* The play button gently glows until the first call is played. */
+  .vo-play {
+    animation: vo-play-glow 2.6s ease-in-out infinite;
+  }
+
+  @keyframes vo-play-glow {
+    50% {
+      box-shadow: 0 0 0 6px rgb(124 77 255 / 0.22), 0 18px 34px -14px rgb(124 77 255 / 0.55);
+    }
+  }
+
+  .vo-call[data-call-state='ringing'] .vo-play,
+  .vo-call[data-call-state='active'] .vo-play,
+  .vo-call[data-call-state='done'] .vo-play {
+    animation: none;
+  }
+
   .vo-summary {
     background: color-mix(in srgb, var(--color-emerald) 8%, #fff);
     border: 1px solid color-mix(in srgb, var(--color-emerald) 30%, transparent);
@@ -556,16 +621,34 @@ const capabilities = [
       grid-template-columns: 1fr;
     }
 
+    .vo-call {
+      position: static;
+    }
+
     .vo-head {
       grid-template-columns: 1fr;
       align-items: start;
     }
   }
 
+  @media (max-width: 30rem) {
+    .vo-idle,
+    .turns {
+      min-height: 13rem;
+    }
+
+    .turn {
+      max-width: 96%;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .voice-wave.speaking-agent .bar,
     .voice-wave.speaking-caller .bar,
-    .call-avatar {
+    .call-avatar,
+    .teaser-caret,
+    .vo-play,
+    .idle-hint::before {
       animation: none !important;
     }
 
