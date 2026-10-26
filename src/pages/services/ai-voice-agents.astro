@@ -5,6 +5,7 @@ import Base from '../../layouts/Base.astro';
 import ServiceLayout from '../../components/service/ServiceLayout.astro';
 import VoiceAgent from '../../components/VoiceAgent.astro';
 import { serviceBySlug } from '../../config/services';
+import { SITE } from '../../config/site';
 
 const service = serviceBySlug('ai-voice-agents')!;
 const faqs = [
@@ -25,9 +26,39 @@ const faqs = [
     a: 'The agent hands off: it takes the details, promises a callback from a person, or passes the call through if your setup supports live transfer. Escalation behaviour is agreed with you before anything goes live.',
   },
 ];
+
+const pageLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.title,
+    description: service.metaDescription,
+    url: `${SITE.url}${service.path}`,
+    provider: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+    areaServed: 'Worldwide',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE.url}/services/` },
+      { '@type': 'ListItem', position: 3, name: service.navTitle, item: `${SITE.url}${service.path}` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
 ---
 
-<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path}>
+<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path} jsonLd={pageLd}>
   <ServiceLayout
     service={service}
     lede="A voice agent that answers incoming calls, handles routine questions from approved information, captures enquiries and shares out of hours information, so callers are not left with a ringing phone and no options."

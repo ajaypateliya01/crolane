@@ -1,6 +1,8 @@
 ---
 export const prerender = true;
 
+import { SERVICES } from '../config/services';
+import { SITE } from '../config/site';
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Ticker from '../components/Ticker.astro';
@@ -67,9 +69,34 @@ const faqs = [
     a: 'No. Standard automation covers practical, well defined workflows with clear review points. Complex CRM, calendar or telephony integrations are scoped separately based on your stack, access and feasibility.',
   },
 ];
+
+const homeLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'CROLANE services',
+    itemListElement: SERVICES.map((s, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: s.title,
+      url: `${SITE.url}${s.path}`,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+
+
 ---
 
-<Base title={title} description={description}>
+<Base title={title} description={description} jsonLd={homeLd}>
   <Hero />
   <Ticker />
   <ServiceRows />

@@ -5,6 +5,7 @@ import Base from '../../layouts/Base.astro';
 import ServiceLayout from '../../components/service/ServiceLayout.astro';
 import ExperimentLab from '../../components/ExperimentLab.astro';
 import { serviceBySlug } from '../../config/services';
+import { SITE } from '../../config/site';
 
 const service = serviceBySlug('ab-testing')!;
 const faqs = [
@@ -25,9 +26,39 @@ const faqs = [
     a: 'If testing is not yet in place, the experiment setup and event validation can be part of the scope. If you already have a platform, we work inside it and document the configuration.',
   },
 ];
+
+const pageLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.title,
+    description: service.metaDescription,
+    url: `${SITE.url}${service.path}`,
+    provider: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+    areaServed: 'Worldwide',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE.url}/services/` },
+      { '@type': 'ListItem', position: 3, name: service.navTitle, item: `${SITE.url}${service.path}` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
 ---
 
-<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path}>
+<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path} jsonLd={pageLd}>
   <ServiceLayout
     service={service}
     lede="Plan and run experiments that compare two experiences, measure real behaviour and replace opinion with evidence. No rigged demos, no invented win rates, just a fair question and a readable answer."

@@ -35,9 +35,41 @@ const faqs = [
     a: 'Ongoing experimentation or analytics support can be structured as a retainer when there is a steady backlog of work. Everything starts with a defined scope either way, so you always know what the current cycle covers.',
   },
 ];
+
+const indexLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'CROLANE services',
+    itemListElement: SERVICES.map((s, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: s.title,
+      url: `${SITE.url}${s.path}`,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE.url}/services/` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+
 ---
 
-<Base title={title} description={description} canonicalPath="/services/">
+<Base title={title} description={description} canonicalPath="/services/" jsonLd={indexLd}>
   <section class="sv-over-hero" aria-labelledby="svc-title">
     <div class="sv-over-bg" aria-hidden="true"></div>
     <div class="container-x">

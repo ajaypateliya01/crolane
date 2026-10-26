@@ -5,6 +5,7 @@ import Base from '../../layouts/Base.astro';
 import ServiceLayout from '../../components/service/ServiceLayout.astro';
 import TrackingLab from '../../components/TrackingLab.astro';
 import { serviceBySlug } from '../../config/services';
+import { SITE } from '../../config/site';
 
 const service = serviceBySlug('conversion-tracking')!;
 const faqs = [
@@ -25,9 +26,39 @@ const faqs = [
     a: 'Funnel views, annotated journey maps, event timelines and a written analysis linking each observation to a suggested next step. Everything is designed to be read by non-analysts.',
   },
 ];
+
+const pageLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.title,
+    description: service.metaDescription,
+    url: `${SITE.url}${service.path}`,
+    provider: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+    areaServed: 'Worldwide',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE.url}/services/` },
+      { '@type': 'ListItem', position: 3, name: service.navTitle, item: `${SITE.url}${service.path}` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
 ---
 
-<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path}>
+<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path} jsonLd={pageLd}>
   <ServiceLayout
     service={service}
     lede="Follow the path from first visit to meaningful action: reliable conversion tracking, funnels and behaviour analysis that show where the journey loses people and what to investigate next."

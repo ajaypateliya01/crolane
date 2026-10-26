@@ -5,6 +5,7 @@ import Base from '../../layouts/Base.astro';
 import ServiceLayout from '../../components/service/ServiceLayout.astro';
 import ShopifyJourney from '../../components/ShopifyJourney.astro';
 import { serviceBySlug } from '../../config/services';
+import { SITE } from '../../config/site';
 
 const service = serviceBySlug('shopify-audits')!;
 const faqs = [
@@ -25,9 +26,39 @@ const faqs = [
     a: 'Discovery and recommendation experiences are reviewed where they exist on your store, and we advise on where AI assisted discovery could genuinely help. Recommendations always use your catalog context, never invented inventory.',
   },
 ];
+
+const pageLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.title,
+    description: service.metaDescription,
+    url: `${SITE.url}${service.path}`,
+    provider: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+    areaServed: 'Worldwide',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE.url}/services/` },
+      { '@type': 'ListItem', position: 3, name: service.navTitle, item: `${SITE.url}${service.path}` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
 ---
 
-<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path}>
+<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path} jsonLd={pageLd}>
   <ServiceLayout
     service={service}
     lede="Storefront audits focused on what decides the sale: product page clarity, option selection, mobile shopping usability, cart and checkout friction, product discovery and how AI assisted recommendations actually behave."

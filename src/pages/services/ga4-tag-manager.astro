@@ -5,6 +5,7 @@ import Base from '../../layouts/Base.astro';
 import ServiceLayout from '../../components/service/ServiceLayout.astro';
 import Ga4Lab from '../../components/Ga4Lab.astro';
 import { serviceBySlug } from '../../config/services';
+import { SITE } from '../../config/site';
 
 const service = serviceBySlug('ga4-tag-manager')!;
 const faqs = [
@@ -25,9 +26,39 @@ const faqs = [
     a: 'Yes, reporting views can be part of the scope: explorations, dashboards and plain language guides so the people making decisions can find the answers without asking an analyst every time.',
   },
 ];
+
+const pageLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.title,
+    description: service.metaDescription,
+    url: `${SITE.url}${service.path}`,
+    provider: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+    areaServed: 'Worldwide',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE.url}/services/` },
+      { '@type': 'ListItem', position: 3, name: service.navTitle, item: `${SITE.url}${service.path}` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
 ---
 
-<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path}>
+<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path} jsonLd={pageLd}>
   <ServiceLayout
     service={service}
     lede="A measurement plan first, then GA4 and Google Tag Manager configured to match it: events that mean something, tags that fire once, reports your team can actually read."

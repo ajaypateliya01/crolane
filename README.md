@@ -130,6 +130,35 @@ and 24 are offered; this project needs **Node 22**.
   server. If you change `SITE_URL`, rebuild so canonical and sitemap URLs
   update.
 
+## Search engines and AI discovery (SEO / GEO)
+
+Already built in, no plugin needed:
+
+- Canonical URL, meta description, Open Graph and Twitter cards on every page.
+- Structured data (schema.org JSON-LD): Organization and WebSite on all pages,
+  Service + BreadcrumbList + FAQPage on every service page, ItemList + FAQPage
+  on the home and services pages.
+- `/sitemap.xml` with priorities, `/robots.txt` that explicitly welcomes the
+  major search and AI crawlers (Google, Bing, GPTBot, ClaudeBot, PerplexityBot
+  and others), and `/llms.txt`, a plain-language map of the site for AI answer
+  engines, generated from the same service data as the pages.
+
+### Verify in Google Search Console and Bing Webmaster Tools
+
+1. Add the property `https://crolane.in` in Google Search Console (and the same
+   in Bing Webmaster Tools).
+2. Choose the "HTML tag" verification method and copy only the `content` code
+   from the tag it shows you.
+3. In hPanel environment variables set `PUBLIC_GOOGLE_SITE_VERIFICATION` (or
+   `PUBLIC_BING_SITE_VERIFICATION` for Bing) to that code, then redeploy. The
+   matching meta tag is printed in every page head automatically.
+4. Back in the console, click Verify, then submit the sitemap:
+   `https://crolane.in/sitemap.xml`.
+
+Ranking itself is earned over time: consoles show indexing and queries, and
+fresh, genuinely helpful content plus real mentions of the business elsewhere
+are what move a site up. There is no setting that guarantees position one.
+
 ## Project layout
 
 ```
