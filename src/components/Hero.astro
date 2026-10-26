@@ -149,10 +149,6 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
     </div>
   </div>
 
-  <div class="hero-scroll" aria-hidden="true">
-    <span class="scroll-line"></span>
-    <span class="micro">Scroll</span>
-  </div>
 </section>
 
 <script>
@@ -651,39 +647,6 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
     50% { box-shadow: 0 0 0 6px rgb(23 131 91 / 0.1); }
   }
 
-  .hero-scroll {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-top: clamp(1.6rem, 4vh, 2.6rem);
-    padding-inline: var(--gutter);
-    max-width: 80rem;
-    margin-inline: auto;
-    width: 100%;
-    color: var(--color-ink-3);
-  }
-
-  .scroll-line {
-    width: 3.5rem;
-    height: 1px;
-    background: color-mix(in srgb, var(--color-ink) 25%, transparent);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .scroll-line::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--color-indigo);
-    transform: translateX(-100%);
-    animation: scroll-sweep 2.2s var(--ease-out) infinite;
-  }
-
-  @keyframes scroll-sweep {
-    55%, 100% { transform: translateX(100%); }
-  }
 
   @media (max-width: 60rem) {
     .hero {
@@ -698,9 +661,6 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
       left: 0.4rem;
     }
 
-    .hero-scroll {
-      display: none;
-    }
   }
 
   @media (max-width: 30rem) {
@@ -716,7 +676,6 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .scroll-line::after,
     .dash::after,
     .donut-val,
     .live-dot,
