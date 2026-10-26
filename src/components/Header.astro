@@ -62,7 +62,6 @@ const isActiveService = path.startsWith('/services/');
                   SERVICES.map((s) => (
                     <li>
                       <a href={s.path} class="menu-item" data-active={isActive(s.path) ? 'true' : undefined}>
-                        <span class="menu-num" style={`color:${s.accent}`}>{s.num}</span>
                         <span class="menu-copy">
                           <span class="menu-title">{s.navTitle}</span>
                           <span class="menu-desc">{s.short}</span>
@@ -73,7 +72,6 @@ const isActiveService = path.startsWith('/services/');
                 }
                 <li>
                   <a href="/contact/" class="menu-item">
-                    <span class="menu-num" style="color:var(--color-emerald)">→</span>
                     <span class="menu-copy">
                       <span class="menu-title">Not sure where to start?</span>
                     </span>
@@ -368,6 +366,10 @@ const isActiveService = path.startsWith('/services/');
     letter-spacing: 0.08em;
     padding-top: 0.3rem;
     flex: none;
+  }
+
+  .menu-grid > li:last-child .menu-item {
+    margin-right: 0.85rem;
   }
 
   .menu-copy {
