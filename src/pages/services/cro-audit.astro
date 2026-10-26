@@ -1,0 +1,220 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+import ServiceLayout from '../../components/service/ServiceLayout.astro';
+import CroJourney from '../../components/CroJourney.astro';
+import { serviceBySlug } from '../../config/services';
+
+const service = serviceBySlug('cro-audit')!;
+const faqs = [
+  {
+    q: 'What do you need to run a CRO audit?',
+    a: 'Access to the live experience, your analytics if you have them, and an hour of context from someone who knows the business. Session recordings, heatmaps and support tickets help but are not required.',
+  },
+  {
+    q: 'Do you redesign our website?',
+    a: 'An audit does not automatically mean a redesign. Most findings are specific improvements: hierarchy, copy, sequencing, forms, trust, mobile usability. If a redesign is genuinely the right answer, the audit will show why.',
+  },
+  {
+    q: 'How are the findings prioritised?',
+    a: 'By estimated impact against estimated effort, with the reasoning shown for each item. You get the priority logic, not just a ranked list, so your team can challenge it.',
+  },
+  {
+    q: 'Will you implement the recommendations?',
+    a: 'Yes, implementation can be scoped as a follow-on project, or the findings can be handed to your own team or agency with clear documentation. You choose before work starts.',
+  },
+];
+---
+
+<Base
+  title={service.metaTitle}
+  description={service.metaDescription}
+  canonicalPath={service.path}
+>
+  <ServiceLayout
+    service={service}
+    lede="A structured review of the customer journey that finds where people hesitate, explains why it happens and turns the evidence into a prioritised plan of improvements."
+    artAlt="Layered frosted glass panes floating in warm light with a small amber hotspot marker"
+    faqs={faqs}
+    visualTone="tone-cool"
+    problemTitle="Conversion rarely fails in one dramatic moment"
+    problemLead="It fails in small frictions that nobody on the inside can see any more, because the team already knows how the site works."
+    deliverablesTitle="What the audit produces"
+    deliverablesLead="A written, prioritised set of findings with the evidence attached to each one."
+    processTitle="How an audit engagement runs"
+    processVariant="rail"
+    scopeTitle="What a CRO audit includes (and what it does not)"
+  >
+    <Fragment slot="visual">
+      <CroJourney />
+    </Fragment>
+
+    <Fragment slot="problem">
+      <p>
+        Inside a business, the website feels obvious. Outside it, visitors are meeting your
+        experience for the first time, on a small screen, in a hurry, with their own questions.
+        <strong> The gap between those two views is where conversion money hides.</strong>
+      </p>
+      <p>
+        A CRO audit walks the journey the way a visitor does, across landing pages, product
+        exploration, cart and checkout, then compares what the experience communicates against
+        what people actually need to keep going.
+      </p>
+      <div class="callout">
+        <strong>Typical findings sound like this:</strong> the primary action waits below the
+        fold while supporting details sit even lower, guest checkout hides behind account
+        creation, delivery costs appear too late, mobile variant selection needs three taps
+        where one would do. Specific, testable, fixable.
+      </div>
+      <p>
+        The point is not to restyle pages because they look dated. It is to identify friction
+        you can name, measure and remove.
+      </p>
+    </Fragment>
+
+    <Fragment slot="deliverables">
+      <ul class="deliver-grid">
+        <li class="deliver-item">
+          <span class="di-num">01</span>
+          <div>
+            <h3>Journey walkthrough</h3>
+            <p>Desktop and mobile review of the key routes from arrival to the desired action.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">02</span>
+          <div>
+            <h3>Friction register</h3>
+            <p>Each issue documented with location, evidence, affected step and severity.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">03</span>
+          <div>
+            <h3>Annotated screens</h3>
+            <p>Marked up interface examples so developers see exactly what is meant.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">04</span>
+          <div>
+            <h3>Prioritised opportunities</h3>
+            <p>Impact and effort reasoning per item, ready to sequence into a roadmap.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">05</span>
+          <div>
+            <h3>Measurement gaps</h3>
+            <p>Where current analytics cannot verify the findings, plus what to instrument.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">06</span>
+          <div>
+            <h3>Read-out session</h3>
+            <p>A walkthrough of the findings with space for questions, pushback and decisions.</p>
+          </div>
+        </li>
+      </ul>
+    </Fragment>
+
+    <Fragment slot="extra">
+      <section class="section-sm sv-extra" aria-labelledby="sv-cov-title" style={`--accent:${service.accent}; --soft:${service.accentSoft};`}>
+        <div class="container-x">
+          <p class="eyebrow" data-reveal="fade">Coverage</p>
+          <h2 class="display-md" id="sv-cov-title" data-reveal>What we look at</h2>
+          <ul class="coverage" data-reveal data-reveal-delay="0.08">
+            <li>Landing page clarity</li>
+            <li>Product and service pages</li>
+            <li>Navigation and search</li>
+            <li>Forms and fields</li>
+            <li>Cart and checkout paths</li>
+            <li>Trust and reassurance</li>
+            <li>Mobile usability</li>
+            <li>Speed perception</li>
+            <li>Message match from campaigns</li>
+            <li>Post-click expectations</li>
+          </ul>
+        </div>
+      </section>
+    </Fragment>
+
+    <Fragment slot="process">
+      <ol class="p-rail">
+        <li>
+          <span class="p-num">STEP 01</span>
+          <h3>Context</h3>
+          <p>We learn the business model, the traffic sources, the target action and what your team already suspects.</p>
+        </li>
+        <li>
+          <span class="p-num">STEP 02</span>
+          <h3>Walkthrough</h3>
+          <p>The journey is reviewed on desktop and mobile, screen by screen, with notes captured against each step.</p>
+        </li>
+        <li>
+          <span class="p-num">STEP 03</span>
+          <h3>Corroboration</h3>
+          <p>Findings are checked against whatever evidence exists: analytics, recordings, support threads, past tests.</p>
+        </li>
+        <li>
+          <span class="p-num">STEP 04</span>
+          <h3>Priorities</h3>
+          <p>Everything is ranked, documented and walked through with your team so the next actions are agreed, not guessed.</p>
+        </li>
+      </ol>
+    </Fragment>
+
+    <Fragment slot="scope">
+      <ul>
+        <li>Includes a full journey review of agreed pages and flows, desktop and mobile.</li>
+        <li>Includes prioritised findings, annotated screens and a read-out session.</li>
+        <li>Implementation, design changes and development are scoped separately if you want us to do them.</li>
+        <li>The audit is evidence based, but prioritisation involves judgement: impact and effort are estimates, not guarantees.</li>
+        <li>Back-end systems, app experiences and offline journeys are out of scope unless agreed in writing.</li>
+      </ul>
+      <p>
+        Every example shown in the demonstration above is fictional and illustrative. Real
+        audits are delivered against your actual experience, with your data, under NDA if
+        required.
+      </p>
+    </Fragment>
+  </ServiceLayout>
+</Base>
+
+<style>
+  .sv-extra {
+    background: linear-gradient(180deg, var(--color-paper-3), var(--color-paper));
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+  }
+
+  .sv-extra .display-md {
+    margin: 1rem 0 1.75rem;
+  }
+
+  .coverage {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .coverage li {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    color: var(--color-ink-2);
+    transition: transform 0.35s var(--ease-out), border-color 0.35s var(--ease-out);
+  }
+
+  .coverage li:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    color: var(--color-ink);
+  }
+</style>

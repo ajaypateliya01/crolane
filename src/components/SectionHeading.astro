@@ -1,0 +1,84 @@
+---
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  lede?: string;
+  align?: 'left' | 'center';
+  accent?: string;
+  as?: 'h1' | 'h2' | 'h3';
+  size?: 'lg' | 'md';
+  class?: string;
+}
+const {
+  eyebrow,
+  title,
+  lede,
+  align = 'left',
+  accent,
+  as: Tag = 'h2',
+  size = 'lg',
+  class: className = '',
+} = Astro.props;
+
+const headingClass = size === 'lg' ? 'display-lg' : 'display-md';
+---
+
+<header
+  class:list={[
+    'sec-head',
+    `align-${align}`,
+    className,
+    { 'has-title': Boolean(title) || Astro.slots.has('title') },
+  ]}
+  style={accent ? `--accent:${accent}` : undefined}
+>
+  {
+    (eyebrow || Astro.slots.has('eyebrow')) && (
+      <p class="eyebrow eyebrow--accent" data-reveal="fade">
+        {eyebrow ?? <slot name="eyebrow" />}
+      </p>
+    )
+  }
+  {
+    (title || Astro.slots.has('title')) && (
+      <Tag class:list={[headingClass, 'sec-title']} data-reveal>
+        {title ?? <slot name="title" />}
+      </Tag>
+    )
+  }
+  {
+    (lede || Astro.slots.has('lede')) && (
+      <p class="lede sec-lede" data-reveal data-reveal-delay="0.08">
+        {lede ?? <slot name="lede" />}
+      </p>
+    )
+  }
+</header>
+
+<style>
+  .sec-head {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    max-width: 46rem;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .sec-head.align-center {
+    align-items: center;
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .sec-head:not(.has-title) {
+    margin-bottom: clamp(1.75rem, 3.5vw, 2.75rem);
+  }
+
+  .sec-lede {
+    max-width: 40rem;
+  }
+
+  .align-center .sec-lede {
+    margin-inline: auto;
+  }
+</style>

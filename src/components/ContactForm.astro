@@ -1,0 +1,283 @@
+---
+import { SERVICE_OPTIONS } from '../config/services';
+import { SITE } from '../config/site';
+---
+
+<div class="cf-wrap" data-contact-form>
+  <!-- Success (shown after server confirmation, via JS or ?sent=1 redirect) -->
+  <div class="cf-success" data-cf-success hidden role="status">
+    <span class="cf-check" aria-hidden="true">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+        <path
+          d="M6 13.5l4.8 4.8L20 8"
+          stroke="currentColor"
+          stroke-width="2.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+    </span>
+    <h3>Your enquiry is on its way.</h3>
+    <p data-cf-success-msg>
+      The server confirmed delivery. We will reply by email.
+      If your question is urgent, write to <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+    </p>
+    <button class="btn btn-ghost btn-sm" type="button" data-cf-another>Send another enquiry</button>
+  </div>
+
+  <!-- Error banner -->
+  <div class="cf-error" data-cf-error hidden role="alert">
+    <p data-cf-error-msg>Something went wrong. Please try again.</p>
+    <p class="cf-error-fallback">
+      You can also email us directly at
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+    </p>
+  </div>
+
+  <form
+    class="cf-form"
+    data-cf-form
+    action="/api/contact"
+    method="post"
+    novalidate
+  >
+    <div class="cf-row">
+      <div class="field">
+        <label for="cf-name">Full name <span class="req" aria-hidden="true">*</span></label>
+        <input
+          id="cf-name"
+          name="name"
+          type="text"
+          autocomplete="name"
+          required
+          maxlength="120"
+          aria-describedby="cf-name-err"
+        />
+        <p class="field-error" id="cf-name-err" data-err-for="name"></p>
+      </div>
+      <div class="field">
+        <label for="cf-email">Business email <span class="req" aria-hidden="true">*</span></label>
+        <input
+          id="cf-email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          required
+          maxlength="200"
+          aria-describedby="cf-email-err"
+        />
+        <p class="field-error" id="cf-email-err" data-err-for="email"></p>
+      </div>
+    </div>
+
+    <div class="cf-row">
+      <div class="field">
+        <label for="cf-company">Company <span class="opt">(optional)</span></label>
+        <input
+          id="cf-company"
+          name="company"
+          type="text"
+          autocomplete="organization"
+          maxlength="140"
+        />
+      </div>
+      <div class="field">
+        <label for="cf-website">Website URL <span class="opt">(optional)</span></label>
+        <input
+          id="cf-website"
+          name="website"
+          type="url"
+          inputmode="url"
+          placeholder="https://"
+          maxlength="300"
+          aria-describedby="cf-website-err"
+        />
+        <p class="field-error" id="cf-website-err" data-err-for="website"></p>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="cf-service">Service interest <span class="req" aria-hidden="true">*</span></label>
+      <select id="cf-service" name="service" required aria-describedby="cf-service-err">
+        <option value="" disabled selected>Choose one of the seven services</option>
+        {
+          SERVICE_OPTIONS.map((o) => <option value={o.value}>{o.label}</option>)
+        }
+      </select>
+      <p class="field-error" id="cf-service-err" data-err-for="service"></p>
+    </div>
+
+    <div class="field">
+      <label for="cf-details">Project details <span class="req" aria-hidden="true">*</span></label>
+      <textarea
+        id="cf-details"
+        name="details"
+        required
+        minlength="10"
+        maxlength="4000"
+        aria-describedby="cf-details-err cf-details-hint"
+        placeholder="What is the business problem? What have you tried? What would a good outcome look like?"
+      ></textarea>
+      <p class="cf-hint" id="cf-details-hint">A few sentences are plenty to start.</p>
+      <p class="field-error" id="cf-details-err" data-err-for="details"></p>
+    </div>
+
+    <!-- Honeypot: hidden from people, irresistible to bots -->
+    <div class="cf-trap" aria-hidden="true">
+      <label for="cf-trap">Leave this field empty</label>
+      <input id="cf-trap" name="company_notes" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+    <input type="hidden" name="elapsed" data-cf-elapsed value="" />
+
+    <div class="cf-submit-row">
+      <button class="btn btn-primary" type="submit" data-cf-submit>
+        <span data-cf-submit-label>Send enquiry</span>
+      </button>
+      <p class="cf-privacy">
+        Your details are used only to reply to this enquiry. See our
+        <a href="/privacy/">privacy notice</a>.
+      </p>
+    </div>
+  </form>
+</div>
+
+<script>
+  import '../scripts/contact-form';
+</script>
+
+<style>
+  .cf-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .cf-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .cf-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.1rem;
+  }
+
+  .field .opt {
+    color: var(--color-ink-3);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+
+  .cf-hint {
+    font-size: 0.76rem;
+    color: var(--color-ink-3);
+  }
+
+  .cf-trap {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .cf-submit-row {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    margin-top: 0.35rem;
+  }
+
+  .cf-privacy {
+    font-size: 0.78rem;
+    color: var(--color-ink-3);
+    max-width: 20rem;
+  }
+
+  .cf-privacy a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .cf-success,
+  .cf-error {
+    border-radius: 18px;
+    padding: clamp(1.4rem, 3vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .cf-success {
+    background: color-mix(in srgb, var(--color-emerald) 7%, #fff);
+    border: 1px solid color-mix(in srgb, var(--color-emerald) 35%, transparent);
+    animation: cf-in 0.5s var(--ease-out);
+  }
+
+  .cf-error {
+    background: color-mix(in srgb, #d92d20 6%, #fff);
+    border: 1px solid color-mix(in srgb, #d92d20 35%, transparent);
+  }
+
+  @keyframes cf-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  .cf-check {
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: color-mix(in srgb, var(--color-emerald) 14%, #fff);
+    color: var(--color-emerald);
+    border: 1.5px solid color-mix(in srgb, var(--color-emerald) 45%, transparent);
+  }
+
+  .cf-success h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 400;
+  }
+
+  .cf-success p,
+  .cf-error p {
+    font-size: 0.93rem;
+    color: var(--color-ink-2);
+    line-height: 1.6;
+  }
+
+  .cf-success a,
+  .cf-error a {
+    color: var(--color-indigo);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .cf-error p:first-child {
+    font-weight: 580;
+    color: #b42318;
+  }
+
+  .cf-error-fallback {
+    font-size: 0.85rem !important;
+  }
+
+  .cf-form.busy [data-cf-submit] {
+    opacity: 0.65;
+    pointer-events: none;
+  }
+
+  @media (max-width: 44rem) {
+    .cf-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

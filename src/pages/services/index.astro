@@ -1,0 +1,370 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import FaqList from '../../components/FaqList.astro';
+import { SERVICES } from '../../config/services';
+import { SITE } from '../../config/site';
+
+const title = `Services | ${SITE.name} CRO, analytics and practical AI`;
+const description =
+  'Seven focused services: CRO audits, A/B testing, GA4 and tag manager implementation, conversion tracking, AI workflow automation, AI voice agents and Shopify experience audits.';
+
+const faqs = [
+  {
+    q: 'Can we combine services in one engagement?',
+    a: 'Often, yes. An audit followed by measurement work and then experiments is a common sequence. The scope will still list each service separately so you can see what you are paying for and drop anything that is not needed.',
+  },
+  {
+    q: 'We are not sure which service we need. Can you tell us?',
+    a: 'Send the business problem rather than a service name. Sometimes the right answer is a CRO audit, sometimes it is fixing measurement first because the current data cannot support decisions. We will say which, even when the smaller option is the honest one.',
+  },
+  {
+    q: 'Do you offer retainers?',
+    a: 'Ongoing experimentation or analytics support can be structured as a retainer when there is a steady backlog of work. Everything starts with a defined scope either way, so you always know what the current cycle covers.',
+  },
+];
+---
+
+<Base title={title} description={description} canonicalPath="/services/">
+  <section class="sv-over-hero" aria-labelledby="svc-title">
+    <div class="sv-over-bg" aria-hidden="true"></div>
+    <div class="container-x">
+      <p class="eyebrow" data-reveal="fade">Service index</p>
+      <h1 class="display-xl" id="svc-title" data-reveal data-reveal-delay="0.05">
+        Seven disciplines. One loop: <span class="display-italic">understand, improve, automate</span>.
+      </h1>
+      <p class="lede" data-reveal data-reveal-delay="0.12">
+        Every service can stand alone or connect into a longer engagement. Each one has its own
+        visual demonstration on its detail page, so you can see the shape of the work before we
+        ever speak.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-sm sv-over tone-paper" aria-label="All services">
+    <div class="container-x">
+      <ul class="tiles">
+        {
+          SERVICES.map((s, i) => (
+            <li data-reveal data-reveal-delay={String((i % 3) * 0.07)} style={`--accent:${s.accent}; --soft:${s.accentSoft};`}>
+              <a class="tile" href={s.path}>
+                <span class="tile-media">
+                  <img src={s.art} alt={`Abstract still life for ${s.navTitle}`} loading="lazy" width="640" height="400" />
+                  <span class="tile-num">{s.num}</span>
+                </span>
+                <span class="tile-body">
+                  <span class="tile-title">{s.title}</span>
+                  <span class="tile-desc">{s.short}</span>
+                  <span class="tile-cta">
+                    Explore
+                    <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+                      <path
+                        d="M1 6h11.5M8.5 1.5 13 6l-4.5 4.5"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-sm sv-fit tone-white" aria-labelledby="sv-fit-title">
+    <div class="container-x sv-fit-grid">
+      <div>
+        <p class="eyebrow" data-reveal="fade">Choosing a starting point</p>
+        <h2 class="display-md" id="sv-fit-title" data-reveal>Not sure which one you need?</h2>
+        <p class="lede" data-reveal data-reveal-delay="0.06">
+          A useful rule of thumb: if you do not trust your current numbers, start with
+          measurement. If you trust the numbers but not the decisions, start with an audit. If
+          you know exactly what to fix but lack time to do it, look at automation or
+          implementation.
+        </p>
+        <a class="btn btn-primary" href="/contact/" data-reveal data-reveal-delay="0.12">
+          Describe your problem instead
+        </a>
+      </div>
+      <div class="sv-fit-panel" data-reveal="right">
+        <p class="label-mono">Sequencing that works well</p>
+        <ol>
+          <li><span>1</span>Fix measurement so decisions have ground to stand on</li>
+          <li><span>2</span>Audit the journey to find where confidence breaks</li>
+          <li><span>3</span>Test the highest potential changes against real behaviour</li>
+          <li><span>4</span>Automate the repetitive follow-up work that remains</li>
+        </ol>
+        <p class="fit-fine">A rule of thumb, not a prescription: the right order depends on your situation.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm" aria-labelledby="svc-faq-title">
+    <div class="container-x sv-faq-grid">
+      <div>
+        <p class="eyebrow" data-reveal="fade">FAQs</p>
+        <h2 class="display-md" id="svc-faq-title" data-reveal>Common service questions</h2>
+      </div>
+      <div data-reveal="fade">
+        <FaqList items={faqs} idPrefix="services-faq" />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    eyebrow="Start anywhere"
+    title="Bring the problem, not the service name."
+    copy="Tell us what is happening in the business and what you think is going wrong. We will map it to the right service, including when that means starting smaller than you expected."
+  />
+</Base>
+
+<style>
+  .sv-over-hero {
+    position: relative;
+    padding-top: clamp(7.5rem, 14vh, 10rem);
+    padding-bottom: clamp(2.5rem, 6vw, 4rem);
+    background: var(--color-paper);
+    overflow: clip;
+  }
+
+  .sv-over-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(55% 65% at 88% 15%, rgb(62 78 245 / 0.1), transparent 70%),
+      radial-gradient(45% 55% at 5% 90%, rgb(199 116 21 / 0.09), transparent 70%);
+    pointer-events: none;
+  }
+
+  .sv-over-hero .container-x {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .sv-over-hero h1 {
+    max-width: 17ch;
+  }
+
+  .sv-over {
+    background: var(--color-paper);
+  }
+
+  .tiles {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.1rem, 2.5vw, 1.75rem);
+  }
+
+  .tiles li:last-child {
+    grid-column: span 1;
+  }
+
+  .tile {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out),
+      border-color 0.45s var(--ease-out);
+  }
+
+  .tile:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lift);
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+
+  .tile-media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--soft);
+    display: block;
+  }
+
+  .tile-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease-out);
+  }
+
+  .tile:hover .tile-media img {
+    transform: scale(1.06);
+  }
+
+  .tile-num {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    background: rgb(255 255 255 / 0.9);
+    backdrop-filter: blur(6px);
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 0.28rem 0.6rem;
+  }
+
+  .tile-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.3rem 1.35rem 1.5rem;
+    flex: 1;
+  }
+
+  .tile-title {
+    font-size: 1.12rem;
+    font-weight: 610;
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+
+  .tile-desc {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--color-ink-2);
+    flex: 1;
+  }
+
+  .tile-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-top: 0.5rem;
+  }
+
+  .tile-cta svg {
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  .tile:hover .tile-cta svg {
+    transform: translateX(4px);
+  }
+
+  /* fit band */
+  .sv-fit {
+    background: #fff;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+  }
+
+  .sv-fit-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  .sv-fit-grid > div:first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .sv-fit-panel {
+    background: linear-gradient(160deg, var(--color-paper-4), var(--color-paper));
+    border: 1px solid color-mix(in srgb, var(--color-indigo) 25%, transparent);
+    border-radius: 22px;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .sv-fit-panel .label-mono {
+    margin-bottom: 1.1rem;
+  }
+
+  .sv-fit-panel ol {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .sv-fit-panel li {
+    display: flex;
+    gap: 0.85rem;
+    align-items: baseline;
+    font-size: 0.95rem;
+    color: var(--color-ink-2);
+    line-height: 1.5;
+  }
+
+  .sv-fit-panel li span {
+    flex: none;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: var(--color-ink);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    display: grid;
+    place-items: center;
+    transform: translateY(0.25rem);
+  }
+
+  .fit-fine {
+    margin-top: 1.1rem;
+    padding-top: 0.9rem;
+    border-top: 1px dashed color-mix(in srgb, var(--color-ink) 16%, transparent);
+    font-size: 0.78rem;
+    color: var(--color-ink-3);
+  }
+
+  .sv-faq-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .sv-faq-grid > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: sticky;
+    top: 7rem;
+  }
+
+  @media (max-width: 64rem) {
+    .tiles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .sv-fit-grid,
+    .sv-faq-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .sv-faq-grid > div:first-child {
+      position: static;
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .tiles {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

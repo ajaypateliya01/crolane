@@ -1,0 +1,437 @@
+---
+/**
+ * Shared service page scaffold. Every page passes its own copy, its own
+ * visual experience and its own process presentation, so the seven pages
+ * stay coherent without repeating the same composition.
+ */
+import ServiceHero from './ServiceHero.astro';
+import ServiceFaq from './ServiceFaq.astro';
+import ServiceNext from './ServiceNext.astro';
+import ServiceCta from './ServiceCta.astro';
+import type { Service } from '../../config/services';
+import type { FaqItem } from '../FaqList.astro';
+
+interface Props {
+  service: Service;
+  lede: string;
+  artAlt: string;
+  faqs: FaqItem[];
+  /** Band background tone for the visual experience band. */
+  visualTone?: 'tone-paper' | 'tone-cream' | 'tone-cool' | 'tone-lavender' | 'tone-white';
+  problemTitle?: string;
+  problemLead?: string;
+  deliverablesTitle?: string;
+  deliverablesLead?: string;
+  processTitle?: string;
+  processVariant?: 'rail' | 'timeline' | 'grid2';
+  scopeTitle?: string;
+  scopeLead?: string;
+}
+
+const {
+  service,
+  lede,
+  artAlt,
+  faqs,
+  visualTone = 'tone-paper',
+  problemTitle = 'The problem it solves',
+  problemLead,
+  deliverablesTitle = 'Activities and deliverables',
+  deliverablesLead,
+  processTitle = 'How the work runs',
+  processVariant = 'rail',
+  scopeTitle = 'Scope and honest limits',
+  scopeLead,
+} = Astro.props;
+
+const isDarkBand = visualTone === 'tone-cool' || visualTone === 'tone-lavender';
+void isDarkBand;
+---
+
+<ServiceHero service={service} lede={lede} artAlt={artAlt} />
+
+<!-- Visual experience band -->
+<section
+  class:list={['section', 'sv-visual-band', visualTone]}
+  aria-label={`${service.title} demonstration`}
+  style={`--accent:${service.accent}; --soft:${service.accentSoft};`}
+>
+  <div class="container-x">
+    <slot name="visual" />
+  </div>
+</section>
+
+<!-- Problem -->
+<section
+  class="section sv-problem"
+  aria-labelledby="sv-problem-title"
+  style={`--accent:${service.accent}; --soft:${service.accentSoft};`}
+>
+  <div class="container-x sv-problem-grid">
+    <header class="sv-problem-head">
+      <p class="eyebrow eyebrow--accent" data-reveal="fade">Why it matters</p>
+      <h2 class="display-md" id="sv-problem-title" data-reveal>{problemTitle}</h2>
+      {problemLead && <p class="sv-lead" data-reveal data-reveal-delay="0.06">{problemLead}</p>}
+    </header>
+    <div class="sv-problem-body" data-reveal="fade">
+      <slot name="problem" />
+    </div>
+  </div>
+</section>
+
+<!-- Deliverables -->
+<section
+  class="section-sm sv-deliver tone-white"
+  aria-labelledby="sv-deliver-title"
+  style={`--accent:${service.accent};`}
+>
+  <div class="container-x">
+    <header class="sv-band-head">
+      <div>
+        <p class="eyebrow" data-reveal="fade">What you get</p>
+        <h2 class="display-md" id="sv-deliver-title" data-reveal>{deliverablesTitle}</h2>
+      </div>
+      {deliverablesLead && <p class="sv-lead" data-reveal data-reveal-delay="0.06">{deliverablesLead}</p>}
+    </header>
+    <slot name="deliverables" />
+  </div>
+</section>
+
+<!-- Unique per-service element -->
+<slot name="extra" />
+
+<!-- Process -->
+<section
+  class:list={['section', 'sv-process', visualTone === 'tone-white' ? 'tone-paper' : 'tone-white']}
+  aria-labelledby="sv-process-title"
+  data-process-variant={processVariant}
+  style={`--accent:${service.accent};`}
+>
+  <div class="container-x">
+    <header class="sv-band-head">
+      <div>
+        <p class="eyebrow" data-reveal="fade">Implementation approach</p>
+        <h2 class="display-md" id="sv-process-title" data-reveal>{processTitle}</h2>
+      </div>
+    </header>
+    <div class="sv-process-body">
+      <slot name="process" />
+    </div>
+  </div>
+</section>
+
+<!-- Scope -->
+<section
+  class="section-sm sv-scope"
+  aria-labelledby="sv-scope-title"
+  style={`--accent:${service.accent}; --soft:${service.accentSoft};`}
+>
+  <div class="container-x">
+    <div class="sv-scope-box" data-reveal>
+      <div class="sv-scope-head">
+        <p class="eyebrow eyebrow--accent" data-reveal="fade">Scope</p>
+        <h2 class="display-md" id="sv-scope-title" data-reveal>{scopeTitle}</h2>
+      </div>
+      {scopeLead && <p class="sv-scope-lead" data-reveal="fade">{scopeLead}</p>}
+      <div class="sv-scope-body" data-reveal="fade">
+        <slot name="scope" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<ServiceFaq service={service} items={faqs} />
+<ServiceNext current={service} />
+<ServiceCta service={service} />
+
+<style>
+  .sv-visual-band {
+    overflow: clip;
+  }
+
+  .sv-problem {
+    background: var(--color-paper);
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+  }
+
+  .sv-problem-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .sv-problem-head {
+    position: sticky;
+    top: 7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .sv-lead {
+    font-size: clamp(1rem, 0.97rem + 0.3vw, 1.15rem);
+    color: var(--color-ink-2);
+    line-height: 1.65;
+    max-width: 40rem;
+  }
+
+  .sv-problem-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-ink-2);
+  }
+
+  .sv-problem-body :global(p strong) {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .sv-problem-body :global(.callout) {
+    background: color-mix(in srgb, var(--accent) 6%, #fff);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem;
+    font-size: 0.92rem;
+  }
+
+  .sv-band-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+    flex-wrap: wrap;
+  }
+
+  .sv-band-head > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sv-deliver {
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+    overflow: clip;
+  }
+
+  .sv-process {
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+    overflow: clip;
+  }
+
+  /* Scope ------------------------------------------------------------------ */
+  .sv-scope {
+    background: var(--color-paper);
+  }
+
+  .sv-scope-box {
+    background: linear-gradient(150deg, var(--soft), #fff 65%);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: clamp(20px, 2.5vw, 28px);
+    padding: clamp(1.6rem, 4vw, 3rem);
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .sv-scope-head {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sv-scope-lead {
+    grid-column: 1 / -1;
+    font-size: 0.98rem;
+    color: var(--color-ink-2);
+    max-width: 52rem;
+    margin-top: -1rem;
+  }
+
+  .sv-scope-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .sv-scope-body :global(ul) {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .sv-scope-body :global(li) {
+    position: relative;
+    padding-left: 1.6rem;
+    font-size: 0.93rem;
+    line-height: 1.6;
+    color: var(--color-ink-2);
+  }
+
+  .sv-scope-body :global(li::before) {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 3px;
+    background: var(--accent);
+    opacity: 0.75;
+    transform: rotate(45deg);
+  }
+
+  .sv-scope-body :global(p) {
+    font-size: 0.93rem;
+    line-height: 1.65;
+    color: var(--color-ink-2);
+  }
+
+  /* Process variants -------------------------------------------------------- */
+  .sv-process-body :global(.p-rail) {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
+
+  .sv-process-body :global(.p-rail li) {
+    padding: 1.5rem 1.35rem;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 18px;
+    background: linear-gradient(180deg, #fff, var(--color-paper));
+    position: relative;
+  }
+
+  .sv-process-body :global(.p-rail li::before) {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 1.35rem;
+    right: 1.35rem;
+    height: 3px;
+    background: var(--accent);
+    opacity: 0.7;
+    border-radius: 0 0 4px 4px;
+  }
+
+  .sv-process-body :global(.p-rail .p-num) {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+  }
+
+  .sv-process-body :global(.p-rail h3),
+  .sv-process-body :global(.p-timeline h3),
+  .sv-process-body :global(.p-grid2 h3) {
+    font-size: 1.12rem;
+    font-weight: 600;
+    margin: 0.55rem 0 0.5rem;
+  }
+
+  .sv-process-body :global(.p-rail p),
+  .sv-process-body :global(.p-timeline p),
+  .sv-process-body :global(.p-grid2 p) {
+    font-size: 0.89rem;
+    line-height: 1.6;
+    color: var(--color-ink-2);
+  }
+
+  /* timeline */
+  .sv-process-body :global(.p-timeline) {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    max-width: 46rem;
+  }
+
+  .sv-process-body :global(.p-timeline li) {
+    position: relative;
+    padding: 0 0 2rem 2.75rem;
+    border-left: 2px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+    margin-left: 0.55rem;
+  }
+
+  .sv-process-body :global(.p-timeline li:last-child) {
+    border-left-color: transparent;
+    padding-bottom: 0;
+  }
+
+  .sv-process-body :global(.p-timeline li::before) {
+    content: '';
+    position: absolute;
+    left: -9px;
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    border: 4px solid var(--accent);
+  }
+
+  .sv-process-body :global(.p-timeline .p-num) {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+  }
+
+  /* grid2 */
+  .sv-process-body :global(.p-grid2) {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.25rem, 2.5vw, 1.75rem);
+  }
+
+  .sv-process-body :global(.p-grid2 li) {
+    padding: clamp(1.4rem, 3vw, 2.1rem);
+    border-radius: 20px;
+    background: var(--soft);
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+
+  .sv-process-body :global(.p-grid2 .p-num) {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  /* Responsive ---------------------------------------------------------------- */
+  @media (max-width: 64rem) {
+    .sv-problem-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .sv-problem-head {
+      position: static;
+    }
+
+    .sv-scope-box {
+      grid-template-columns: 1fr;
+    }
+
+    .sv-scope-lead {
+      margin-top: 0;
+    }
+
+    .sv-process-body :global(.p-rail) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .sv-process-body :global(.p-rail),
+    .sv-process-body :global(.p-grid2) {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

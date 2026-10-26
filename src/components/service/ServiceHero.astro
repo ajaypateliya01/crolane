@@ -1,0 +1,158 @@
+---
+import type { Service } from '../../config/services';
+
+interface Props {
+  service: Service;
+  lede: string;
+  artAlt: string;
+}
+const { service, lede, artAlt } = Astro.props;
+---
+
+<section
+  class="sv-hero"
+  style={`--accent:${service.accent}; --soft:${service.accentSoft};`}
+  aria-labelledby="sv-title"
+>
+  <div class="sv-hero-bg" aria-hidden="true"></div>
+  <div class="container-x sv-hero-grid">
+    <div class="sv-hero-copy">
+      <nav class="crumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/services/">Services</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{service.navTitle}</span>
+      </nav>
+      <p class="eyebrow eyebrow--accent" data-reveal="fade">
+        Service {service.num} · {service.navTitle}
+      </p>
+      <h1 class="display-lg" id="sv-title" data-reveal>{service.title}</h1>
+      <p class="lede" data-reveal data-reveal-delay="0.08">{lede}</p>
+      <div class="sv-hero-actions" data-reveal data-reveal-delay="0.16">
+        <a class="btn btn-primary" href="/contact/">Discuss this service</a>
+        <a class="btn btn-ghost" href="/services/">All services</a>
+      </div>
+    </div>
+    <figure class="sv-hero-art" data-reveal="scale" data-reveal-delay="0.1">
+      <img
+        src={service.art}
+        alt={artAlt}
+        width="640"
+        height="480"
+        loading="eager"
+      />
+      <figcaption class="sv-art-caption">
+        <span class="chip"><span class="chip-dot"></span>Custom visual · {service.navTitle}</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .sv-hero {
+    position: relative;
+    padding-top: clamp(7.5rem, 14vh, 10rem);
+    padding-bottom: clamp(3rem, 7vw, 5rem);
+    background: var(--color-paper);
+    overflow: clip;
+  }
+
+  .sv-hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(60% 70% at 85% 20%, color-mix(in srgb, var(--soft) 85%, transparent), transparent 70%),
+      radial-gradient(45% 55% at 10% 90%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 70%);
+    pointer-events: none;
+  }
+
+  .sv-hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  .sv-hero-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.3rem;
+  }
+
+  .crumb {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+    margin-bottom: 0.6rem;
+  }
+
+  .crumb a {
+    color: var(--color-ink-3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: transparent;
+    transition: color 0.25s var(--ease-out), text-decoration-color 0.25s var(--ease-out);
+  }
+
+  .crumb a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
+
+  .sv-hero h1 {
+    max-width: 18ch;
+  }
+
+  .sv-hero-actions {
+    display: flex;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+    margin-top: 0.4rem;
+  }
+
+  .sv-hero-art {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    box-shadow: var(--shadow-lift);
+    background: var(--soft);
+    aspect-ratio: 4 / 3.2;
+  }
+
+  .sv-hero-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.9s var(--ease-out);
+  }
+
+  .sv-hero-art:hover img {
+    transform: scale(1.03);
+  }
+
+  .sv-art-caption {
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;
+  }
+
+  @media (max-width: 64rem) {
+    .sv-hero-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .sv-hero-art {
+      max-width: 34rem;
+      aspect-ratio: 16 / 10;
+    }
+  }
+</style>

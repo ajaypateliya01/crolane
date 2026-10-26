@@ -1,0 +1,292 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+import ServiceLayout from '../../components/service/ServiceLayout.astro';
+import WorkflowFlow from '../../components/WorkflowFlow.astro';
+import { serviceBySlug } from '../../config/services';
+
+const service = serviceBySlug('ai-automation')!;
+const faqs = [
+  {
+    q: 'What kinds of workflows are a good fit?',
+    a: 'Repetitive, rule-shaped work with clear inputs: triaging form submissions, drafting replies from approved templates, extracting fields from documents or emails, routing tasks, producing internal summaries. If your team does the same reading and copying every day, it is worth examining.',
+  },
+  {
+    q: 'Will the AI act on customers without approval?',
+    a: 'Not unless you explicitly decide it should. Most builds keep a human checkpoint on anything customer facing or financially meaningful, and automate the reading, sorting and drafting around it.',
+  },
+  {
+    q: 'Do we need a specific CRM or platform?',
+    a: 'No single stack is assumed. Feasibility depends on the tools you use, the access they allow and the cost of connecting them. That check happens during scoping, before you pay for a build that cannot connect.',
+  },
+  {
+    q: 'What happens when the AI gets it wrong?',
+    a: 'Workflows are designed for that: confidence thresholds, fallback routes, review queues and logs of every run. Wrong outputs should be catchable, visible and cheap to correct. If a process cannot tolerate that, it should stay manual.',
+  },
+];
+---
+
+<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path}>
+  <ServiceLayout
+    service={service}
+    lede="Practical, reviewable automation for the repetitive layer of your operations: classification, extraction, drafting and routing, with human checkpoints where decisions actually matter."
+    artAlt="White ceramic sorting tracks on a warm table with small spheres rolling through junctions"
+    faqs={faqs}
+    visualTone="tone-lavender"
+    problemTitle="Expensive work disguised as busywork"
+    problemLead="Copy-paste between tools, re-reading the same enquiry, chasing missing details. It is not transformation. It is time your team will never get back."
+    deliverablesTitle="What an automation engagement produces"
+    deliverablesLead="A documented system your team can inspect, adjust and switch off if it stops earning its place."
+    processTitle="How a build runs"
+    processVariant="timeline"
+    scopeTitle="What AI automation includes (and the honest limits)"
+  >
+    <Fragment slot="visual">
+      <WorkflowFlow />
+    </Fragment>
+
+    <Fragment slot="problem">
+      <p>
+        Every business accumulates a layer of work that looks small individually and enormous
+        in total. The enquiry that must be copied into a sheet. The document whose key fields
+        are retyped every time. The reply that is 90% identical but is written from scratch
+        each morning.
+      </p>
+      <p>
+        <strong>Automation earns its keep when it removes reading and copying, not when it
+        removes judgement.</strong> The useful pattern is consistent: capture the input,
+        structure it, apply your rules, prepare the next action, and pause for a person wherever
+        a commitment is about to be made.
+      </p>
+      <div class="callout">
+        <strong>Where teams get this wrong:</strong> buying a platform first and looking for a
+        use case second, or handing autonomous control to a model on day one. We start with one
+        well understood process, build it narrowly, measure the time it saves and expand only
+        when the first workflow has earned trust.
+      </div>
+      <p>
+        The demonstration above is illustrative. Your implementation depends on your tools, your
+        access, your data and what proves feasible when we look at them together.
+      </p>
+    </Fragment>
+
+    <Fragment slot="deliverables">
+      <ul class="deliver-grid">
+        <li class="deliver-item">
+          <span class="di-num">01</span>
+          <div>
+            <h3>Process map</h3>
+            <p>The current workflow documented step by step, including who touches it and where it stalls.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">02</span>
+          <div>
+            <h3>Automation spec</h3>
+            <p>Inputs, decisions, model prompts, rules, checkpoints and failure handling written down before building.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">03</span>
+          <div>
+            <h3>Working workflow</h3>
+            <p>The implemented automation in your chosen tools, with logging for every run.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">04</span>
+          <div>
+            <h3>Review queue</h3>
+            <p>Human approval points for customer facing steps, with escalation rules for low confidence.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">05</span>
+          <div>
+            <h3>Run history</h3>
+            <p>A trail of what happened, when and why, so behaviour stays auditable over time.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">06</span>
+          <div>
+            <h3>Team notes</h3>
+            <p>How to adjust prompts and rules safely, and how to switch the workflow off cleanly.</p>
+          </div>
+        </li>
+      </ul>
+    </Fragment>
+
+    <Fragment slot="extra">
+      <section class="section-sm sv-extra" aria-labelledby="sv-fit-title" style={`--accent:${service.accent}; --soft:${service.accentSoft};`}>
+        <div class="container-x">
+          <header class="extra-head">
+            <div>
+              <p class="eyebrow" data-reveal="fade">Fit check</p>
+              <h2 class="display-md" id="sv-fit-title" data-reveal>What automates well, what does not</h2>
+            </div>
+          </header>
+          <div class="fit-grid">
+            <article class="fit-card good" data-reveal>
+              <p class="fit-tag">Strong candidates</p>
+              <ul>
+                <li>Triage and routing of incoming enquiries</li>
+                <li>Extracting fields from forms, emails or PDFs</li>
+                <li>Drafting replies from approved wording</li>
+                <li>Summarising threads for the next person</li>
+                <li>Moving structured data between systems</li>
+                <li>Flagging anything that looks unusual</li>
+              </ul>
+            </article>
+            <article class="fit-card bad" data-reveal data-reveal-delay="0.08">
+              <p class="fit-tag">Keep humans here (for now)</p>
+              <ul>
+                <li>Final pricing and commercial commitments</li>
+                <li>Sensitive judgement calls with unclear rules</li>
+                <li>Anything with legal or compliance consequences</li>
+                <li>Relationship decisions that need context</li>
+                <li>Processes nobody has documented yet</li>
+                <li>Work that is rare, varied and low volume</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+    </Fragment>
+
+    <Fragment slot="process">
+      <ol class="p-timeline">
+        <li>
+          <span class="p-num">STEP 01</span>
+          <h3>Pick one process</h3>
+          <p>We choose a single repetitive workflow with visible volume and a clear definition of done. Narrow beats ambitious for the first build.</p>
+        </li>
+        <li>
+          <span class="p-num">STEP 02</span>
+          <h3>Map and spec</h3>
+          <p>Current steps, decision points, inputs and outputs are documented, then written into a spec you approve before any build starts.</p>
+        </li>
+        <li>
+          <span class="p-num">STEP 03</span>
+          <h3>Build with checkpoints</h3>
+          <p>The workflow is implemented in the tools you actually use, with logging, confidence handling and human review on meaningful actions.</p>
+        </li>
+        <li>
+          <span class="p-num">STEP 04</span>
+          <h3>Trial in parallel</h3>
+          <p>The automation runs alongside the current process for a period so outputs can be compared and corrected before it takes over.</p>
+        </li>
+        <li>
+          <span class="p-num">STEP 05</span>
+          <h3>Hand over</h3>
+          <p>Documentation, adjustment notes and an off switch. The goal is your team owning a system, not depending on a black box.</p>
+        </li>
+      </ol>
+    </Fragment>
+
+    <Fragment slot="scope">
+      <ul>
+        <li>Includes process mapping, automation specification, implementation, logging and handover.</li>
+        <li>Covers practical workflows with defined inputs: forms, emails, documents, notifications and internal tasks.</li>
+        <li>Integrations with specific CRMs, calendars or telephony depend on the platform, your plan tier and access, and are confirmed during scoping.</li>
+        <li>Complex enterprise orchestration, data migration and custom software development are separate scopes.</li>
+        <li>No system runs unsupervised on day one: review points stay until the evidence supports changing that.</li>
+      </ul>
+      <p>
+        The workflow demonstration on this page is an illustration, not a live automation. If
+        your tools cannot support a step honestly, the scoping will say so before you commit.
+      </p>
+    </Fragment>
+  </ServiceLayout>
+</Base>
+
+<style>
+  .sv-extra {
+    background: linear-gradient(180deg, var(--color-paper-4), var(--color-paper));
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+  }
+
+  .extra-head {
+    margin-bottom: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .fit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+  }
+
+  .fit-card {
+    border-radius: 20px;
+    padding: clamp(1.4rem, 3vw, 2rem);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+    background: #fff;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .fit-card.good {
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    background: linear-gradient(160deg, var(--soft), #fff 60%);
+  }
+
+  .fit-tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .fit-card.bad .fit-tag {
+    color: var(--color-ink-3);
+  }
+
+  .fit-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .fit-card li {
+    font-size: 0.92rem;
+    color: var(--color-ink-2);
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .fit-card.good li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.42rem;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--accent) 25%, #fff);
+    border: 2px solid var(--accent);
+  }
+
+  .fit-card.bad li::before {
+    content: '';
+    position: absolute;
+    left: 0.1rem;
+    top: 0.55rem;
+    width: 0.75rem;
+    height: 2px;
+    background: color-mix(in srgb, var(--color-ink) 45%, transparent);
+    border-radius: 2px;
+  }
+
+  @media (max-width: 52rem) {
+    .fit-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,309 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+import ServiceLayout from '../../components/service/ServiceLayout.astro';
+import AnalyticsDash from '../../components/AnalyticsDash.astro';
+import { serviceBySlug } from '../../config/services';
+
+const service = serviceBySlug('ga4-tag-manager')!;
+const faqs = [
+  {
+    q: 'Our GA4 is already set up. Can you review it instead of starting fresh?',
+    a: 'Yes. Existing properties are audited first: events, parameters, conversions, filters, consent settings and data quality. If the foundation is sound, we keep it and fix what is not. Rebuilding without a reason wastes history you may still need.',
+  },
+  {
+    q: 'Do you work inside our Google Tag Manager container?',
+    a: 'That is the normal arrangement. We use your account, document every tag, trigger and variable we add, and leave the container in a state your team can understand and maintain.',
+  },
+  {
+    q: 'Will this create duplicate data?',
+    a: 'Duplicate collection is one of the first things checked. Implementations include validation passes that look for double firing, missing parameters and conflicting tags before anything is declared done.',
+  },
+  {
+    q: 'Can you build reports for our team?',
+    a: 'Yes, reporting views can be part of the scope: explorations, dashboards and plain language guides so the people making decisions can find the answers without asking an analyst every time.',
+  },
+];
+---
+
+<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path}>
+  <ServiceLayout
+    service={service}
+    lede="A measurement plan first, then GA4 and Google Tag Manager configured to match it: events that mean something, tags that fire once, reports your team can actually read."
+    artAlt="Concentric glass rings and flowing ribbon curves on a white pedestal with luminous azure threads"
+    faqs={faqs}
+    visualTone="tone-white"
+    problemTitle="Dashboards full of numbers that answer nothing"
+    problemLead="Analytics installations grow by accident: tags added over years, events with three naming styles, conversions that fire twice. Reporting then becomes guesswork."
+    deliverablesTitle="Implementation deliverables"
+    deliverablesLead="Documentation is part of the build, so the setup survives staff changes."
+    processTitle="How an implementation runs"
+    processVariant="grid2"
+    scopeTitle="What analytics implementation includes"
+  >
+    <Fragment slot="visual">
+      <AnalyticsDash />
+    </Fragment>
+
+    <Fragment slot="problem">
+      <p>
+        Most analytics problems are not reporting problems. They are collection problems wearing
+        a reporting costume. <strong>If the events underneath the chart are wrong, better
+        charts only make the wrongness more confident.</strong>
+      </p>
+      <p>
+        Typical starting points look like this: key actions were never defined so nobody agrees
+        what a conversion is, a tag was added in a hurry two years ago and still fires on every
+        page, parameters carry four different spellings of the same product name, or consent
+        state is ignored by half the tags.
+      </p>
+      <div class="callout">
+        <strong>The fix is sequence, not speed:</strong> define what decisions need to be made,
+        design the events that inform them, configure GA4 and GTM to match, then validate the
+        data before anyone presents it to a board.
+      </div>
+      <p>
+        That sequence is the entire service. The demonstration above is a simulated dashboard
+        built from interface elements, not a connection to live Google data.
+      </p>
+    </Fragment>
+
+    <Fragment slot="deliverables">
+      <ul class="deliver-grid">
+        <li class="deliver-item">
+          <span class="di-num">01</span>
+          <div>
+            <h3>Measurement plan</h3>
+            <p>Business questions mapped to events, parameters and conversion definitions.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">02</span>
+          <div>
+            <h3>GA4 configuration</h3>
+            <p>Property settings, conversions, custom dimensions, filters and consent alignment.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">03</span>
+          <div>
+            <h3>GTM container</h3>
+            <p>Tags, triggers and variables organised and labelled so maintenance stays sane.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">04</span>
+          <div>
+            <h3>Validation report</h3>
+            <p>Testing evidence: what was checked, where, and the result of each check.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">05</span>
+          <div>
+            <h3>Reporting views</h3>
+            <p>Explorations or dashboards shaped around the questions your team asks regularly.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">06</span>
+          <div>
+            <h3>Handover notes</h3>
+            <p>Plain documentation of the setup so it stays maintainable without us.</p>
+          </div>
+        </li>
+      </ul>
+    </Fragment>
+
+    <Fragment slot="extra">
+      <section class="section-sm sv-extra" aria-labelledby="sv-dict-title" style={`--accent:${service.accent}; --soft:${service.accentSoft};`}>
+        <div class="container-x">
+          <header class="extra-head">
+            <div>
+              <p class="eyebrow" data-reveal="fade">Example artefact</p>
+              <h2 class="display-md" id="sv-dict-title" data-reveal>Event dictionary (illustrative)</h2>
+            </div>
+            <p class="extra-note" data-reveal="fade">
+              Every implementation ships with a shared vocabulary, so a conversation about
+              &ldquo;conversions&rdquo; means the same thing to marketing, product and finance.
+            </p>
+          </header>
+          <div class="dict-wrap" data-reveal="fade">
+            <table class="dict">
+              <thead>
+                <tr>
+                  <th scope="col">Event</th>
+                  <th scope="col">Fires when</th>
+                  <th scope="col">Key parameters</th>
+                  <th scope="col">Used for</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>view_item</code></td>
+                  <td>A product or service detail becomes visible</td>
+                  <td><code>item_id, currency, value</code></td>
+                  <td>Interest by product, funnel top</td>
+                </tr>
+                <tr>
+                  <td><code>add_to_cart</code></td>
+                  <td>An item is added from a detail or listing page</td>
+                  <td><code>item_id, quantity, value</code></td>
+                  <td>Intent strength, variant comparison</td>
+                </tr>
+                <tr>
+                  <td><code>begin_checkout</code></td>
+                  <td>The checkout flow is entered</td>
+                  <td><code>value, coupon, checkout_step</code></td>
+                  <td>Funnel measurement, drop-off analysis</td>
+                </tr>
+                <tr>
+                  <td><code>generate_lead</code></td>
+                  <td>A contact or quote form is confirmed</td>
+                  <td><code>form_id, service_interest</code></td>
+                  <td>Lead quality by source and page</td>
+                </tr>
+                <tr>
+                  <td><code>select_promotion</code></td>
+                  <td>A merchandised slot or offer is chosen</td>
+                  <td><code>promotion_id, slot</code></td>
+                  <td>Discovery and recommendation testing</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="dict-note" data-reveal="fade">
+            Fictional example to show the format. Your dictionary is written against your
+            business, your funnel and your platform.
+          </p>
+        </div>
+      </section>
+    </Fragment>
+
+    <Fragment slot="process">
+      <ol class="p-grid2">
+        <li>
+          <span class="p-num">01</span>
+          <h3>Questions before tags</h3>
+          <p>We start with the decisions your team needs to make: which channels to fund, which pages to fix, which funnels to repair. Events are designed backwards from those questions.</p>
+        </li>
+        <li>
+          <span class="p-num">02</span>
+          <h3>Design the collection</h3>
+          <p>Events, parameters, conversions and triggers are written down as a plan you can review before anything is implemented in your accounts.</p>
+        </li>
+        <li>
+          <span class="p-num">03</span>
+          <h3>Configure and document</h3>
+          <p>GA4 and GTM are configured to the plan, with every addition labelled and explained in the handover notes as we go.</p>
+        </li>
+        <li>
+          <span class="p-num">04</span>
+          <h3>Validate in production</h3>
+          <p>A structured QA pass: trigger every event, check parameters, confirm consent behaviour and look for duplicates before sign-off.</p>
+        </li>
+      </ol>
+    </Fragment>
+
+    <Fragment slot="scope">
+      <ul>
+        <li>Includes GA4 and Google Tag Manager setup or remediation, event implementation and validation.</li>
+        <li>Includes documentation, training notes and a read-out for the team that will use it.</li>
+        <li>Work is performed in your accounts: you keep full ownership of every property and tag.</li>
+        <li>Server-side tagging, complex data warehouse pipelines and third-party CRM sync are separate scopes.</li>
+        <li>This website's dashboard is a visual demonstration and is not connected to live Google data.</li>
+      </ul>
+      <p>
+        Google Analytics and Google Tag Manager are trademarks of Google LLC. Mentioning them
+        here describes the platforms we work with and implies no endorsement or partnership.
+      </p>
+    </Fragment>
+  </ServiceLayout>
+</Base>
+
+<style>
+  .sv-extra {
+    background: linear-gradient(180deg, var(--color-paper), var(--color-paper-3));
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+  }
+
+  .extra-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+  }
+
+  .extra-head > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .extra-note {
+    font-size: 0.9rem;
+    color: var(--color-ink-3);
+    max-width: 26rem;
+  }
+
+  .dict-wrap {
+    overflow-x: auto;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .dict {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 44rem;
+    font-size: 0.87rem;
+  }
+
+  .dict th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+    padding: 0.9rem 1.1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+    background: var(--color-paper);
+  }
+
+  .dict td {
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+    color: var(--color-ink-2);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .dict tr:last-child td {
+    border-bottom: none;
+  }
+
+  .dict code {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    background: color-mix(in srgb, var(--color-azure) 7%, #fff);
+    color: color-mix(in srgb, var(--color-azure) 80%, var(--color-ink));
+    padding: 0.1rem 0.35rem;
+    border-radius: 6px;
+  }
+
+  .dict td:first-child code {
+    font-weight: 600;
+  }
+
+  .dict-note {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: var(--color-ink-3);
+  }
+</style>

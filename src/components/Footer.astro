@@ -1,0 +1,197 @@
+---
+import Logo from './Logo.astro';
+import { SERVICES } from '../config/services';
+import { SITE, NAV } from '../config/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container-x">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" aria-label="CROLANE home"><Logo size={34} /></a>
+        <p class="footer-tagline">
+          Evidence for conversion decisions: audits, experimentation, clean measurement and
+          practical AI.
+        </p>
+        <a class="footer-mail" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </div>
+
+      <nav class="footer-cols" aria-label="Footer">
+        <div class="footer-col">
+          <p class="label-mono">Services</p>
+          <ul>
+            {
+              SERVICES.map((s) => (
+                <li>
+                  <a href={s.path}>{s.navTitle}</a>
+                </li>
+              ))
+            }
+            <li><a class="all-link" href="/services/">All services</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p class="label-mono">Company</p>
+          <ul>
+            {
+              NAV.map((n) => (
+                <li>
+                  <a href={n.href}>{n.label}</a>
+                </li>
+              ))
+            }
+            <li><a href="/about/#process">How we work</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p class="label-mono">Legal</p>
+          <ul>
+            <li><a href="/privacy/">Privacy</a></li>
+            <li><a href="/terms/">Terms</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <div class="footer-note">
+      <p>
+        All interface examples, metrics, heatmaps and conversations shown on this site are
+        illustrative demos, not client results.
+      </p>
+    </div>
+
+    <div class="footer-bottom hairline">
+      <p>&copy; {year} CROLANE. All rights reserved.</p>
+      <p class="footer-motto">Measure carefully. Test honestly. Improve on purpose.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-paper-2);
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
+    padding-top: clamp(3.5rem, 7vw, 5.5rem);
+    padding-bottom: 2rem;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 2fr);
+    gap: clamp(2.5rem, 6vw, 5rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .footer-tagline {
+    font-size: 0.975rem;
+    color: var(--color-ink-2);
+    max-width: 22rem;
+    line-height: 1.6;
+  }
+
+  .footer-mail {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    color: var(--color-ink);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 30%, transparent);
+    padding-bottom: 2px;
+    transition: color 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
+  }
+
+  .footer-mail:hover {
+    color: var(--color-indigo);
+    border-color: var(--color-indigo);
+  }
+
+  .footer-cols {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 0.8fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .footer-col .label-mono {
+    margin-bottom: 1.1rem;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.62rem;
+  }
+
+  .footer-col a {
+    font-size: 0.925rem;
+    color: var(--color-ink-2);
+    transition: color 0.25s var(--ease-out);
+    display: inline-block;
+  }
+
+  .footer-col a:hover {
+    color: var(--color-ink);
+  }
+
+  .footer-col .all-link {
+    color: var(--color-indigo);
+    font-weight: 560;
+    margin-top: 0.35rem;
+  }
+
+  .footer-note {
+    padding: 1.1rem 0 1.6rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
+  }
+
+  .footer-note p {
+    font-size: 0.8rem;
+    color: var(--color-ink-3);
+    max-width: 44rem;
+  }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-bottom p {
+    font-size: 0.8rem;
+    color: var(--color-ink-3);
+  }
+
+  .footer-motto {
+    font-family: var(--font-mono);
+    font-size: 0.7rem !important;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 60rem) {
+    .footer-top {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-cols {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .footer-cols {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

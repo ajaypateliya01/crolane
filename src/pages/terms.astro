@@ -1,0 +1,97 @@
+---
+export const prerender = true;
+
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config/site';
+
+const title = `Terms | ${SITE.name}`;
+const description = `Terms of use for the ${SITE.name} website.`;
+const updated = '26 October 2026';
+---
+
+<Base title={title} description={description} canonicalPath="/terms/">
+  <section class="legal-hero" aria-labelledby="terms-title">
+    <div class="container-narrow">
+      <p class="eyebrow">Legal</p>
+      <h1 class="display-lg" id="terms-title">Website terms</h1>
+      <p class="legal-updated">Last updated: {updated}</p>
+    </div>
+  </section>
+
+  <section class="section-sm tone-paper">
+    <div class="container-narrow legal-body">
+      <p>
+        These terms cover your use of the {SITE.name} website. Paid engagements are governed by
+        a separate written scope and agreement, which takes priority for anything about the
+        work itself.
+      </p>
+
+      <h2>Information on this site</h2>
+      <p>
+        We aim to keep everything accurate and useful, but website content is general
+        information, not advice tailored to your business. Nothing on this site creates a
+        professional relationship, an obligation to work together, or a guarantee of results.
+      </p>
+
+      <h2>Demonstrations and figures</h2>
+      <p>
+        Every dashboard, metric, heatmap, experiment result, conversation and storefront shown
+        on this site is an illustrative demonstration built with fictional data. It does not
+        represent real client results, real experiments or real visitor activity. We do not
+        publish invented case studies or testimonials.
+      </p>
+
+      <h2>Intellectual property</h2>
+      <p>
+        The site's copy, design, illustrations and original imagery belong to {SITE.name} unless
+        noted otherwise. You are welcome to quote short extracts with attribution. Republishing
+        the site wholesale, or using its assets as your own, is not permitted.
+      </p>
+
+      <h2>Third-party names</h2>
+      <p>
+        Names of platforms and products (for example Google Analytics, Google Tag Manager or
+        Shopify) belong to their respective owners and are used only to describe the services
+        we work with. No endorsement or affiliation is implied.
+      </p>
+
+      <h2>Links to other websites</h2>
+      <p>
+        Where we link out, we do so for reference. We are not responsible for content,
+        availability or practices on third-party sites we do not control.
+      </p>
+
+      <h2>Availability</h2>
+      <p>
+        We keep the site running sensibly but cannot promise uninterrupted access. Maintenance,
+        hosting outages and matters outside our control may take it offline temporarily.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about these terms: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal-hero {
+    padding-top: clamp(7.5rem, 14vh, 9.5rem);
+    padding-bottom: clamp(2rem, 5vw, 3rem);
+    background: var(--color-paper);
+  }
+
+  .legal-hero h1 {
+    margin-top: 1.2rem;
+  }
+
+  .legal-updated {
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+</style>

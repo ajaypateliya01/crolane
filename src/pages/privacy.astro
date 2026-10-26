@@ -1,0 +1,102 @@
+---
+export const prerender = true;
+
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config/site';
+
+const title = `Privacy | ${SITE.name}`;
+const description = `How ${SITE.name} handles information collected through this website.`;
+const updated = '26 October 2026';
+---
+
+<Base title={title} description={description} canonicalPath="/privacy/">
+  <section class="legal-hero" aria-labelledby="privacy-title">
+    <div class="container-narrow">
+      <p class="eyebrow">Legal</p>
+      <h1 class="display-lg" id="privacy-title">Privacy notice</h1>
+      <p class="legal-updated">Last updated: {updated}</p>
+    </div>
+  </section>
+
+  <section class="section-sm tone-paper">
+    <div class="container-narrow legal-body">
+      <p>
+        This notice explains what happens to information you share with {SITE.name} through this
+        website, written for humans rather than lawyers. If anything is unclear, email <a
+          href={`mailto:${SITE.email}`}>{SITE.email}</a> and we will explain it.
+      </p>
+
+      <h2>What the contact form collects</h2>
+      <p>When you submit an enquiry, the server receives:</p>
+      <ul>
+        <li>Your name and email address (required)</li>
+        <li>Your company name and website URL, if you choose to provide them (optional)</li>
+        <li>The service you selected from the seven listed options</li>
+        <li>The project details you wrote</li>
+        <li>Basic technical metadata handled automatically by the server, such as your IP address and request time, used for abuse prevention such as rate limiting</li>
+      </ul>
+
+      <h2>How it is used</h2>
+      <p>
+        To deliver your message to our inbox and reply to your enquiry. That is the whole
+        purpose. Submissions are not added to marketing lists from this form, and your details
+        are not sold, rented or shared for advertising.
+      </p>
+
+      <h2>Where it goes</h2>
+      <p>
+        The website runs on our hosting provider, which processes the request so the email can
+        be sent through our mail provider. Your message then lives in an email inbox. We keep
+        correspondence for as long as it is useful for the conversation and any follow-up
+        work, then delete it on request.
+      </p>
+
+      <h2>Cookies and tracking</h2>
+      <p>
+        This website does not set advertising or marketing cookies, and there is no analytics
+        script baked into these pages. All the interactive demonstrations run in your browser
+        and send nothing back to us. Smooth scrolling and animations are purely local.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>
+        You can ask what information we hold about you, request a correction, or ask us to
+        delete it, by emailing <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. We will act on
+        verified requests without a fee and without a fight.
+      </p>
+
+      <h2>Changes to this notice</h2>
+      <p>
+        If how this site handles information changes, this page will be updated and the date at
+        the top revised. Continued use after an update means the current version applies.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about privacy: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. That address
+        reaches the person responsible for this site.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal-hero {
+    padding-top: clamp(7.5rem, 14vh, 9.5rem);
+    padding-bottom: clamp(2rem, 5vw, 3rem);
+    background: var(--color-paper);
+  }
+
+  .legal-hero h1 {
+    margin-top: 1.2rem;
+  }
+
+  .legal-updated {
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+</style>

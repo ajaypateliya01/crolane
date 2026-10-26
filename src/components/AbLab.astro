@@ -1,0 +1,813 @@
+---
+/**
+ * Signature interactive: the A/B testing lab.
+ * Two plausible product experiences side by side, an animated traffic split,
+ * selectable hypotheses, difference annotations and clearly illustrative
+ * demo metrics.
+ */
+const hypotheses = [
+  {
+    id: 'h1',
+    label: 'H1 · Primary action',
+    question:
+      'If the main action is obvious immediately, do more product visitors begin checkout?',
+  },
+  {
+    id: 'h2',
+    label: 'H2 · Delivery timing',
+    question:
+      'If delivery timing is shown before the click, do fewer visitors hesitate and leave?',
+  },
+  {
+    id: 'h3',
+    label: 'H3 · Decision context',
+    question:
+      'If rating, price and title stay together, do visitors feel more confident choosing?',
+  },
+];
+---
+
+<section class="section ab-section tone-cool" aria-labelledby="ab-title">
+  <div class="container-x">
+    <header class="ab-head">
+      <div>
+        <p class="eyebrow eyebrow--accent" style="--accent: var(--color-indigo);" data-reveal="fade">
+          Signature demo · A/B testing
+        </p>
+        <h2 class="display-lg" id="ab-title" data-reveal>
+          One original. One variant. <span class="display-italic">A fair question.</span>
+        </h2>
+      </div>
+      <p class="lede" data-reveal data-reveal-delay="0.08">
+        An experiment compares two experiences, measures what people actually do, and turns the
+        result into a decision. Explore the demo below: switch annotations on, pick a hypothesis
+        and watch the traffic split.
+      </p>
+    </header>
+
+    <div
+      class="viz-stage ab-stage"
+      data-ab-lab
+      data-reveal="scale"
+      style="--accent: var(--color-indigo);"
+    >
+      <div class="viz-chrome">
+        <div class="viz-chrome-left">
+          <span class="win-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="viz-url">demo-store.example / products / field-bottle</span>
+        </div>
+        <div class="ab-chrome-actions">
+          <span class="viz-note">Illustrative demo data</span>
+          <button class="btn btn-ghost btn-sm" type="button" data-diffs-toggle aria-pressed="false">
+            Show differences
+          </button>
+        </div>
+      </div>
+
+      <!-- Traffic split -->
+      <div class="traffic" aria-hidden="true">
+        <svg class="traffic-svg" viewBox="0 0 900 96" preserveAspectRatio="xMidYMid meet">
+          <text x="34" y="52" class="t-label">Visitors</text>
+          <circle cx="118" cy="46" r="7" class="t-gate"></circle>
+          <path d="M126 44 C 300 44 320 20 560 18 L 830 18" class="t-lane lane-a"></path>
+          <path d="M126 50 C 300 50 320 76 560 78 L 830 78" class="t-lane lane-b"></path>
+          <text x="560" y="12" class="t-label t-split">Control 50%</text>
+          <text x="560" y="94" class="t-label t-split t-var">Variant 50%</text>
+        </svg>
+      </div>
+
+      <!-- Two experiences -->
+      <div class="ab-panels">
+        <!-- CONTROL -->
+        <article class="ab-panel panel-control" aria-label="Control, original experience">
+          <header class="panel-label">
+            <span class="pl-badge pl-control">Control / Original</span>
+          </header>
+          <div class="mini-site">
+            <div class="ms-nav">
+              <span class="ms-logo"></span>
+              <span class="ms-links"><i></i><i></i><i></i></span>
+              <span class="ms-bag"></span>
+            </div>
+            <div class="ms-body">
+              <div class="ms-media">
+                <img
+                  src="/images/product-bottle.jpg"
+                  alt="Fictional demo product: a sage green insulated bottle"
+                  loading="lazy"
+                  width="600"
+                  height="750"
+                />
+                <div class="ms-thumbs"><i class="on"></i><i></i><i></i></div>
+              </div>
+              <div class="ms-info">
+                <p class="ms-kicker" data-hyp="h3">Field series</p>
+                <h4 class="ms-title" data-hyp="h3">Field Bottle 750</h4>
+                <p class="ms-price" data-hyp="h3">₹1,890</p>
+                <p class="ms-rating" data-hyp="h3">
+                  <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                    <path
+                      d="M6 1l1.5 3.2 3.4.4-2.5 2.4.7 3.4L6 8.8 2.9 10.4l.7-3.4L1.1 4.6l3.4-.4z"
+                      fill="currentColor"></path>
+                  </svg>
+                  4.6 · 128 reviews
+                </p>
+                <p class="ms-desc">Double wall steel, 24h cold, powder coat grip.</p>
+                <p class="ms-label">Colour: Sage</p>
+                <div class="ms-swatches">
+                  <i style="--sw:#9db29a" class="on"></i><i style="--sw:#c9a68a"></i><i
+                    style="--sw:#3b3b42"></i>
+                </div>
+                <button class="ms-cta ms-cta-quiet" type="button" tabindex="-1" data-hyp="h1"
+                  >Add to bag</button
+                >
+                <p class="ms-ship" data-hyp="h2">Standard delivery in 3-6 days</p>
+                <div class="ms-acc"><span></span><span></span></div>
+              </div>
+            </div>
+          </div>
+          <!-- annotations -->
+          <div class="annot annot-1" data-annot data-hyp="h1">
+            <span class="pin"></span><span class="annot-label">CTA sits low, easy to miss</span>
+          </div>
+          <div class="annot annot-2" data-annot data-hyp="h2">
+            <span class="pin"></span><span class="annot-label">Delivery shown after the decision</span>
+          </div>
+          <div class="annot annot-3" data-annot data-hyp="h3">
+            <span class="pin"></span><span class="annot-label">Price far from rating</span>
+          </div>
+        </article>
+
+        <!-- VARIANT -->
+        <article class="ab-panel panel-variant" aria-label="Variant, experimental experience">
+          <header class="panel-label">
+            <span class="pl-badge pl-variant">Variant / Experiment</span>
+          </header>
+          <div class="mini-site variant">
+            <div class="ms-nav">
+              <span class="ms-logo"></span>
+              <span class="ms-links"><i></i><i></i><i></i></span>
+              <span class="ms-bag"></span>
+            </div>
+            <div class="ms-body">
+              <div class="ms-media">
+                <img
+                  src="/images/product-bottle.jpg"
+                  alt="Fictional demo product: a sage green insulated bottle"
+                  loading="lazy"
+                  width="600"
+                  height="750"
+                />
+                <div class="ms-thumbs"><i class="on"></i><i></i><i></i></div>
+              </div>
+              <div class="ms-info">
+                <div class="ms-toprow" data-hyp="h3">
+                  <span class="ms-rating-pill">
+                    <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                      <path
+                        d="M6 1l1.5 3.2 3.4.4-2.5 2.4.7 3.4L6 8.8 2.9 10.4l.7-3.4L1.1 4.6l3.4-.4z"
+                        fill="currentColor"></path>
+                    </svg>
+                    4.6 (128)
+                  </span>
+                  <span class="ms-price">₹1,890</span>
+                </div>
+                <h4 class="ms-title">Field Bottle 750</h4>
+                <p class="ms-desc">Double wall steel, 24h cold, powder coat grip.</p>
+                <p class="ms-delivery" data-hyp="h2">
+                  <span class="ms-bolt" aria-hidden="true"></span>
+                  Order in 4h 20m for Thursday arrival
+                </p>
+                <button class="ms-cta ms-cta-strong" type="button" tabindex="-1" data-hyp="h1"
+                  >Add to bag · ₹1,890</button
+                >
+                <div class="ms-row2">
+                  <div class="ms-swatches" data-hyp="h3">
+                    <i style="--sw:#9db29a" class="on"></i><i style="--sw:#c9a68a"></i>
+                    <i style="--sw:#3b3b42"></i>
+                  </div>
+                  <span class="ms-label">Free returns</span>
+                </div>
+                <div class="ms-acc"><span></span><span></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="annot annot-4" data-annot data-hyp="h1">
+            <span class="pin"></span><span class="annot-label">Primary action leads the page</span>
+          </div>
+          <div class="annot annot-5" data-annot data-hyp="h2">
+            <span class="pin"></span><span class="annot-label">Timing before the click</span>
+          </div>
+          <div class="annot annot-6" data-annot data-hyp="h3">
+            <span class="pin"></span><span class="annot-label">Rating and price together</span>
+          </div>
+        </article>
+      </div>
+
+      <!-- Hypotheses -->
+      <div class="ab-hyp">
+        <div class="seg hyp-seg" role="group" aria-label="Select a test hypothesis">
+          {
+            hypotheses.map((h, i) => (
+              <button
+                type="button"
+                data-hyp-btn={h.id}
+                data-question={h.question}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+              >
+                {h.label}
+              </button>
+            ))
+          }
+        </div>
+        <p class="hyp-question" data-hyp-question>
+          {hypotheses[0].question}
+        </p>
+      </div>
+
+      <!-- Illustrative metrics -->
+      <div class="ab-metrics">
+        <div class="metric">
+          <p class="metric-label">Control conversion</p>
+          <p class="metric-value" data-count="3.2%">3.2%</p>
+          <p class="metric-sub" data-count="{v}">98 of 3,140 visitors</p>
+        </div>
+        <div class="metric metric-var">
+          <p class="metric-label">Variant conversion</p>
+          <p class="metric-value" data-count="3.7%">3.7%</p>
+          <p class="metric-sub" data-count="{v}">117 of 3,121 visitors</p>
+        </div>
+        <div class="metric">
+          <p class="metric-label">Sample progress</p>
+          <p class="metric-value" data-count="64%">64%</p>
+          <div class="sample-bar" aria-hidden="true"><span></span></div>
+          <p class="metric-sub">of the planned demo sample</p>
+        </div>
+      </div>
+
+      <p class="ab-disclaimer">
+        These numbers are illustrative demo data, not CROLANE results. A higher figure in a demo
+        does not prove a winner: real experiments need a fair split, a defined metric and enough
+        sample before a decision means anything.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../scripts/ab-lab';
+</script>
+
+<style>
+  .ab-section {
+    background:
+      radial-gradient(90% 60% at 85% 0%, rgb(62 78 245 / 0.07), transparent 60%),
+      var(--color-paper-3);
+    overflow: clip;
+  }
+
+  .ab-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: end;
+    margin-bottom: clamp(2.5rem, 5vw, 3.75rem);
+  }
+
+  .ab-head h2 {
+    margin-top: 1.1rem;
+    max-width: 16ch;
+  }
+
+  .ab-stage {
+    container-type: inline-size;
+  }
+
+  .ab-chrome-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+
+  /* Traffic ------------------------------------------------------------- */
+  .traffic {
+    padding: 1.1rem 1.4rem 0.4rem;
+    background: linear-gradient(180deg, rgb(251 250 247 / 0.7), transparent);
+  }
+
+  .traffic-svg {
+    width: 100%;
+    height: auto;
+    max-height: 96px;
+  }
+
+  .t-lane {
+    fill: none;
+    stroke-width: 2.4;
+    stroke-dasharray: 7 9;
+    animation: lane-flow 1.4s linear infinite;
+  }
+
+  .lane-a {
+    stroke: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  }
+
+  .lane-b {
+    stroke: var(--color-indigo);
+  }
+
+  .t-gate {
+    fill: var(--color-ink);
+  }
+
+  .t-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    fill: var(--color-ink-3);
+  }
+
+  .t-split {
+    text-anchor: end;
+  }
+
+  .t-var {
+    fill: var(--color-indigo);
+  }
+
+  @keyframes lane-flow {
+    to {
+      stroke-dashoffset: -32;
+    }
+  }
+
+  /* Panels -------------------------------------------------------------- */
+  .ab-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1rem, 2vw, 1.5rem);
+    padding: 1rem 1.4rem 1.4rem;
+  }
+
+  .ab-panel {
+    position: relative;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+    border-radius: 16px;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    transition: box-shadow 0.4s var(--ease-out), border-color 0.4s var(--ease-out);
+  }
+
+  .ab-stage[data-diffs='true'] .ab-panel {
+    border-color: color-mix(in srgb, var(--color-amber) 45%, transparent);
+  }
+
+  .panel-label {
+    padding: 0.65rem 0.9rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
+    background: var(--color-paper);
+  }
+
+  .pl-badge {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.55rem;
+    border-radius: 6px;
+  }
+
+  .pl-control {
+    background: color-mix(in srgb, var(--color-ink) 8%, #fff);
+    color: var(--color-ink-2);
+  }
+
+  .pl-variant {
+    background: color-mix(in srgb, var(--color-indigo) 12%, #fff);
+    color: var(--color-indigo);
+  }
+
+  .mini-site {
+    font-size: 12px;
+  }
+
+  .ms-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+  }
+
+  .ms-logo {
+    width: 46px;
+    height: 9px;
+    border-radius: 4px;
+    background: var(--color-ink);
+    opacity: 0.8;
+  }
+
+  .ms-links {
+    display: flex;
+    gap: 7px;
+    margin-left: auto;
+  }
+
+  .ms-links i {
+    width: 26px;
+    height: 6px;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--color-ink) 16%, transparent);
+  }
+
+  .ms-bag {
+    width: 13px;
+    height: 13px;
+    border-radius: 4px;
+    border: 1.6px solid color-mix(in srgb, var(--color-ink) 45%, transparent);
+  }
+
+  .ms-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: 0.9rem;
+    padding: 0.9rem;
+  }
+
+  .ms-media img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 10px;
+    background: var(--color-paper-2);
+  }
+
+  .ms-thumbs {
+    display: flex;
+    gap: 5px;
+    margin-top: 6px;
+  }
+
+  .ms-thumbs i {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    background: var(--color-paper-2);
+    border: 1.5px solid transparent;
+  }
+
+  .ms-thumbs i.on {
+    border-color: var(--color-ink);
+  }
+
+  .ms-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .ms-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  .ms-title {
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  .ms-price {
+    font-weight: 640;
+    font-size: 0.95rem;
+  }
+
+  .ms-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-amber);
+    font-size: 0.66rem;
+  }
+
+  .ms-desc {
+    color: var(--color-ink-2);
+    font-size: 0.7rem;
+    line-height: 1.5;
+  }
+
+  .ms-label {
+    font-size: 0.64rem;
+    color: var(--color-ink-3);
+  }
+
+  .ms-swatches {
+    display: flex;
+    gap: 6px;
+  }
+
+  .ms-swatches i {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: var(--sw);
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--color-ink) 25%, transparent);
+  }
+
+  .ms-swatches i.on {
+    box-shadow: 0 0 0 2px var(--color-ink);
+  }
+
+  .ms-cta {
+    border-radius: 9px;
+    font-size: 0.74rem;
+    font-weight: 620;
+    padding: 0.62rem 0.8rem;
+    cursor: default;
+    transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+  }
+
+  .ms-cta-quiet {
+    background: #fff;
+    border: 1.5px solid color-mix(in srgb, var(--color-ink) 55%, transparent);
+    color: var(--color-ink);
+    align-self: flex-start;
+    padding-inline: 1.1rem;
+  }
+
+  .ms-cta-strong {
+    background: var(--color-ink);
+    color: #fff;
+    width: 100%;
+    box-shadow: 0 8px 18px -8px rgb(22 22 27 / 0.5);
+  }
+
+  .ab-stage[data-diffs='true'] .ms-cta-strong {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 22px -8px rgb(62 78 245 / 0.55);
+    background: var(--color-indigo);
+  }
+
+  .ms-ship {
+    font-size: 0.62rem;
+    color: var(--color-ink-3);
+  }
+
+  .ms-acc {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 3px;
+  }
+
+  .ms-acc span {
+    height: 8px;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--color-ink) 7%, transparent);
+    border-bottom: 1.5px solid color-mix(in srgb, var(--color-ink) 20%, transparent);
+  }
+
+  .ms-toprow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .ms-rating-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: color-mix(in srgb, var(--color-amber) 12%, #fff);
+    color: var(--color-amber);
+    border-radius: 999px;
+    padding: 0.22rem 0.5rem;
+    font-size: 0.64rem;
+    font-weight: 640;
+  }
+
+  .ms-delivery {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.66rem;
+    font-weight: 570;
+    color: var(--color-emerald);
+    background: color-mix(in srgb, var(--color-emerald) 9%, #fff);
+    border: 1px solid color-mix(in srgb, var(--color-emerald) 28%, transparent);
+    border-radius: 8px;
+    padding: 0.34rem 0.55rem;
+  }
+
+  .ms-bolt {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-emerald);
+  }
+
+  .ms-row2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  /* Annotations ---------------------------------------------------------- */
+  .annot-1 {
+    left: 54%;
+    top: 58%;
+  }
+
+  .annot-2 {
+    left: 46%;
+    bottom: 9%;
+  }
+
+  .annot-3 {
+    right: 4%;
+    top: 34%;
+  }
+
+  .annot-4 {
+    left: 44%;
+    top: 64%;
+  }
+
+  .annot-5 {
+    left: 44%;
+    top: 52%;
+  }
+
+  .annot-6 {
+    right: 6%;
+    top: 24%;
+  }
+
+  .annot[data-hyp] {
+    display: none;
+  }
+
+  .ab-stage[data-diffs='true'] .annot {
+    display: flex;
+    opacity: 0.55;
+  }
+
+  .ab-stage[data-diffs='true'] .annot.match {
+    opacity: 1;
+  }
+
+  /* Hypotheses ------------------------------------------------------------ */
+  .ab-hyp {
+    display: flex;
+    align-items: center;
+    gap: 1.3rem;
+    padding: 0.4rem 1.4rem 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  .hyp-seg button {
+    white-space: nowrap;
+  }
+
+  .hyp-question {
+    font-size: 0.95rem;
+    color: var(--color-ink-2);
+    max-width: 40rem;
+    transition: opacity 0.3s var(--ease-out);
+  }
+
+  .hyp-question.swap {
+    opacity: 0;
+  }
+
+  /* Metrics --------------------------------------------------------------- */
+  .ab-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(0.9rem, 2vw, 1.4rem);
+    padding: 1.3rem 1.4rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    background: var(--color-paper);
+  }
+
+  .metric {
+    padding: 1rem 1.1rem;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+  }
+
+  .metric-var {
+    border-color: color-mix(in srgb, var(--color-indigo) 35%, transparent);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--color-indigo) 5%, #fff), #fff);
+  }
+
+  .metric-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  .metric-value {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.6vw, 2.8rem);
+    line-height: 1.1;
+    margin-top: 0.4rem;
+  }
+
+  .metric-var .metric-value {
+    color: var(--color-indigo);
+  }
+
+  .metric-sub {
+    font-size: 0.78rem;
+    color: var(--color-ink-3);
+    margin-top: 0.3rem;
+  }
+
+  .sample-bar {
+    height: 6px;
+    border-radius: 99px;
+    background: color-mix(in srgb, var(--color-ink) 9%, transparent);
+    margin-top: 0.7rem;
+    overflow: hidden;
+  }
+
+  .sample-bar span {
+    display: block;
+    height: 100%;
+    width: 64%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--color-indigo), color-mix(in srgb, var(--color-indigo) 55%, var(--color-amber)));
+  }
+
+  .ab-disclaimer {
+    padding: 0.95rem 1.4rem 1.2rem;
+    font-size: 0.8rem;
+    color: var(--color-ink-3);
+    border-top: 1px dashed color-mix(in srgb, var(--color-ink) 14%, transparent);
+    background: var(--color-paper);
+  }
+
+  /* Responsive ------------------------------------------------------------- */
+  @container (max-width: 52rem) {
+    .ab-panels {
+      grid-template-columns: 1fr;
+    }
+
+    .annot-1,
+    .annot-2,
+    .annot-3,
+    .annot-4,
+    .annot-5,
+    .annot-6 {
+      top: auto;
+      bottom: 42%;
+      right: auto;
+      left: 6%;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .ab-head {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .traffic {
+      display: none;
+    }
+
+    .ab-metrics {
+      grid-template-columns: 1fr;
+    }
+
+    .ms-body {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .ms-body {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .t-lane {
+      animation: none;
+    }
+  }
+</style>
