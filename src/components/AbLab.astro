@@ -951,6 +951,9 @@ const hypotheses = [
     border-radius: 14px;
     background: #fff;
     border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    height: 100%;
+    box-sizing: border-box;
+    min-width: 0;
   }
 
   .metric-var {
@@ -971,6 +974,8 @@ const hypotheses = [
     font-size: clamp(2rem, 3.6vw, 2.8rem);
     line-height: 1.1;
     margin-top: 0.4rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
 
   .metric-var .metric-value {
