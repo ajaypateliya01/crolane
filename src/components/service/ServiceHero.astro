@@ -25,7 +25,7 @@ const { service, lede, artAlt } = Astro.props;
         <span aria-current="page">{service.navTitle}</span>
       </nav>
       <p class="eyebrow eyebrow--accent" data-reveal="fade">
-        Service {service.num} · {service.navTitle}
+        {service.navTitle}
       </p>
       <h1 class="display-lg" id="sv-title" data-reveal>{service.title}</h1>
       <p class="lede" data-reveal data-reveal-delay="0.08">{lede}</p>

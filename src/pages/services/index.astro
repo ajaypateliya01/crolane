@@ -52,7 +52,6 @@ const faqs = [
               <a class="tile" href={s.path}>
                 <span class="tile-media">
                   <img src={s.art} alt={`Abstract still life for ${s.navTitle}`} loading="lazy" width="640" height="400" />
-                  <span class="tile-num">{s.num}</span>
                   <span class="tile-dot" aria-hidden="true"></span>
                 </span>
                 <span class="tile-body">
@@ -247,20 +246,6 @@ const faqs = [
 
   .tile:hover .tile-media img {
     transform: scale(1.06);
-  }
-
-  .tile-num {
-    position: absolute;
-    top: 0.8rem;
-    left: 0.8rem;
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
-    letter-spacing: 0.1em;
-    background: rgb(255 255 255 / 0.9);
-    backdrop-filter: blur(6px);
-    color: var(--accent);
-    border-radius: 999px;
-    padding: 0.28rem 0.6rem;
   }
 
   .tile-body {
