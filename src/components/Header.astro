@@ -72,11 +72,11 @@ const isActiveService = path.startsWith('/services/');
                   ))
                 }
                 <li>
-                  <a href="/contact/" class="menu-item menu-cta-tile">
+                  <a href="/contact/" class="menu-item">
                     <span class="menu-num" style="color:var(--color-emerald)">→</span>
                     <span class="menu-copy">
                       <span class="menu-title">Not sure where to start?</span>
-                      <span class="menu-desc">Tell us the problem and we will point you to the right service.</span>
+                      <span class="menu-desc">Tell us the problem. We will guide you.</span>
                     </span>
                   </a>
                 </li>
@@ -356,18 +356,6 @@ const isActiveService = path.startsWith('/services/');
     border-color: color-mix(in srgb, var(--color-ink) 8%, transparent);
     box-shadow: 0 8px 20px -12px rgb(22 22 27 / 0.25);
     transform: translateX(3px);
-  }
-
-  .menu-cta-tile {
-    background: color-mix(in srgb, var(--color-emerald) 8%, #fff);
-    border: 1px dashed color-mix(in srgb, var(--color-emerald) 45%, transparent);
-    align-self: start;
-    margin-top: 0.1rem;
-  }
-
-  .menu-cta-tile:hover {
-    background: color-mix(in srgb, var(--color-emerald) 14%, #fff);
-    border-color: color-mix(in srgb, var(--color-emerald) 60%, transparent);
   }
 
   .menu-num {
