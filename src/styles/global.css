@@ -1057,3 +1057,39 @@ html.js [data-reveal="scale"] {
     display: none;
   }
 }
+
+/* ---- Animation boost: ambient drift, pulsing dots, floating helpers ---- */
+.ambient::after {
+  content: '';
+  position: absolute;
+  inset: -25%;
+  background:
+    radial-gradient(28% 32% at 72% 28%, color-mix(in srgb, var(--amb-a, #f3d9ae) 13%, transparent), transparent 70%),
+    radial-gradient(24% 28% at 22% 74%, color-mix(in srgb, var(--amb-b, #dfe6ff) 12%, transparent), transparent 70%);
+  animation: amb-drift 20s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes amb-drift {
+  from { transform: translate(0, 0) rotate(0deg); }
+  to { transform: translate(-5%, 4%) rotate(3deg); }
+}
+
+.chip-dot {
+  animation: chip-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes chip-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+}
+
+details > summary {
+  transition: color 0.3s var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient::after, .chip-dot {
+    animation: none;
+  }
+}

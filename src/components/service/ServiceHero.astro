@@ -25,7 +25,7 @@ const { service, lede, artAlt } = Astro.props;
         <span aria-current="page">{service.navTitle}</span>
       </nav>
       <p class="eyebrow eyebrow--accent" data-reveal="fade">
-        Service {service.num} · {service.navTitle}
+        {service.navTitle}
       </p>
       <h1 class="display-lg" id="sv-title" data-reveal>{service.title}</h1>
       <p class="lede" data-reveal data-reveal-delay="0.08">{lede}</p>
@@ -42,6 +42,13 @@ const { service, lede, artAlt } = Astro.props;
         height="480"
         loading="eager"
       />
+      <span class="sv-fx" aria-hidden="true">
+        <span class="sv-scan"></span>
+        <span class="sv-ring sv-ring--a"></span>
+        <span class="sv-ring sv-ring--b"></span>
+        <span class="sv-bars"><b></b><b></b><b></b><b></b></span>
+        <span class="sv-dot"></span>
+      </span>
       <figcaption class="sv-art-caption">
         <span class="chip"><span class="chip-dot"></span>Custom visual · {service.navTitle}</span>
       </figcaption>
@@ -132,11 +139,149 @@ const { service, lede, artAlt } = Astro.props;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.9s var(--ease-out);
+    animation: sv-kenburns 16s ease-in-out infinite alternate;
+  }
+
+  @keyframes sv-kenburns {
+    from { transform: scale(1.05) translate(-1%, -1%); }
+    to { transform: scale(1.13) translate(1.2%, 1%) rotate(0.4deg); }
   }
 
   .sv-hero-art:hover img {
-    transform: scale(1.03);
+    animation-play-state: paused;
+  }
+
+  .sv-hero-art:hover .sv-scan {
+    animation-duration: 1.7s;
+  }
+
+  .sv-hero-art:hover .sv-ring {
+    animation-duration: 1.3s;
+  }
+
+  .sv-hero-art:hover .sv-bars b {
+    animation-duration: 1s;
+  }
+
+  /* Animated layer over every service hero visual: scan beam, pulse
+     rings and breathing bars in the service accent. */
+  .sv-fx {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .sv-scan {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -20%;
+    height: 36%;
+    background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--accent) 24%, transparent), transparent);
+    animation: sv-scan 5.6s ease-in-out infinite;
+  }
+
+  @keyframes sv-scan {
+    0%, 100% { transform: translateY(0); opacity: 0; }
+    20% { opacity: 1; }
+    55% { transform: translateY(310%); opacity: 1; }
+    75%, 99% { opacity: 0; }
+  }
+
+  .sv-ring {
+    position: absolute;
+    border: 1.5px solid color-mix(in srgb, var(--accent) 65%, #fff);
+    border-radius: 50%;
+    opacity: 0;
+    animation: sv-ring 3.4s ease-out infinite;
+  }
+
+  .sv-ring--a { width: 54px; height: 54px; top: 16%; right: 14%; }
+  .sv-ring--b { width: 38px; height: 38px; bottom: 22%; left: 10%; animation-delay: 1.6s; }
+
+  @keyframes sv-ring {
+    0% { transform: scale(0.5); opacity: 0.85; }
+    70%, 100% { transform: scale(1.5); opacity: 0; }
+  }
+
+  .sv-bars {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    padding: 0.55rem 0.6rem;
+    background: rgb(19 19 24 / 0.42);
+    border: 1px solid rgb(255 255 255 / 0.22);
+    border-radius: 10px;
+    backdrop-filter: blur(3px);
+  }
+
+  .sv-bars b {
+    width: 5px;
+    border-radius: 3px;
+    background: #fff;
+    animation: sv-bar 2.8s ease-in-out infinite;
+  }
+
+  .sv-bars b:nth-child(1) { height: 9px; }
+  .sv-bars b:nth-child(2) { height: 15px; animation-delay: -0.4s; }
+  .sv-bars b:nth-child(3) { height: 21px; animation-delay: -0.8s; }
+  .sv-bars b:nth-child(4) { height: 13px; animation-delay: -1.2s; }
+
+  @keyframes sv-bar {
+    0%, 100% { transform: scaleY(0.55); }
+    50% { transform: scaleY(1.15); }
+  }
+
+  .sv-dot {
+    position: absolute;
+    top: 0.95rem;
+    right: 0.95rem;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid rgb(255 255 255 / 0.92);
+    box-shadow:
+      0 0 12px 3px color-mix(in srgb, var(--accent) 55%, transparent),
+      0 0 0 0 color-mix(in srgb, var(--accent) 42%, transparent);
+    animation: sv-dot-ping 2.4s ease-out infinite;
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  @keyframes sv-dot-ping {
+    0% {
+      box-shadow:
+        0 0 12px 3px color-mix(in srgb, var(--accent) 55%, transparent),
+        0 0 0 0 color-mix(in srgb, var(--accent) 42%, transparent);
+    }
+    70%, 100% {
+      box-shadow:
+        0 0 16px 4px color-mix(in srgb, var(--accent) 42%, transparent),
+        0 0 0 14px transparent;
+    }
+  }
+
+  .sv-hero-art:hover .sv-dot {
+    transform: scale(1.35);
+    animation-duration: 1.1s;
+  }
+
+  .sv-art-caption .chip {
+    animation: sv-chip-float 4.5s ease-in-out infinite;
+  }
+
+  @keyframes sv-chip-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sv-hero-art img, .sv-scan, .sv-ring, .sv-bars b, .sv-dot, .sv-art-caption .chip {
+      animation: none;
+    }
   }
 
   .sv-art-caption {

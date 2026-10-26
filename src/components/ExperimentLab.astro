@@ -1,0 +1,976 @@
+---
+import { serviceBySlug } from '../config/services';
+
+const service = serviceBySlug('ab-testing')!;
+---
+
+<div
+  class="experiment-lab"
+  data-experiment-lab
+  data-scenario="cta"
+  style={`--accent:${service.accent}; --soft:${service.accentSoft};`}
+>
+  <header class="ex-head">
+    <div class="ex-head-copy">
+      <p class="eyebrow eyebrow--accent" data-reveal="fade">Interactive demo · Experiment Flight Deck</p>
+      <h2 class="display-md" id="experiment-lab-title" data-reveal>Watch an experiment earn its answer</h2>
+      <p class="ex-lede" data-reveal data-reveal-delay="0.08">
+        Choose the question first. The traffic, counters and readout stay quiet until you press
+        Play demo, exactly how a careful test should begin.
+      </p>
+    </div>
+
+    <aside class="ex-preview" data-reveal="scale" data-reveal-delay="0.1" aria-label="Experiment preview">
+      <div class="ex-preview-top">
+        <span>Preview</span>
+        <span class="ex-ready"><i></i>Setup ready</span>
+      </div>
+      <div class="ex-preview-split" aria-hidden="true">
+        <span class="is-control"></span>
+        <span class="is-variant"></span>
+      </div>
+      <div class="ex-preview-labels" aria-hidden="true">
+        <span>Control · 50%</span>
+        <span>Variant · 50%</span>
+      </div>
+      <p>No visitors counted yet. The full run starts only when you play the demo.</p>
+    </aside>
+  </header>
+
+  <div class="ex-shell" data-reveal="scale">
+    <div class="ex-controls">
+      <div class="ex-scenario-wrap">
+        <p class="ex-kicker" id="ex-scenario-label">1 · Choose the experiment question</p>
+        <div class="ex-scenarios" role="group" aria-labelledby="ex-scenario-label">
+          <button class="ex-scenario is-active" type="button" aria-pressed="true" data-ex-scenario="cta">CTA clarity</button>
+          <button class="ex-scenario" type="button" aria-pressed="false" data-ex-scenario="delivery">Delivery timing</button>
+          <button class="ex-scenario" type="button" aria-pressed="false" data-ex-scenario="proof">Proof near price</button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary ex-play attn" type="button" data-ex-play>
+        <span class="ex-play-icon" aria-hidden="true"></span>
+        <span data-ex-play-label>Play demo</span>
+      </button>
+    </div>
+
+    <div class="ex-brief">
+      <div>
+        <span class="ex-brief-label">Hypothesis</span>
+        <p data-ex-hypothesis>
+          If the main action is impossible to miss, more visitors will add the bottle to their bag.
+        </p>
+      </div>
+      <div>
+        <span class="ex-brief-label">Decision rule</span>
+        <p data-ex-decision>
+          Consider shipping only if the variant improves add-to-bag rate without hurting checkout starts.
+        </p>
+      </div>
+    </div>
+
+    <div class="ex-stage" data-ex-stage data-state="idle">
+      <div class="ex-stage-top">
+        <p class="ex-status">
+          <span class="ex-live-dot" aria-hidden="true"></span>
+          <span data-ex-status>Ready when you are. Press Play demo to send the first visitors through.</span>
+        </p>
+        <span class="ex-clock" data-ex-clock>00:00</span>
+      </div>
+
+      <div class="ex-splitbar" aria-label="Traffic split: 50 percent control and 50 percent variant">
+        <span class="ex-split-control"></span>
+        <span class="ex-split-variant"></span>
+        <b>50 / 50 split</b>
+      </div>
+
+      <div class="ex-lanes">
+        <article class="ex-lane ex-lane-control" aria-label="Control experience">
+          <header>
+            <span class="ex-lane-tag">A · Control</span>
+            <span>Current page</span>
+          </header>
+
+          <div class="ex-mock">
+            <span class="ex-mock-kicker">Field series</span>
+            <strong>Field Bottle 750</strong>
+            <span class="ex-mock-meta">$24 · 4.6 rating · 128 reviews</span>
+            <button class="ex-mock-cta is-quiet" type="button" tabindex="-1" data-ex-control-cta>Add to bag</button>
+            <span class="ex-delivery-late">Delivery charges appear later, at checkout</span>
+            <span class="ex-proof-plain">4.6 rating sits far below the price</span>
+            <small data-ex-control-note>The action sits quietly lower on the page.</small>
+          </div>
+
+          <div class="ex-stream" data-ex-stream-control aria-hidden="true">
+            <span class="ex-stream-label">Visitor stream</span>
+          </div>
+
+          <div class="ex-metrics">
+            <div>
+              <span>Visitors</span>
+              <b data-ex-visitors-control>0</b>
+            </div>
+            <div>
+              <span>Conversions</span>
+              <b data-ex-conversions-control>0</b>
+            </div>
+            <div>
+              <span>Rate</span>
+              <b data-ex-rate-control>0.00%</b>
+            </div>
+          </div>
+          <div class="ex-rate-track" aria-hidden="true">
+            <span data-ex-bar-control></span>
+          </div>
+        </article>
+
+        <span class="ex-vs" aria-hidden="true">VS</span>
+
+        <article class="ex-lane ex-lane-variant" aria-label="Variant experience">
+          <header>
+            <span class="ex-lane-tag">B · Variant</span>
+            <span>Test page</span>
+          </header>
+
+          <div class="ex-mock">
+            <span class="ex-mock-kicker">Field series</span>
+            <strong>Field Bottle 750</strong>
+            <span class="ex-mock-meta">$24 · 4.6 rating · 128 reviews</span>
+            <span class="ex-delivery-pill"><i></i>Free delivery · arrives Thursday</span>
+            <span class="ex-proof-pill">★ 4.6 (128) · Free returns · $24</span>
+            <button class="ex-mock-cta is-strong" type="button" tabindex="-1" data-ex-variant-cta>Add to bag · $24</button>
+            <small data-ex-variant-note>Price joins the action, so the next step is obvious.</small>
+          </div>
+
+          <div class="ex-stream" data-ex-stream-variant aria-hidden="true">
+            <span class="ex-stream-label">Visitor stream</span>
+          </div>
+
+          <div class="ex-metrics">
+            <div>
+              <span>Visitors</span>
+              <b data-ex-visitors-variant>0</b>
+            </div>
+            <div>
+              <span>Conversions</span>
+              <b data-ex-conversions-variant>0</b>
+            </div>
+            <div>
+              <span>Rate</span>
+              <b data-ex-rate-variant>0.00%</b>
+            </div>
+          </div>
+          <div class="ex-rate-track" aria-hidden="true">
+            <span data-ex-bar-variant></span>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="ex-readout">
+      <article class="ex-read-card">
+        <span class="ex-brief-label">Sample progress</span>
+        <strong data-ex-sample-value>0%</strong>
+        <div class="ex-sample-track" aria-hidden="true"><span data-ex-sample-fill></span></div>
+        <p data-ex-sample-text>Waiting to start.</p>
+      </article>
+
+      <article class="ex-read-card ex-difference-card">
+        <span class="ex-brief-label">Observed difference</span>
+        <strong data-ex-difference>—</strong>
+        <p data-ex-difference-text>The gap appears only after visitors arrive.</p>
+      </article>
+
+      <article class="ex-read-card">
+        <span class="ex-brief-label">Readout</span>
+        <strong data-ex-verdict>No decision yet</strong>
+        <p data-ex-verdict-text>A result is read after the agreed sample and guardrails are checked.</p>
+      </article>
+    </div>
+
+    <div class="ex-log-wrap">
+      <p class="ex-kicker">Run log</p>
+      <ol class="ex-log" data-ex-log aria-live="polite">
+        <li><span>Setup</span>Brief agreed, split set to 50 / 50, traffic still at zero.</li>
+      </ol>
+    </div>
+
+    <p class="ex-note">
+      Illustrative demo with fixed, made-up data. A real experiment is sized for your traffic,
+      measured with validated events and read honestly, including when the variant does not win.
+    </p>
+  </div>
+</div>
+
+<script>
+  import '../scripts/experiment-lab';
+</script>
+
+<style>
+  .experiment-lab {
+    color: var(--color-ink);
+  }
+
+  .ex-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(17rem, 0.85fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: end;
+    margin-bottom: clamp(1.6rem, 4vw, 2.6rem);
+  }
+
+  .ex-head-copy {
+    max-width: 44rem;
+  }
+
+  .ex-lede {
+    margin-top: 1rem;
+    color: var(--color-ink-2);
+    line-height: 1.65;
+  }
+
+  .ex-preview {
+    background: rgb(255 255 255 / 0.82);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 20px;
+    padding: 1.15rem 1.25rem 1.25rem;
+    box-shadow: 0 20px 44px -28px rgb(22 22 27 / 0.35);
+  }
+
+  .ex-preview-top,
+  .ex-preview-labels {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  .ex-ready {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-emerald);
+    letter-spacing: 0.04em;
+  }
+
+  .ex-ready i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-emerald);
+    animation: ex-soft-pulse 2.2s ease-in-out infinite;
+  }
+
+  .ex-preview-split {
+    display: flex;
+    height: 12px;
+    overflow: hidden;
+    border-radius: 999px;
+    margin: 1rem 0 0.55rem;
+    background: color-mix(in srgb, var(--color-ink) 10%, transparent);
+  }
+
+  .ex-preview-split span {
+    display: block;
+    width: 50%;
+    height: 100%;
+  }
+
+  .ex-preview-split .is-control {
+    background: color-mix(in srgb, var(--color-ink) 38%, #fff);
+  }
+
+  .ex-preview-split .is-variant {
+    background: var(--accent);
+  }
+
+  .ex-preview p {
+    margin-top: 0.9rem;
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: var(--color-ink-2);
+  }
+
+  .ex-shell {
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 26px;
+    box-shadow: var(--shadow-lift);
+    padding: clamp(1.1rem, 3vw, 2rem);
+    overflow: clip;
+  }
+
+  .ex-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .ex-kicker,
+  .ex-brief-label {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .ex-scenarios {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 0.7rem;
+  }
+
+  .ex-scenario {
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 650;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 13%, transparent);
+    background: var(--color-paper);
+    color: var(--color-ink-2);
+    border-radius: 999px;
+    padding: 0.58rem 1rem;
+    cursor: pointer;
+    transition: transform 0.3s var(--ease-out), border-color 0.3s var(--ease-out),
+      background-color 0.3s var(--ease-out), color 0.3s var(--ease-out),
+      box-shadow 0.3s var(--ease-out);
+  }
+
+  .ex-scenario:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    box-shadow: 0 10px 22px -16px rgb(22 22 27 / 0.45);
+  }
+
+  .ex-scenario.is-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .ex-play {
+    flex: none;
+    min-height: 3.25rem;
+    padding-inline: 1.35rem;
+  }
+
+  .ex-play-icon {
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 9px solid currentColor;
+  }
+
+  .ex-play.attn {
+    animation: ex-play-glow 2.1s ease-in-out infinite;
+  }
+
+  .ex-play:disabled {
+    cursor: wait;
+    opacity: 0.82;
+  }
+
+  @keyframes ex-play-glow {
+    50% {
+      box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 20%, transparent),
+        0 18px 34px -16px color-mix(in srgb, var(--accent) 70%, transparent);
+    }
+  }
+
+  .ex-brief {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .ex-brief > div {
+    background: color-mix(in srgb, var(--soft) 52%, #fff);
+    border: 1px solid color-mix(in srgb, var(--accent) 16%, transparent);
+    border-radius: 16px;
+    padding: 1rem 1.1rem;
+  }
+
+  .ex-brief p {
+    margin-top: 0.45rem;
+    line-height: 1.55;
+    color: var(--color-ink-2);
+    font-size: 0.92rem;
+  }
+
+  .ex-stage {
+    position: relative;
+    background: linear-gradient(165deg, #15151c, #1d1c28 72%);
+    color: #fff;
+    border-radius: 22px;
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+    box-shadow: var(--shadow-panel);
+    overflow: hidden;
+  }
+
+  .ex-stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(38% 42% at 88% 0%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 70%),
+      radial-gradient(30% 34% at 4% 100%, rgb(255 255 255 / 0.07), transparent 70%);
+    pointer-events: none;
+  }
+
+  .ex-stage-top,
+  .ex-splitbar,
+  .ex-lanes {
+    position: relative;
+    z-index: 1;
+  }
+
+  .ex-stage-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .ex-status {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    line-height: 1.5;
+    color: rgb(255 255 255 / 0.82);
+    font-size: 0.9rem;
+  }
+
+  .ex-live-dot {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    margin-top: 0.42rem;
+    border-radius: 50%;
+    background: #7ee2b8;
+    box-shadow: 0 0 0 0 rgb(126 226 184 / 0.45);
+  }
+
+  .ex-stage[data-state='running'] .ex-live-dot {
+    animation: ex-ping 1.8s ease-out infinite;
+  }
+
+  .ex-clock {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: rgb(255 255 255 / 0.68);
+    background: rgb(255 255 255 / 0.08);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    border-radius: 999px;
+    padding: 0.35rem 0.65rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ex-splitbar {
+    position: relative;
+    display: flex;
+    height: 30px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.12);
+    margin-bottom: 1rem;
+  }
+
+  .ex-splitbar span {
+    width: 50%;
+    height: 100%;
+  }
+
+  .ex-split-control {
+    background: rgb(255 255 255 / 0.38);
+  }
+
+  .ex-split-variant {
+    background: var(--accent);
+  }
+
+  .ex-splitbar b {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .ex-lanes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
+    align-items: stretch;
+  }
+
+  .ex-vs {
+    position: absolute;
+    left: 50%;
+    top: 57%;
+    z-index: 3;
+    width: 2.9rem;
+    height: 2.9rem;
+    margin: -1.45rem 0 0 -1.45rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--color-ink);
+    border: 3px solid var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 800;
+    box-shadow: 0 16px 32px -16px rgb(0 0 0 / 0.65);
+  }
+
+  .ex-lane {
+    min-width: 0;
+    background: rgb(255 255 255 / 0.96);
+    color: var(--color-ink);
+    border-radius: 18px;
+    padding: 1rem;
+    border: 1px solid rgb(255 255 255 / 0.35);
+  }
+
+  .ex-lane-variant {
+    background: color-mix(in srgb, var(--soft) 66%, #fff);
+    border-color: color-mix(in srgb, var(--accent) 42%, #fff);
+  }
+
+  .ex-lane header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    font-size: 0.76rem;
+    color: var(--color-ink-3);
+    margin-bottom: 0.9rem;
+  }
+
+  .ex-lane-tag {
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .ex-mock {
+    min-height: 10.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.42rem;
+    background: var(--color-paper);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
+    border-radius: 14px;
+    padding: 1rem;
+  }
+
+  .ex-mock-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  .ex-mock strong {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    line-height: 1.1;
+  }
+
+  .ex-mock-meta,
+  .ex-mock small {
+    color: var(--color-ink-2);
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  .ex-mock-cta {
+    font: inherit;
+    margin-top: auto;
+    border-radius: 999px;
+    padding: 0.62rem 0.95rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .ex-mock-cta.is-quiet {
+    background: transparent;
+    color: var(--color-ink-2);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 22%, transparent);
+  }
+
+  .ex-mock-cta.is-strong {
+    background: var(--accent);
+    color: #fff;
+    border: 1px solid var(--accent);
+    box-shadow: 0 12px 24px -14px color-mix(in srgb, var(--accent) 80%, transparent);
+  }
+
+  /* Scenario-specific changes: each question changes the mock visibly,
+     not just the caption. Hidden unless that scenario is selected. */
+  .ex-delivery-late,
+  .ex-proof-plain,
+  .ex-delivery-pill,
+  .ex-proof-pill {
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 650;
+    line-height: 1.35;
+    border-radius: 999px;
+    padding: 0.34rem 0.65rem;
+    margin-top: 0.35rem;
+  }
+
+  .ex-delivery-late,
+  .ex-proof-plain {
+    color: var(--color-ink-3);
+    border: 1px dashed color-mix(in srgb, var(--color-ink) 22%, transparent);
+    background: rgb(255 255 255 / 0.55);
+  }
+
+  .ex-delivery-pill {
+    color: #0c4630;
+    background: color-mix(in srgb, var(--color-emerald) 16%, #fff);
+    border: 1px solid color-mix(in srgb, var(--color-emerald) 38%, transparent);
+  }
+
+  .ex-delivery-pill i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-emerald);
+    flex: none;
+  }
+
+  .ex-proof-pill {
+    color: color-mix(in srgb, var(--color-amber) 82%, #000);
+    background: color-mix(in srgb, var(--color-amber) 15%, #fff);
+    border: 1px solid color-mix(in srgb, var(--color-amber) 42%, transparent);
+  }
+
+  .experiment-lab[data-scenario='delivery'] .ex-delivery-late,
+  .experiment-lab[data-scenario='delivery'] .ex-delivery-pill,
+  .experiment-lab[data-scenario='proof'] .ex-proof-plain,
+  .experiment-lab[data-scenario='proof'] .ex-proof-pill {
+    display: inline-flex;
+    animation: ex-log-in 0.45s var(--ease-out);
+  }
+
+  .ex-stream {
+    position: relative;
+    height: 58px;
+    margin-top: 0.85rem;
+    overflow: hidden;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--color-ink) 5%, #fff);
+    border: 1px dashed color-mix(in srgb, var(--color-ink) 13%, transparent);
+  }
+
+  .ex-stream-label {
+    position: absolute;
+    left: 0.65rem;
+    top: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  .ex-dot {
+    position: absolute;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-ink) 32%, #fff);
+    opacity: 0;
+    animation: ex-dot-flow 1.45s linear forwards;
+  }
+
+  .ex-dot.is-converted {
+    background: var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .ex-lane-variant .ex-dot {
+    background: color-mix(in srgb, var(--accent) 48%, #fff);
+  }
+
+  .ex-lane-variant .ex-dot.is-converted {
+    background: var(--accent);
+  }
+
+  @keyframes ex-dot-flow {
+    0% { left: 4px; opacity: 0; transform: scale(0.6); }
+    14% { opacity: 1; }
+    88% { opacity: 1; }
+    100% { left: calc(100% - 14px); opacity: 0; transform: scale(1); }
+  }
+
+  .ex-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin-top: 0.9rem;
+  }
+
+  .ex-metrics div {
+    min-width: 0;
+  }
+
+  .ex-metrics span {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+    margin-bottom: 0.25rem;
+  }
+
+  .ex-metrics b {
+    font-size: clamp(0.98rem, 2vw, 1.25rem);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .ex-rate-track {
+    height: 8px;
+    margin-top: 0.75rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-ink) 9%, transparent);
+  }
+
+  .ex-rate-track span {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: color-mix(in srgb, var(--color-ink) 38%, #fff);
+    transition: width 0.25s linear;
+  }
+
+  .ex-lane-variant .ex-rate-track span {
+    background: var(--accent);
+  }
+
+  .ex-readout {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .ex-read-card {
+    min-width: 0;
+    background: var(--color-paper);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
+    border-radius: 16px;
+    padding: 1rem 1.1rem;
+  }
+
+  .ex-read-card strong {
+    display: block;
+    margin-top: 0.45rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 3vw, 2.15rem);
+    line-height: 1.05;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ex-read-card p {
+    margin-top: 0.45rem;
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: var(--color-ink-2);
+  }
+
+  .ex-difference-card {
+    border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+    background: color-mix(in srgb, var(--soft) 52%, #fff);
+  }
+
+  .ex-sample-track {
+    height: 9px;
+    margin-top: 0.8rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-ink) 9%, transparent);
+  }
+
+  .ex-sample-track span {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: var(--accent);
+    border-radius: inherit;
+    transition: width 0.25s linear;
+  }
+
+  .ex-log-wrap {
+    margin-top: 1rem;
+    background: #17171d;
+    color: #fff;
+    border-radius: 16px;
+    padding: 1rem 1.1rem;
+  }
+
+  .ex-log {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    margin-top: 0.75rem;
+  }
+
+  .ex-log li {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: rgb(255 255 255 / 0.78);
+    animation: ex-log-in 0.45s var(--ease-out);
+  }
+
+  .ex-log li span {
+    flex: none;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7ee2b8;
+  }
+
+  @keyframes ex-log-in {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes ex-soft-pulse {
+    50% { transform: scale(1.35); }
+  }
+
+  @keyframes ex-ping {
+    0% { box-shadow: 0 0 0 0 rgb(126 226 184 / 0.45); }
+    70%, 100% { box-shadow: 0 0 0 9px transparent; }
+  }
+
+  .ex-note {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: var(--color-ink-3);
+  }
+
+  @media (max-width: 64rem) {
+    .ex-head {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .ex-preview {
+      max-width: 38rem;
+    }
+  }
+
+  @media (max-width: 56rem) {
+    .ex-lanes,
+    .ex-brief,
+    .ex-readout {
+      grid-template-columns: 1fr;
+    }
+
+    .ex-vs {
+      position: relative;
+      left: auto;
+      top: auto;
+      margin: -0.35rem auto;
+    }
+
+    .ex-controls {
+      align-items: stretch;
+    }
+
+    .ex-play {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .ex-shell {
+      border-radius: 20px;
+      padding: 0.9rem;
+    }
+
+    .ex-stage {
+      border-radius: 17px;
+      padding: 0.85rem;
+    }
+
+    .ex-stage-top {
+      flex-direction: column;
+    }
+
+    .ex-scenarios {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .ex-scenario {
+      width: 100%;
+    }
+
+    .ex-metrics {
+      gap: 0.45rem;
+    }
+
+    .ex-metrics b {
+      font-size: 0.92rem;
+    }
+
+    .ex-mock {
+      min-height: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ex-ready i,
+    .ex-live-dot,
+    .ex-play.attn,
+    .ex-log li {
+      animation: none;
+    }
+
+    .ex-scenario,
+    .ex-rate-track span,
+    .ex-sample-track span {
+      transition: none;
+    }
+  }
+</style>

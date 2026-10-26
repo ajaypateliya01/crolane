@@ -7,6 +7,10 @@ import '@fontsource-variable/jetbrains-mono/wght.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE } from '../config/site';
+import { SERVICES } from '../config/services';
+
+const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION as string | undefined;
+const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION as string | undefined;
 
 interface Props {
   title: string;
@@ -34,13 +38,28 @@ const ogImageURL = new URL(ogImage, SITE.url);
 const organizationLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': `${SITE.url}/#organization`,
   name: SITE.name,
+  legalName: SITE.legalName,
   url: SITE.url,
   email: SITE.email,
   description: SITE.description,
+  logo: `${SITE.url}/images/og-default.png`,
+  knowsAbout: SERVICES.map((service) => service.title),
 };
 
-const ldBlocks = [organizationLd, ...jsonLd];
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE.url}/#website`,
+  url: SITE.url,
+  name: SITE.name,
+  description: SITE.description,
+  publisher: { '@id': `${SITE.url}/#organization` },
+  inLanguage: 'en',
+};
+
+const ldBlocks = [organizationLd, websiteLd, ...jsonLd];
 ---
 
 <!doctype html>
@@ -50,7 +69,12 @@ const ldBlocks = [organizationLd, ...jsonLd];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="author" content={SITE.name} />
     <link rel="canonical" href={canonicalURL.href} />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    {googleVerification && <meta name="google-site-verification" content={googleVerification} />}
+    {bingVerification && <meta name="msvalidate.01" content={bingVerification} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="theme-color" content="#fbfaf7" />
     <meta name="generator" content={Astro.generator} />
@@ -58,6 +82,7 @@ const ldBlocks = [organizationLd, ...jsonLd];
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Open Graph -->
+    <meta property="og:locale" content="en_IN" />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />

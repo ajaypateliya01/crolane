@@ -36,7 +36,6 @@ const rotated = [...ordered.slice(start), ...ordered.slice(0, start)].slice(0, 3
               <span class="sn-media">
                 <img src={s.art} alt="" loading="lazy" width="400" height="280" />
               </span>
-              <span class="sn-num">{s.num}</span>
               <span class="sn-title">{s.navTitle}</span>
               <span class="sn-arrow" aria-hidden="true">→</span>
             </a>
@@ -116,19 +115,12 @@ const rotated = [...ordered.slice(start), ...ordered.slice(0, start)].slice(0, 3
     opacity: 1;
   }
 
-  .sn-num,
   .sn-title,
   .sn-arrow {
     position: relative;
     z-index: 1;
   }
 
-  .sn-num {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-  }
 
   .sn-title {
     font-size: 0.95rem;

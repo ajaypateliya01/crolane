@@ -3,8 +3,9 @@ export const prerender = true;
 
 import Base from '../../layouts/Base.astro';
 import ServiceLayout from '../../components/service/ServiceLayout.astro';
-import CroJourney from '../../components/CroJourney.astro';
+import CroLab from '../../components/CroLab.astro';
 import { serviceBySlug } from '../../config/services';
+import { SITE } from '../../config/site';
 
 const service = serviceBySlug('cro-audit')!;
 const faqs = [
@@ -25,12 +26,42 @@ const faqs = [
     a: 'Yes, implementation can be scoped as a follow-on project, or the findings can be handed to your own team or agency with clear documentation. You choose before work starts.',
   },
 ];
+
+const pageLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.title,
+    description: service.metaDescription,
+    url: `${SITE.url}${service.path}`,
+    provider: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+    areaServed: 'Worldwide',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE.url}/services/` },
+      { '@type': 'ListItem', position: 3, name: service.navTitle, item: `${SITE.url}${service.path}` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
 ---
 
 <Base
   title={service.metaTitle}
   description={service.metaDescription}
-  canonicalPath={service.path}
+  canonicalPath={service.path} jsonLd={pageLd}
 >
   <ServiceLayout
     service={service}
@@ -47,7 +78,7 @@ const faqs = [
     scopeTitle="What a CRO audit includes (and what it does not)"
   >
     <Fragment slot="visual">
-      <CroJourney />
+      <CroLab />
     </Fragment>
 
     <Fragment slot="problem">
