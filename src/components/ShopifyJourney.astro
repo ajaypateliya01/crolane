@@ -1,0 +1,985 @@
+---
+/**
+ * Dimensional shopping journey: an interactive product page, variant and
+ * bundle selection, cart drawer with an AI-assisted recommendation
+ * example, and a short checkout path. Fictional demo catalog only.
+ */
+const steps = [
+  { id: 'product', label: 'Product' },
+  { id: 'bag', label: 'Bag' },
+  { id: 'checkout', label: 'Checkout' },
+  { id: 'done', label: 'Confirmed' },
+];
+---
+
+<section
+  class="section shop tone-white"
+  aria-labelledby="shop-title"
+  data-shop
+  style="--accent: var(--color-rose);"
+>
+  <div class="container-x">
+    <header class="sh-head">
+      <div>
+        <p class="eyebrow eyebrow--accent" data-reveal="fade">Shopify commerce audits</p>
+        <h2 class="display-lg" id="shop-title" data-reveal>
+          The shopping journey, down to <span class="display-italic">the tap</span>.
+        </h2>
+      </div>
+      <p class="lede" data-reveal data-reveal-delay="0.08">
+        Product clarity, option selection, cart confidence: small moments that decide whether a
+        visitor keeps going. Try the demo store below: choose a variant, add to bag and continue
+        to checkout.
+      </p>
+    </header>
+
+    <div class="viz-stage sh-stage" data-reveal="scale">
+      <div class="viz-chrome">
+        <div class="viz-chrome-left">
+          <span class="win-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="viz-url">demo-store.example / products / field-bottle</span>
+        </div>
+        <div class="sh-actions">
+          <span class="viz-note">Fictional demo catalog</span>
+          <button class="btn btn-ghost btn-sm" type="button" data-shop-reset>Reset demo</button>
+        </div>
+      </div>
+
+      <!-- Journey rail -->
+      <ol class="shop-rail" data-shop-rail data-shop-stage="product" aria-label="Shopping journey progress">
+        {
+          steps.map((s, i) => (
+            <li data-rail={s.id}>
+              <span class="rail-num" aria-hidden="true">{i + 1}</span>
+              <span class="rail-label">{s.label}</span>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="shop-body">
+        <!-- Product detail page -->
+        <div class="shop-pdp">
+          <div class="pdp-media">
+            <img
+              class="pdp-img"
+              data-pdp-img
+              src="/images/product-bottle.jpg"
+              alt="Fictional demo product: sage green insulated bottle on a warm white surface"
+              width="600"
+              height="750"
+            />
+            <div class="pdp-thumbs">
+              <button class="pdp-thumb on" type="button" data-thumb="front" aria-pressed="true">
+                <img
+                  src="/images/product-bottle.jpg"
+                  alt="Bottle, front view"
+                  width="120"
+                  height="120"
+                />
+              </button>
+              <button class="pdp-thumb" type="button" data-thumb="detail" aria-pressed="false">
+                <img
+                  src="/images/product-bottle-detail.jpg"
+                  alt="Bottle, cap removed detail view"
+                  width="120"
+                  height="120"
+                />
+              </button>
+            </div>
+            <div class="annot sh-annot show">
+              <span class="pin"></span><span class="annot-label">Audit note: option clarity</span>
+            </div>
+          </div>
+
+          <div class="pdp-info">
+            <span class="chip">Demo product</span>
+            <h3 class="pdp-title">Field Bottle 750</h3>
+            <p class="pdp-rating">
+              <svg width="13" height="13" viewBox="0 0 12 12" aria-hidden="true">
+                <path
+                  d="M6 1l1.5 3.2 3.4.4-2.5 2.4.7 3.4L6 8.8 2.9 10.4l.7-3.4L1.1 4.6l3.4-.4z"
+                  fill="currentColor"></path>
+              </svg>
+              4.7 <span>· 96 demo reviews</span>
+            </p>
+            <p class="pdp-price" data-pdp-price>₹1,890</p>
+            <p class="pdp-desc">
+              Double wall steel, 24 hours cold, powder coat grip. A fictional product used to
+              demonstrate shopping interactions.
+            </p>
+
+            <div class="pdp-opt">
+              <p class="opt-label">Colour: <strong data-colour-label>Sage</strong></p>
+              <div class="swatches" role="group" aria-label="Colour">
+                <button
+                  type="button"
+                  class="sw on"
+                  style="--sw:#9db29a"
+                  data-swatch="sage"
+                  aria-pressed="true"
+                  aria-label="Sage"><span></span></button
+                >
+                <button
+                  type="button"
+                  class="sw"
+                  style="--sw:#c9a68a"
+                  data-swatch="clay"
+                  aria-pressed="false"
+                  aria-label="Clay"><span></span></button
+                >
+                <button
+                  type="button"
+                  class="sw"
+                  style="--sw:#3b3b42"
+                  data-swatch="ink"
+                  aria-pressed="false"
+                  aria-label="Ink"><span></span></button
+                >
+              </div>
+            </div>
+
+            <div class="pdp-opt">
+              <p class="opt-label">Bundle</p>
+              <div class="bundle" role="group" aria-label="Bundle">
+                <button type="button" class="bun on" data-bundle="single" aria-pressed="true">
+                  Single<span>₹1,890</span>
+                </button>
+                <button type="button" class="bun" data-bundle="pair" aria-pressed="false">
+                  2-pack<span>₹3,390</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="pdp-buyrow">
+              <div class="qty" aria-label="Quantity">
+                <button type="button" data-qty="-1" aria-label="Decrease quantity">−</button>
+                <span data-qty-val aria-live="polite">1</span>
+                <button type="button" data-qty="1" aria-label="Increase quantity">+</button>
+              </div>
+              <button class="pdp-cta" type="button" data-add-cart>
+                Add to bag · <span data-cta-price>₹1,890</span>
+              </button>
+            </div>
+
+            <ul class="pdp-trust">
+              <li>Free returns on demo orders</li>
+              <li>Ships in 2-4 days (demo)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Cart drawer / checkout -->
+        <div class="shop-drawer" data-drawer aria-hidden="true">
+          <header class="drawer-head">
+            <p class="drawer-title" data-drawer-title tabindex="-1">Your bag</p>
+            <button class="drawer-close" type="button" data-drawer-close aria-label="Close bag">
+              <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                <path
+                  d="M2 2l10 10M12 2L2 12"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"></path>
+              </svg>
+            </button>
+          </header>
+
+          <!-- Bag view -->
+          <div class="drawer-view" data-view="bag">
+            <div class="bag-item">
+              <img
+                src="/images/product-bottle.jpg"
+                alt=""
+                width="80"
+                height="80"
+                data-bag-img
+              />
+              <div>
+                <p class="bag-name">Field Bottle 750</p>
+                <p class="bag-variant" data-bag-variant>Sage · Single · Qty 1</p>
+                <p class="bag-price" data-bag-price>₹1,890</p>
+              </div>
+            </div>
+
+            <div class="bag-rec" data-bag-rec>
+              <p class="label-mono">You may also like <span class="rec-tag">AI suggestion (demo)</span></p>
+              <div class="rec-row">
+                <span class="rec-swatch" aria-hidden="true"></span>
+                <div>
+                  <p>Canvas Tote</p>
+                  <p class="rec-sub">Pairs with your bottle (demo catalog)</p>
+                </div>
+                <span class="rec-price">₹950</span>
+              </div>
+            </div>
+
+            <div class="drawer-total">
+              <span>Subtotal</span>
+              <strong data-bag-total>₹1,890</strong>
+            </div>
+            <button class="pdp-cta" type="button" data-goto-checkout>Checkout</button>
+            <p class="drawer-note">Demo only: no cart is stored and no order is placed.</p>
+          </div>
+
+          <!-- Checkout view -->
+          <div class="drawer-view" data-view="checkout" hidden>
+            <ol class="co-steps">
+              <li class="done"><span>1</span>Contact</li>
+              <li class="done"><span>2</span>Delivery</li>
+              <li class="active"><span>3</span>Payment</li>
+            </ol>
+            <div class="co-card">
+              <p class="label-mono">Order summary</p>
+              <div class="co-row"><span>Field Bottle 750</span><span data-co-price>₹1,890</span></div>
+              <div class="co-row"><span>Delivery (demo)</span><span>Free</span></div>
+              <div class="co-row total"><span>Total</span><span data-co-total>₹1,890</span></div>
+            </div>
+            <button class="pdp-cta" type="button" data-place-order>Place demo order</button>
+            <p class="drawer-note">Nothing is charged. This concludes the demonstration.</p>
+          </div>
+
+          <!-- Done view -->
+          <div class="drawer-view" data-view="done" hidden>
+            <div class="done-card">
+              <span class="done-check" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+                  <path
+                    d="M6 13.5l4.8 4.8L20 8"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </span>
+              <p class="done-title">Order confirmed (demo)</p>
+              <p class="done-sub">
+                A clean path from product detail to confirmation. The audit asks where moments
+                like these get interrupted on real stores.
+              </p>
+            </div>
+            <button class="btn btn-ghost btn-sm" type="button" data-shop-reset-2>Run the demo again</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="sh-disclaimer">
+        Fictional products, prices and recommendations for demonstration. No Shopify store is
+        connected to this page, and no order is placed. Real audits cover your storefront, your
+        theme and your customer journey.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../scripts/shopify';
+</script>
+
+<style>
+  .shop {
+    background:
+      radial-gradient(85% 55% at 95% 100%, rgb(200 56 95 / 0.06), transparent 60%),
+      #fff;
+    overflow: clip;
+  }
+
+  .sh-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: end;
+    margin-bottom: clamp(2.5rem, 5vw, 3.75rem);
+  }
+
+  .sh-head h2 {
+    margin-top: 1.1rem;
+    max-width: 16ch;
+  }
+
+  .sh-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  /* Rail ------------------------------------------------------------------ */
+  .shop-rail {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    padding: 1rem clamp(1rem, 2.5vw, 1.5rem) 0.25rem;
+    counter-reset: rail;
+  }
+
+  .shop-rail li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.8rem;
+    color: var(--color-ink-3);
+    position: relative;
+    padding-bottom: 0.65rem;
+  }
+
+  .shop-rail li::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0.5rem;
+    bottom: 0;
+    height: 3px;
+    border-radius: 99px;
+    background: color-mix(in srgb, var(--color-ink) 10%, transparent);
+    transition: background 0.45s var(--ease-out);
+  }
+
+  .shop-rail li.passed::after,
+  .shop-rail li.current::after {
+    background: var(--color-rose);
+  }
+
+  .shop-rail li.current {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .shop-rail li.current .rail-num {
+    background: var(--color-rose);
+    border-color: var(--color-rose);
+    color: #fff;
+  }
+
+  .shop-rail li.passed .rail-num {
+    border-color: var(--color-rose);
+    color: var(--color-rose);
+  }
+
+  .rail-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid color-mix(in srgb, var(--color-ink) 30%, transparent);
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    flex: none;
+    transition: all 0.4s var(--ease-out);
+    background: #fff;
+    z-index: 1;
+  }
+
+  /* Body ------------------------------------------------------------------ */
+  .shop-body {
+    position: relative;
+    margin: 0.75rem clamp(1rem, 2.5vw, 1.5rem) 0;
+    border-radius: 16px;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    background: var(--color-paper);
+    overflow: hidden;
+    min-height: 26rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  }
+
+  .shop-pdp {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+    padding: clamp(1.1rem, 2.5vw, 1.75rem);
+  }
+
+  .pdp-media {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    min-width: 0;
+  }
+
+  .pdp-img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 14px;
+    background: var(--color-paper-2);
+    transition: filter 0.5s var(--ease-out);
+  }
+
+  .pdp-thumbs {
+    display: flex;
+    gap: 0.55rem;
+  }
+
+  .pdp-thumb {
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    padding: 0;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s var(--ease-out);
+  }
+
+  .pdp-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pdp-thumb.on {
+    border-color: var(--color-ink);
+  }
+
+  .sh-annot {
+    top: 1rem;
+    left: 1rem;
+    z-index: 3;
+  }
+
+  .pdp-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  .pdp-info .chip {
+    border-color: color-mix(in srgb, var(--color-rose) 35%, transparent);
+    color: color-mix(in srgb, var(--color-rose) 80%, var(--color-ink));
+  }
+
+  .pdp-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    font-weight: 400;
+    line-height: 1.05;
+  }
+
+  .pdp-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-amber);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .pdp-rating span {
+    color: var(--color-ink-3);
+    font-weight: 400;
+    font-size: 0.78rem;
+  }
+
+  .pdp-price {
+    font-size: 1.35rem;
+    font-weight: 640;
+  }
+
+  .pdp-desc {
+    font-size: 0.9rem;
+    color: var(--color-ink-2);
+    line-height: 1.6;
+    max-width: 30rem;
+  }
+
+  .pdp-opt {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    width: 100%;
+  }
+
+  .opt-label {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  .opt-label strong {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .swatches {
+    display: flex;
+    gap: 0.55rem;
+  }
+
+  .sw {
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    padding: 3px;
+    cursor: pointer;
+    box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--color-ink) 25%, transparent);
+    transition: box-shadow 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  }
+
+  .sw span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--sw);
+  }
+
+  .sw:hover {
+    transform: scale(1.08);
+  }
+
+  .sw.on {
+    box-shadow: 0 0 0 2px var(--color-ink);
+  }
+
+  .bundle {
+    display: flex;
+    gap: 0.55rem;
+  }
+
+  .bun {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    align-items: flex-start;
+    padding: 0.5rem 0.85rem;
+    border-radius: 11px;
+    border: 1.5px solid color-mix(in srgb, var(--color-ink) 16%, transparent);
+    background: #fff;
+    font-size: 0.82rem;
+    font-weight: 580;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out);
+  }
+
+  .bun span {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    color: var(--color-ink-3);
+    font-weight: 400;
+  }
+
+  .bun.on {
+    border-color: var(--color-ink);
+    background: var(--color-ink);
+    color: #fff;
+  }
+
+  .bun.on span {
+    color: rgb(255 255 255 / 0.7);
+  }
+
+  .pdp-buyrow {
+    display: flex;
+    gap: 0.65rem;
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+
+  .qty {
+    display: inline-flex;
+    align-items: center;
+    border: 1.5px solid color-mix(in srgb, var(--color-ink) 20%, transparent);
+    border-radius: 12px;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .qty button {
+    width: 2.4rem;
+    height: 2.9rem;
+    border: none;
+    background: transparent;
+    font-size: 1.05rem;
+    cursor: pointer;
+    color: var(--color-ink-2);
+    transition: background 0.25s var(--ease-out);
+  }
+
+  .qty button:hover {
+    background: color-mix(in srgb, var(--color-ink) 5%, transparent);
+  }
+
+  .qty span {
+    min-width: 1.6rem;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .pdp-cta {
+    flex: 1;
+    border: none;
+    border-radius: 12px;
+    background: var(--color-ink);
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 620;
+    padding: 0.9rem 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s var(--ease-out), background 0.3s var(--ease-out),
+      box-shadow 0.3s var(--ease-out);
+    box-shadow: 0 10px 22px -12px rgb(22 22 27 / 0.6);
+  }
+
+  .pdp-cta:hover {
+    transform: translateY(-2px);
+    background: var(--color-rose);
+    box-shadow: 0 14px 26px -12px rgb(200 56 95 / 0.6);
+  }
+
+  .pdp-trust {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.78rem;
+    color: var(--color-ink-3);
+  }
+
+  .pdp-trust li::before {
+    content: '· ';
+    color: var(--color-rose);
+    font-weight: 700;
+  }
+
+  /* Drawer ----------------------------------------------------------------- */
+  .shop-drawer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(24rem, 92%);
+    background: #fff;
+    border-left: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+    box-shadow: -24px 0 48px -32px rgb(22 22 27 / 0.5);
+    transform: translateX(103%);
+    transition: transform 0.55s var(--ease-out);
+    display: flex;
+    flex-direction: column;
+    padding: 1.1rem 1.2rem;
+    gap: 0.9rem;
+    overflow-y: auto;
+    z-index: 5;
+  }
+
+  .shop-stage-drawer-open .shop-drawer {
+    transform: translateX(0);
+  }
+
+  .drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .drawer-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    outline-offset: 4px;
+  }
+
+  .drawer-close {
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 16%, transparent);
+    background: #fff;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    color: var(--color-ink-2);
+    transition: background 0.25s var(--ease-out);
+  }
+
+  .drawer-close:hover {
+    background: var(--color-paper-2);
+  }
+
+  .drawer-view {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .bag-item {
+    display: flex;
+    gap: 0.85rem;
+    padding: 0.75rem;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 13px;
+    background: var(--color-paper);
+  }
+
+  .bag-item img {
+    width: 4rem;
+    height: 4rem;
+    object-fit: cover;
+    border-radius: 9px;
+    background: var(--color-paper-2);
+  }
+
+  .bag-name {
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  .bag-variant {
+    font-size: 0.74rem;
+    color: var(--color-ink-3);
+    margin-top: 0.1rem;
+  }
+
+  .bag-price {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+  }
+
+  .bag-rec {
+    background: color-mix(in srgb, var(--color-rose) 5%, #fff);
+    border: 1px dashed color-mix(in srgb, var(--color-rose) 40%, transparent);
+    border-radius: 13px;
+    padding: 0.8rem 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .bag-rec .label-mono {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .rec-tag {
+    color: var(--color-rose);
+    border: 1px solid color-mix(in srgb, var(--color-rose) 40%, transparent);
+    border-radius: 999px;
+    padding: 0.1rem 0.45rem;
+    background: #fff;
+  }
+
+  .rec-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.85rem;
+  }
+
+  .rec-row > div {
+    flex: 1;
+  }
+
+  .rec-swatch {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 9px;
+    background: linear-gradient(140deg, #e6dcc8, #d2c3a4);
+    flex: none;
+  }
+
+  .rec-sub {
+    font-size: 0.7rem;
+    color: var(--color-ink-3);
+  }
+
+  .rec-price {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+
+  .drawer-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.65rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+    font-size: 0.92rem;
+  }
+
+  .drawer-total strong {
+    font-family: var(--font-mono);
+  }
+
+  .drawer-note {
+    font-size: 0.7rem;
+    color: var(--color-ink-3);
+    text-align: center;
+  }
+
+  /* Checkout */
+  .co-steps {
+    list-style: none;
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .co-steps li {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    color: var(--color-ink-3);
+    background: var(--color-paper);
+    border-radius: 999px;
+    padding: 0.35rem 0.55rem;
+    justify-content: center;
+  }
+
+  .co-steps li span {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-ink) 12%, transparent);
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    color: var(--color-ink-2);
+  }
+
+  .co-steps li.done span {
+    background: var(--color-emerald);
+    color: #fff;
+  }
+
+  .co-steps li.active {
+    color: var(--color-ink);
+    font-weight: 600;
+    outline: 1.5px solid var(--color-rose);
+  }
+
+  .co-steps li.active span {
+    background: var(--color-rose);
+    color: #fff;
+  }
+
+  .co-card {
+    background: var(--color-paper);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 13px;
+    padding: 0.9rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .co-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--color-ink-2);
+  }
+
+  .co-row.total {
+    border-top: 1px dashed color-mix(in srgb, var(--color-ink) 16%, transparent);
+    padding-top: 0.55rem;
+    color: var(--color-ink);
+    font-weight: 640;
+  }
+
+  /* Done */
+  .done-card {
+    text-align: center;
+    padding: 1.5rem 0.75rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .done-check {
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: color-mix(in srgb, var(--color-emerald) 12%, #fff);
+    color: var(--color-emerald);
+    border: 1.5px solid color-mix(in srgb, var(--color-emerald) 45%, transparent);
+    animation: done-pop 0.5s var(--ease-out);
+  }
+
+  @keyframes done-pop {
+    from {
+      transform: scale(0.6);
+      opacity: 0;
+    }
+  }
+
+  .done-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+  }
+
+  .done-sub {
+    font-size: 0.85rem;
+    color: var(--color-ink-2);
+    line-height: 1.6;
+  }
+
+  .sh-disclaimer {
+    padding: 0.95rem clamp(1rem, 2.5vw, 1.5rem) 1.25rem;
+    font-size: 0.8rem;
+    color: var(--color-ink-3);
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    background: rgb(255 255 255 / 0.9);
+  }
+
+  /* Responsive -------------------------------------------------------------- */
+  @media (max-width: 70rem) {
+    .shop-body {
+      grid-template-columns: 1fr;
+    }
+
+    .sh-head {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .shop-pdp {
+      grid-template-columns: 1fr;
+    }
+
+    .pdp-img {
+      aspect-ratio: 16 / 12;
+    }
+
+    .shop-rail li .rail-label {
+      font-size: 0.7rem;
+    }
+
+    .pdp-buyrow {
+      flex-wrap: wrap;
+    }
+
+    .pdp-cta {
+      min-width: 12rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shop-drawer {
+      transition: none;
+    }
+
+    .done-check {
+      animation: none;
+    }
+  }
+</style>

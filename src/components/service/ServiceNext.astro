@@ -1,0 +1,154 @@
+---
+import { SERVICES, type Service } from '../../config/services';
+
+interface Props {
+  current: Service;
+}
+const { current } = Astro.props;
+
+// Rotate so every page shows three different neighbouring services.
+const ordered = [...SERVICES.filter((s) => s.id !== current.id)];
+const start = Math.max(0, SERVICES.findIndex((s) => s.id === current.id) - 1);
+const rotated = [...ordered.slice(start), ...ordered.slice(0, start)].slice(0, 3);
+---
+
+<nav class="sv-next" aria-label="Related services" style={`--accent:${current.accent};`}>
+  <div class="container-x">
+    <div class="sv-next-head">
+      <p class="label-mono">Keep exploring</p>
+      <a class="link-arrow" href="/services/">
+        All seven services
+        <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+          <path
+            d="M1 6h11.5M8.5 1.5 13 6l-4.5 4.5"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
+    <ul>
+      {
+        rotated.map((s) => (
+          <li>
+            <a class="sn-card" href={s.path} style={`--accent:${s.accent}; --soft:${s.accentSoft};`}>
+              <span class="sn-media">
+                <img src={s.art} alt="" loading="lazy" width="400" height="280" />
+              </span>
+              <span class="sn-num">{s.num}</span>
+              <span class="sn-title">{s.navTitle}</span>
+              <span class="sn-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .sv-next {
+    background: #fff;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
+    padding-block: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .sv-next-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .sv-next ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .sn-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.9rem;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 16px;
+    background: var(--color-paper);
+    overflow: hidden;
+    transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out),
+      border-color 0.4s var(--ease-out);
+    height: 100%;
+  }
+
+  .sn-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lift);
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+
+  .sn-media {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.45s var(--ease-out);
+  }
+
+  .sn-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgb(251 250 247 / 0.94), rgb(251 250 247 / 0.75));
+  }
+
+  .sn-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sn-card:hover .sn-media {
+    opacity: 1;
+  }
+
+  .sn-num,
+  .sn-title,
+  .sn-arrow {
+    position: relative;
+    z-index: 1;
+  }
+
+  .sn-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+
+  .sn-title {
+    font-size: 0.95rem;
+    font-weight: 580;
+    line-height: 1.3;
+  }
+
+  .sn-arrow {
+    color: var(--color-ink-3);
+    transition: transform 0.35s var(--ease-out), color 0.35s var(--ease-out);
+  }
+
+  .sn-card:hover .sn-arrow {
+    transform: translateX(4px);
+    color: var(--accent);
+  }
+
+  @media (max-width: 52rem) {
+    .sv-next ul {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

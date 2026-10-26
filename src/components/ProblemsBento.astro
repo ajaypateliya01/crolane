@@ -1,0 +1,527 @@
+---
+/**
+ * Four common problems, each explained with its own mini demonstration
+ * rather than a generic icon card.
+ */
+const problems = [
+  {
+    id: 'a',
+    num: '01',
+    title: 'Product information that answers the wrong questions',
+    copy: 'Visitors arrive with specific questions: does it fit, what arrives when, why this one. When the page answers something else, they leave to go and find out.',
+    span: 'span 7',
+    tone: 'amber',
+  },
+  {
+    id: 'b',
+    num: '02',
+    title: 'Journeys with hidden exits',
+    copy: 'Every step loses a few people. Usually it is not the first page that leaks, it is a quiet moment halfway through where someone hesitates and never comes back.',
+    span: 'span 5',
+    tone: 'indigo',
+  },
+  {
+    id: 'c',
+    num: '03',
+    title: 'Measurement you cannot quite trust',
+    copy: 'When events fire twice, or not at all, every report becomes a guess. Decisions then rest on opinion wearing the costume of data.',
+    span: 'span 5',
+    tone: 'coral',
+  },
+  {
+    id: 'd',
+    num: '04',
+    title: 'Repetitive work handled by people',
+    copy: 'Copying form submissions into sheets, triaging the same questions, chasing the same details. Useful work for a system, expensive work for a team.',
+    span: 'span 7',
+    tone: 'emerald',
+  },
+];
+---
+
+<section class="section problems" aria-labelledby="problems-title">
+  <div class="container-x">
+    <header class="prob-head">
+      <p class="eyebrow" data-reveal="fade">Where experiences lose people</p>
+      <h2 class="display-lg" id="problems-title" data-reveal>
+        Most conversion problems are <span class="display-italic">quiet</span>.
+      </h2>
+      <p class="lede" data-reveal data-reveal-delay="0.08">
+        Nothing looks broken. The site loads, the buttons work, the traffic keeps arriving. The
+        money simply leaks out at moments nobody is watching.
+      </p>
+    </header>
+
+    <div class="prob-grid">
+      <!-- 01: unanswered product questions -->
+      <article class="prob-card" style={`--span:${problems[0].span}; --tone:var(--color-amber);`}>
+        <div class="prob-copy">
+          <p class="prob-num">Problem {problems[0].num}</p>
+          <h3>{problems[0].title}</h3>
+          <p>{problems[0].copy}</p>
+        </div>
+        <div class="prob-viz viz-missing" aria-hidden="true">
+          <div class="mini-pdp">
+            <div class="mini-img"></div>
+            <div class="mini-lines">
+              <span class="l l-title"></span>
+              <span class="l l-price"></span>
+              <span class="l l-fill"></span>
+              <span class="l l-gap" data-q="Answer missing"></span>
+              <span class="l l-fill short"></span>
+              <span class="l l-gap" data-q="Answer missing"></span>
+            </div>
+          </div>
+          <div class="q-badge q1">?</div>
+          <div class="q-badge q2">?</div>
+        </div>
+      </article>
+
+      <!-- 02: funnel leak -->
+      <article class="prob-card" style={`--span:${problems[1].span}; --tone:var(--color-indigo);`}>
+        <div class="prob-copy">
+          <p class="prob-num">Problem {problems[1].num}</p>
+          <h3>{problems[1].title}</h3>
+          <p>{problems[1].copy}</p>
+        </div>
+        <div class="prob-viz viz-leak" aria-hidden="true">
+          <svg viewBox="0 0 320 150" class="leak-svg">
+            <rect x="14" y="20" width="292" height="24" rx="6" class="bar b1"></rect>
+            <rect x="14" y="56" width="222" height="24" rx="6" class="bar b2"></rect>
+            <rect x="14" y="92" width="164" height="24" rx="6" class="bar b3"></rect>
+            <rect x="14" y="128" width="118" height="20" rx="6" class="bar b4"></rect>
+            <g class="leak-dots">
+              <circle r="4" class="drop d1"></circle>
+              <circle r="4" class="drop d2"></circle>
+              <circle r="4" class="drop d3"></circle>
+            </g>
+            <path d="M244 68 q26 10 30 34" class="leak-path" fill="none"></path>
+            <text x="252" y="122" class="leak-label">exits</text>
+          </svg>
+        </div>
+      </article>
+
+      <!-- 03: broken measurement -->
+      <article class="prob-card" style={`--span:${problems[2].span}; --tone:var(--color-coral);`}>
+        <div class="prob-copy">
+          <p class="prob-num">Problem {problems[2].num}</p>
+          <h3>{problems[2].title}</h3>
+          <p>{problems[2].copy}</p>
+        </div>
+        <div class="prob-viz viz-events" aria-hidden="true">
+          <ul class="event-list">
+            <li class="ok"><span class="ev-dot"></span>page_view<span class="ev-state">collected</span></li>
+            <li class="ok"><span class="ev-dot"></span>view_item<span class="ev-state">collected</span></li>
+            <li class="bad"><span class="ev-dot"></span>add_to_cart<span class="ev-state">never fires</span></li>
+            <li class="warn"><span class="ev-dot"></span>purchase<span class="ev-state">fires twice</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- 04: manual loop -->
+      <article class="prob-card" style={`--span:${problems[3].span}; --tone:var(--color-emerald);`}>
+        <div class="prob-copy">
+          <p class="prob-num">Problem {problems[3].num}</p>
+          <h3>{problems[3].title}</h3>
+          <p>{problems[3].copy}</p>
+        </div>
+        <div class="prob-viz viz-loop" aria-hidden="true">
+          <svg viewBox="0 0 340 120" class="loop-svg">
+            <path
+              id="loop-path"
+              d="M40 60 a 60 34 0 1 1 120 0 a 60 34 0 1 1 -120 0"
+              class="loop-track"
+              fill="none"></path>
+            <circle r="5" class="loop-runner">
+              <animateMotion dur="7s" repeatCount="indefinite">
+                <mpath href="#loop-path"></mpath>
+              </animateMotion>
+            </circle>
+            <text x="70" y="42" class="loop-label">copy</text>
+            <text x="70" y="86" class="loop-label">check</text>
+            <text x="172" y="64" class="loop-label">paste</text>
+            <text x="250" y="42" class="loop-label">reply</text>
+            <text x="250" y="86" class="loop-label">repeat</text>
+          </svg>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .problems {
+    background: var(--color-paper);
+  }
+
+  .prob-head {
+    max-width: 44rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .prob-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .prob-card {
+    grid-column: var(--span);
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: center;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 22px;
+    background: linear-gradient(180deg, #fff, color-mix(in srgb, var(--tone) 3%, #fff));
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
+  }
+
+  .prob-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .prob-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--tone), transparent 70%);
+    opacity: 0.75;
+  }
+
+  .prob-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .prob-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tone);
+  }
+
+  .prob-copy h3 {
+    font-size: clamp(1.2rem, 1.1rem + 0.5vw, 1.45rem);
+    font-weight: 570;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  .prob-copy p:not(.prob-num) {
+    font-size: 0.94rem;
+    color: var(--color-ink-2);
+    line-height: 1.6;
+  }
+
+  .prob-viz {
+    position: relative;
+    min-height: 9.5rem;
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--tone) 4%, #fff);
+    border: 1px dashed color-mix(in srgb, var(--tone) 30%, transparent);
+    overflow: hidden;
+  }
+
+  /* 01 mini pdp */
+  .mini-pdp {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 0.7rem;
+    padding: 0.9rem;
+  }
+
+  .mini-img {
+    border-radius: 8px;
+    background: linear-gradient(150deg, color-mix(in srgb, var(--tone) 14%, #fff), #eef1f7);
+    min-height: 6.5rem;
+  }
+
+  .mini-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    justify-content: center;
+  }
+
+  .l {
+    display: block;
+    height: 7px;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--color-ink) 13%, transparent);
+  }
+
+  .l-title {
+    width: 85%;
+    height: 10px;
+    background: color-mix(in srgb, var(--color-ink) 30%, transparent);
+  }
+
+  .l-price {
+    width: 40%;
+  }
+
+  .l-fill {
+    width: 95%;
+  }
+
+  .l-fill.short {
+    width: 70%;
+  }
+
+  .l-gap {
+    background: transparent;
+    border: 1.5px dashed color-mix(in srgb, var(--tone) 65%, transparent);
+    position: relative;
+    height: 12px;
+  }
+
+  .l-gap::after {
+    content: attr(data-q);
+    position: absolute;
+    right: 4px;
+    top: -3px;
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--tone);
+  }
+
+  .q-badge {
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--tone);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.8rem;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--tone) 45%, transparent);
+    animation: q-float 3s ease-in-out infinite;
+  }
+
+  .q1 {
+    top: 18%;
+    right: 8%;
+  }
+
+  .q2 {
+    bottom: 16%;
+    right: 22%;
+    animation-delay: 1.2s;
+  }
+
+  @keyframes q-float {
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  /* 02 leak */
+  .leak-svg {
+    width: 100%;
+    height: auto;
+    padding: 0.6rem;
+  }
+
+  .bar {
+    fill: color-mix(in srgb, var(--color-ink) 82%, var(--tone));
+    opacity: 0.85;
+  }
+
+  .b2 {
+    opacity: 0.7;
+  }
+
+  .b3 {
+    opacity: 0.55;
+  }
+
+  .b4 {
+    opacity: 0.42;
+  }
+
+  .leak-path {
+    stroke: var(--tone);
+    stroke-width: 1.6;
+    stroke-dasharray: 4 4;
+  }
+
+  .leak-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    fill: var(--tone);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .drop {
+    fill: var(--tone);
+    opacity: 0;
+  }
+
+  .d1 {
+    animation: drop-fall 2.4s ease-in infinite;
+  }
+
+  .d2 {
+    animation: drop-fall 2.4s ease-in 0.8s infinite;
+  }
+
+  .d3 {
+    animation: drop-fall 2.4s ease-in 1.6s infinite;
+  }
+
+  @keyframes drop-fall {
+    0% {
+      transform: translate(244px, 68px);
+      opacity: 0;
+    }
+    12% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 0.7;
+    }
+    100% {
+      transform: translate(278px, 132px);
+      opacity: 0;
+    }
+  }
+
+  /* 03 events */
+  .event-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+
+  .event-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 9px;
+    padding: 0.5rem 0.65rem;
+    color: var(--color-ink-2);
+  }
+
+  .ev-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex: none;
+  }
+
+  .ok .ev-dot {
+    background: var(--color-emerald);
+  }
+
+  .bad .ev-dot {
+    background: #d92d20;
+  }
+
+  .warn .ev-dot {
+    background: var(--color-amber);
+  }
+
+  .bad {
+    border-style: dashed;
+    background: color-mix(in srgb, #d92d20 4%, #fff) !important;
+  }
+
+  .ev-state {
+    margin-left: auto;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  .bad .ev-state {
+    color: #d92d20;
+  }
+
+  .warn .ev-state {
+    color: var(--color-amber);
+  }
+
+  /* 04 loop */
+  .loop-svg {
+    width: 100%;
+    height: auto;
+    padding: 0.75rem;
+  }
+
+  .loop-track {
+    stroke: color-mix(in srgb, var(--color-ink) 18%, transparent);
+    stroke-width: 1.5;
+    stroke-dasharray: 5 5;
+  }
+
+  .loop-runner {
+    fill: var(--tone);
+    filter: drop-shadow(0 2px 4px color-mix(in srgb, var(--tone) 50%, transparent));
+  }
+
+  .loop-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-ink-2);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 64rem) {
+    .prob-card {
+      grid-column: span 12 !important;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    }
+  }
+
+  @media (max-width: 44rem) {
+    .prob-card {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .q-badge,
+    .drop,
+    .loop-runner {
+      animation: none !important;
+    }
+
+    .loop-runner animateMotion {
+      display: none;
+    }
+
+    .d1,
+    .d2,
+    .d3 {
+      opacity: 0.6;
+      transform: translate(262px, 104px);
+    }
+  }
+</style>

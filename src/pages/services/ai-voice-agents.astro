@@ -1,0 +1,328 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+import ServiceLayout from '../../components/service/ServiceLayout.astro';
+import VoiceAgent from '../../components/VoiceAgent.astro';
+import { serviceBySlug } from '../../config/services';
+
+const service = serviceBySlug('ai-voice-agents')!;
+const faqs = [
+  {
+    q: 'Does the voice agent replace our phone system?',
+    a: 'No. It sits on top of the call flow you already have, usually through a platform that forwards or answers calls. Your existing numbers and phone setup stay in place.',
+  },
+  {
+    q: 'What can it answer confidently?',
+    a: 'Questions from information you approve: opening hours, services, pricing basics, locations, what to bring, what happens next. Anything outside that material routes to a person or a callback instead of guessing.',
+  },
+  {
+    q: 'Can it book directly into our calendar?',
+    a: 'Basic appointment or quote requests can be captured where the selected platform supports it. Live calendar synchronisation is not a standard inclusion and depends on your stack, access and what we confirm as feasible during scoping.',
+  },
+  {
+    q: 'What happens on complex or sensitive calls?',
+    a: 'The agent hands off: it takes the details, promises a callback from a person, or passes the call through if your setup supports live transfer. Escalation behaviour is agreed with you before anything goes live.',
+  },
+];
+---
+
+<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path}>
+  <ServiceLayout
+    service={service}
+    lede="A voice agent that answers incoming calls, handles routine questions from approved information, captures enquiries and shares out of hours information, so callers are not left with a ringing phone and no options."
+    artAlt="Soft lavender fabric waves suspended around a small ceramic cylinder with a violet light thread"
+    faqs={faqs}
+    visualTone="tone-cream"
+    problemTitle="The same seven questions, all day"
+    problemLead="Every missed call is a person who wanted something simple: hours, availability, price range, a callback. Answering them should not consume your best hours."
+    deliverablesTitle="What a voice engagement produces"
+    deliverablesLead="A tested agent with a defined knowledge boundary, agreed scripts and a written handover."
+    processTitle="How a voice project runs"
+    processVariant="grid2"
+    scopeTitle="Voice agent scope: capabilities and limits"
+  >
+    <Fragment slot="visual">
+      <VoiceAgent />
+    </Fragment>
+
+    <Fragment slot="problem">
+      <p>
+        Reception time is real time. When someone is quoting a job, serving a customer or
+        finishing a site visit, an unanswered ring does not wait. Voicemail helps less than it
+        used to: most callers who reach it simply try the next business on the list.
+      </p>
+      <p>
+        A voice agent covers the routine layer. <strong>Not every conversation, and not the
+        ones that need your judgement: the repeatable ones with answers you have already
+        agreed.</strong> Hours, availability, basic pricing, what the caller should prepare,
+        capturing who called and what they wanted, and passing anything bigger to a person with
+        the context attached.
+      </p>
+      <div class="callout">
+        <strong>The knowledge boundary is the product.</strong> The agent answers from
+        information you approve and stays inside it. When a question falls outside, the
+        behaviour is defined in advance: take a message, book a callback, or hand the call
+        over. Improvisation is not a feature.
+      </div>
+      <p>
+        Everything on this page is a silent demonstration: no audio, no real calls, no data
+        capture. A working setup depends on the telephony platform selected and the scope we
+        agree together.
+      </p>
+    </Fragment>
+
+    <Fragment slot="deliverables">
+      <ul class="deliver-grid">
+        <li class="deliver-item">
+          <span class="di-num">01</span>
+          <div>
+            <h3>Call flow design</h3>
+            <p>Opening, question handling, escalation rules and closing, agreed before build.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">02</span>
+          <div>
+            <h3>Approved knowledge base</h3>
+            <p>The exact information the agent may use, maintained in plain language.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">03</span>
+          <div>
+            <h3>Capture forms</h3>
+            <p>What gets recorded per call: name, number, intent, requested next step.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">04</span>
+          <div>
+            <h3>Escalation paths</h3>
+            <p>Defined behaviour for sensitive, complex or out-of-scope conversations.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">05</span>
+          <div>
+            <h3>Test scripts</h3>
+            <p>Sample calls run before go-live: the routine, the awkward and the out-of-hours cases.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">06</span>
+          <div>
+            <h3>Summary handover</h3>
+            <p>How it works, what it may answer, how to update answers and how to pause it.</p>
+          </div>
+        </li>
+      </ul>
+    </Fragment>
+
+    <Fragment slot="extra">
+      <section class="section-sm sv-extra" aria-labelledby="sv-matrix-title" style={`--accent:${service.accent}; --soft:${service.accentSoft};`}>
+        <div class="container-x">
+          <header class="extra-head">
+            <div>
+              <p class="eyebrow" data-reveal="fade">Capability matrix</p>
+              <h2 class="display-md" id="sv-matrix-title" data-reveal>What is standard, what is scoped</h2>
+            </div>
+            <p class="extra-note" data-reveal="fade">
+              Clear boundaries beat impressive demos. This is how we describe a typical
+              engagement.
+            </p>
+          </header>
+          <div class="matrix-wrap" data-reveal="fade">
+            <table class="matrix">
+              <thead>
+                <tr>
+                  <th scope="col">Capability</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Answer incoming calls</td>
+                  <td><span class="mx yes">Standard</span></td>
+                  <td>Through the selected telephony or voice platform</td>
+                </tr>
+                <tr>
+                  <td>Routine questions from approved information</td>
+                  <td><span class="mx yes">Standard</span></td>
+                  <td>Bound by the knowledge base you approve</td>
+                </tr>
+                <tr>
+                  <td>Capture enquiries and contact details</td>
+                  <td><span class="mx yes">Standard</span></td>
+                  <td>Delivered to your agreed destination (email or sheet)</td>
+                </tr>
+                <tr>
+                  <td>Out of hours information</td>
+                  <td><span class="mx yes">Standard</span></td>
+                  <td>With defined behaviour for urgent matters</td>
+                </tr>
+                <tr>
+                  <td>Basic appointment or quote requests</td>
+                  <td><span class="mx maybe">Where supported</span></td>
+                  <td>Depends on platform capabilities and your setup</td>
+                </tr>
+                <tr>
+                  <td>Live calendar synchronisation</td>
+                  <td><span class="mx no">Scoped separately</span></td>
+                  <td>Feasibility confirmed with your calendar platform</td>
+                </tr>
+                <tr>
+                  <td>Deep CRM writes and advanced routing</td>
+                  <td><span class="mx no">Scoped separately</span></td>
+                  <td>Not a default inclusion; depends on access and stack</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </Fragment>
+
+    <Fragment slot="process">
+      <ol class="p-grid2">
+        <li>
+          <span class="p-num">01</span>
+          <h3>Map the calls</h3>
+          <p>We list what callers actually ask, what you are happy answering automatically, and what must always reach a person.</p>
+        </li>
+        <li>
+          <span class="p-num">02</span>
+          <h3>Write the boundary</h3>
+          <p>Approved answers, escalation rules and capture fields are written down and reviewed by your team before any voice work begins.</p>
+        </li>
+        <li>
+          <span class="p-num">03</span>
+          <h3>Build and test</h3>
+          <p>The agent is configured on the agreed platform and run against a test script covering normal, edge and out-of-hours calls.</p>
+        </li>
+        <li>
+          <span class="p-num">04</span>
+          <h3>Go live gently</h3>
+          <p>Start with overflow or after-hours coverage, review real transcripts with your team, then widen the responsibility only when it has earned it.</p>
+        </li>
+      </ol>
+    </Fragment>
+
+    <Fragment slot="scope">
+      <ul>
+        <li>Includes call flow design, knowledge base setup, capture configuration, testing and handover.</li>
+        <li>Covers routine questions from approved information, enquiry capture and out of hours information.</li>
+        <li>Telephony, minutes and platform fees are held in your own account and are separate from our fee.</li>
+        <li>Advanced routing, live calendar sync, CRM integrations and enterprise telephony features are scoped separately, depending on platform and feasibility.</li>
+        <li>This website's call demonstration is simulated, silent, and connects to nothing.</li>
+      </ul>
+      <p>
+        Voice technology is good, not magic. The difference between a helpful agent and an
+        annoying one is the quality of the boundary around it, which is exactly what the
+        scoping work defines.
+      </p>
+    </Fragment>
+  </ServiceLayout>
+</Base>
+
+<style>
+  .sv-extra {
+    background: linear-gradient(180deg, var(--color-paper-2), var(--color-paper));
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+  }
+
+  .extra-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+  }
+
+  .extra-head > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .extra-note {
+    font-size: 0.9rem;
+    color: var(--color-ink-3);
+    max-width: 26rem;
+  }
+
+  .matrix-wrap {
+    overflow-x: auto;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .matrix {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 40rem;
+    font-size: 0.89rem;
+  }
+
+  .matrix th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+    padding: 0.9rem 1.1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+    background: var(--color-paper-2);
+  }
+
+  .matrix td {
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+    color: var(--color-ink-2);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .matrix tr:last-child td {
+    border-bottom: none;
+  }
+
+  .matrix td:first-child {
+    color: var(--color-ink);
+    font-weight: 560;
+  }
+
+  .mx {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    padding: 0.22rem 0.55rem;
+    white-space: nowrap;
+  }
+
+  .mx.yes {
+    background: color-mix(in srgb, var(--color-emerald) 10%, #fff);
+    color: var(--color-emerald);
+    border: 1px solid color-mix(in srgb, var(--color-emerald) 40%, transparent);
+  }
+
+  .mx.maybe {
+    background: color-mix(in srgb, var(--color-amber) 10%, #fff);
+    color: var(--color-amber);
+    border: 1px solid color-mix(in srgb, var(--color-amber) 45%, transparent);
+  }
+
+  .mx.no {
+    background: color-mix(in srgb, var(--color-ink) 5%, #fff);
+    color: var(--color-ink-2);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 22%, transparent);
+  }
+</style>

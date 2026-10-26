@@ -1,0 +1,192 @@
+---
+/**
+ * The CROLANE working path: understand, measure, test, implement.
+ * An SVG rail draws itself as the section scrolls through the viewport.
+ */
+const steps = [
+  {
+    num: '01',
+    title: 'Understand the journey',
+    body: 'Start from the business question: where do people arrive, what should they do, and what does the current experience do instead?',
+    accent: 'var(--color-amber)',
+  },
+  {
+    num: '02',
+    title: 'Measure it properly',
+    body: 'Map the events, funnels and dimensions that actually answer the question, then check the data quality before anyone reads a chart.',
+    accent: 'var(--color-azure)',
+  },
+  {
+    num: '03',
+    title: 'Test the changes',
+    body: 'Turn open questions into testable hypotheses, run experiments with honest sample sizes and let behaviour decide.',
+    accent: 'var(--color-indigo)',
+  },
+  {
+    num: '04',
+    title: 'Implement what works',
+    body: 'Roll out the changes that earned confidence, document the decisions and keep measuring so improvements do not quietly decay.',
+    accent: 'var(--color-emerald)',
+  },
+];
+---
+
+<section class="section approach tone-white" aria-labelledby="approach-title" data-draw-trigger>
+  <div class="container-x">
+    <header class="app-head">
+      <p class="eyebrow" data-reveal="fade">The CROLANE approach</p>
+      <h2 class="display-lg" id="approach-title" data-reveal>
+        A clear path from question to <span class="display-italic">improvement</span>.
+      </h2>
+      <p class="lede" data-reveal data-reveal-delay="0.08">
+        No secret formula. A practical sequence that keeps business questions, measurement,
+        experimentation and implementation pointing at the same target.
+      </p>
+    </header>
+
+    <div class="app-rail" data-reveal="fade">
+      <svg class="rail-svg" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+        <path
+          d="M30 30 C 240 30 260 30 430 30 S 760 30 1170 30"
+          data-draw
+          class="rail-path"></path>
+      </svg>
+      <ol class="app-steps">
+        {
+          steps.map((s, i) => (
+            <li class="app-step" data-reveal data-reveal-delay={String(0.06 * i)}>
+              <span class="step-dot" style={`--dot:${s.accent}`} aria-hidden="true" />
+              <span class="step-num" style={`color:${s.accent}`}>{s.num}</span>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <p class="app-note" data-reveal="fade">
+      The depth of each step depends on the service you engage. No guarantees are implied: the
+      promise is careful work and honest read outs, not guaranteed lifts.
+    </p>
+  </div>
+</section>
+
+<style>
+  .approach {
+    background: #fff;
+  }
+
+  .app-head {
+    max-width: 44rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    margin-bottom: clamp(2.75rem, 6vw, 4.5rem);
+  }
+
+  .app-rail {
+    position: relative;
+  }
+
+  .rail-svg {
+    position: absolute;
+    top: 18px;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    display: none;
+  }
+
+  .rail-path {
+    stroke: color-mix(in srgb, var(--color-ink) 22%, transparent);
+    stroke-width: 2;
+    stroke-dasharray: 6 7;
+    fill: none;
+  }
+
+  .app-steps {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    counter-reset: step;
+  }
+
+  .app-step {
+    position: relative;
+    padding-top: 3.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .step-dot {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    border: 5px solid var(--dot);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--dot) 14%, transparent);
+  }
+
+  .step-num {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+  }
+
+  .app-step h3 {
+    font-size: clamp(1.1rem, 1rem + 0.5vw, 1.32rem);
+    font-weight: 580;
+    line-height: 1.2;
+  }
+
+  .app-step p {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--color-ink-2);
+  }
+
+  .app-note {
+    margin-top: clamp(2.25rem, 5vw, 3.5rem);
+    padding-top: 1.4rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+    font-size: 0.875rem;
+    color: var(--color-ink-3);
+    max-width: 44rem;
+  }
+
+  @media (min-width: 64rem) {
+    .rail-svg {
+      display: block;
+    }
+  }
+
+  @media (max-width: 64rem) {
+    .app-steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .app-steps {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+    }
+
+    .app-step {
+      padding-top: 0;
+      padding-left: 2.4rem;
+      border-left: 1.5px dashed color-mix(in srgb, var(--color-ink) 22%, transparent);
+    }
+
+    .step-dot {
+      top: 2px;
+      left: -12px;
+    }
+  }
+</style>

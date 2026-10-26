@@ -1,0 +1,124 @@
+---
+import { SITE } from '../config/site';
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  copy?: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+}
+const {
+  eyebrow = 'Start a conversation',
+  title = 'Ready to find your next measurable improvement?',
+  copy = 'Tell us where you think the journey loses people. We will reply with honest thoughts on whether we are a fit, what the work involves and what it would take to start.',
+  primaryLabel = 'Start a conversation',
+  primaryHref = '/contact/',
+} = Astro.props;
+---
+
+<section class="cta-band grain" aria-labelledby="cta-band-title">
+  <div class="cta-art" aria-hidden="true">
+    <img src="/images/art-cta-dark.jpg" alt="" width="1376" height="768" loading="lazy" decoding="async" />
+  </div>
+  <div class="cta-veil" aria-hidden="true"></div>
+  <div class="cta-glow" aria-hidden="true"></div>
+  <div class="container-x cta-inner">
+    <p class="eyebrow cta-eyebrow" data-reveal="fade">{eyebrow}</p>
+    <h2 class="display-lg cta-title" id="cta-band-title" data-reveal>
+      {title}
+    </h2>
+    <p class="cta-copy" data-reveal data-reveal-delay="0.08">{copy}</p>
+    <div class="cta-actions" data-reveal data-reveal-delay="0.16">
+      <a class="btn btn-light" href={primaryHref}>{primaryLabel}</a>
+      <a class="btn btn-cta-ghost" href={`mailto:${SITE.email}`}>Email {SITE.email}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #16161d 0%, #121217 100%);
+    color: #fff;
+    padding-block: clamp(5.5rem, 12vw, 9.5rem);
+    text-align: center;
+  }
+
+  .cta-art {
+    position: absolute;
+    inset: 0;
+  }
+
+  .cta-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+  }
+
+  .cta-veil {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(120% 90% at 18% 110%, rgb(62 78 245 / 0.4), transparent 55%),
+      radial-gradient(100% 80% at 85% 105%, rgb(199 116 21 / 0.35), transparent 52%),
+      linear-gradient(180deg, rgb(18 18 23 / 0.35) 0%, rgb(18 18 23 / 0.55) 100%);
+  }
+
+  .cta-glow {
+    position: absolute;
+    inset: auto -10% -65% -10%;
+    height: 75%;
+    background: radial-gradient(55% 60% at 50% 100%, rgb(255 255 255 / 0.22), transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4rem;
+  }
+
+  .cta-eyebrow {
+    color: rgb(255 255 255 / 0.55);
+  }
+
+  .cta-eyebrow::before {
+    background: rgb(255 255 255 / 0.45);
+  }
+
+  .cta-title {
+    max-width: 17ch;
+    color: #fff;
+  }
+
+  .cta-copy {
+    max-width: 38rem;
+    color: rgb(255 255 255 / 0.68);
+    font-size: clamp(1rem, 0.96rem + 0.3vw, 1.15rem);
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    justify-content: center;
+    margin-top: 0.6rem;
+  }
+
+  .btn-cta-ghost {
+    background: transparent;
+    color: #fff;
+    border-color: rgb(255 255 255 / 0.3);
+  }
+
+  .btn-cta-ghost:hover {
+    border-color: rgb(255 255 255 / 0.75);
+    background: rgb(255 255 255 / 0.07);
+  }
+</style>

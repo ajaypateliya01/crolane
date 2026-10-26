@@ -1,0 +1,924 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   CROLANE design system
+   Warm, editorial, light-first. Charcoal type, restrained indigo + amber
+   accents, per-service accent hues used sparingly.
+   ========================================================================== */
+
+@theme {
+  --color-paper: #fbfaf7;
+  --color-paper-2: #f4f1ea;
+  --color-paper-3: #eef1f7;
+  --color-paper-4: #efeff9;
+  --color-ink: #16161b;
+  --color-ink-2: #4b4b57;
+  --color-ink-3: #7a7a85;
+  --color-line: #e4e1da;
+  --color-indigo: #3e4ef5;
+  --color-indigo-deep: #2c39c7;
+  --color-amber: #c77415;
+  --color-azure: #2563d9;
+  --color-coral: #d9552f;
+  --color-emerald: #17835b;
+  --color-violet: #7c4dff;
+  --color-rose: #c8385f;
+  --color-dark: #131318;
+
+  --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Instrument Sans Variable", "Instrument Sans", ui-sans-serif,
+    system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace,
+    "SF Mono", Menlo, monospace;
+
+  --shadow-soft: 0 1px 2px rgb(22 22 27 / 0.04), 0 12px 32px -12px rgb(22 22 27 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(22 22 27 / 0.05), 0 24px 56px -20px rgb(22 22 27 / 0.22);
+  --shadow-panel: 0 1px 0 rgb(255 255 255 / 0.7) inset, 0 18px 44px -18px rgb(22 22 27 / 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+
+@layer base {
+  :root {
+    --section-pad: clamp(5.5rem, 11vw, 10rem);
+    --gutter: clamp(1.25rem, 4vw, 3rem);
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --accent: var(--color-indigo);
+    color-scheme: light;
+  }
+
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html.lenis-active {
+    scroll-behavior: auto;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-indigo) 22%, transparent);
+    color: var(--color-ink);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    line-height: 1.05;
+    font-weight: 500;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img,
+  svg,
+  canvas {
+    display: block;
+    max-width: 100%;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-indigo);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001s !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001s !important;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Layout helpers
+   -------------------------------------------------------------------------- */
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .container-narrow {
+    width: 100%;
+    max-width: 46rem;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .section {
+    padding-block: var(--section-pad);
+    position: relative;
+  }
+
+  .section-sm {
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+    position: relative;
+  }
+
+  /* Tone surfaces: the page palette evolves section by section. */
+  .tone-paper {
+    background: var(--color-paper);
+  }
+  .tone-cream {
+    background: var(--color-paper-2);
+  }
+  .tone-cool {
+    background: var(--color-paper-3);
+  }
+  .tone-lavender {
+    background: var(--color-paper-4);
+  }
+  .tone-white {
+    background: #fff;
+  }
+
+  /* Soft transition strip between different tones. */
+  .tone-bridge {
+    height: clamp(3.5rem, 8vw, 7rem);
+    pointer-events: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     Type
+     -------------------------------------------------------------------------- */
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  .eyebrow--accent {
+    color: color-mix(in srgb, var(--accent, var(--color-indigo)) 82%, var(--color-ink));
+  }
+
+  .display-xl {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.85rem, 2rem + 4.6vw, 5.6rem);
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+  }
+
+  .display-lg {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.35rem, 1.7rem + 3.1vw, 4.25rem);
+    line-height: 1.02;
+    letter-spacing: -0.012em;
+  }
+
+  .display-md {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.9rem, 1.5rem + 2vw, 3rem);
+    line-height: 1.06;
+    letter-spacing: -0.01em;
+  }
+
+  .display-italic {
+    font-style: italic;
+    color: color-mix(in srgb, var(--accent, var(--color-indigo)) 72%, var(--color-ink));
+  }
+
+  .lede {
+    font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.3125rem);
+    line-height: 1.6;
+    color: var(--color-ink-2);
+    max-width: 42rem;
+  }
+
+  .micro {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  .text-ink-2 {
+    color: var(--color-ink-2);
+  }
+
+  .text-ink-3 {
+    color: var(--color-ink-3);
+  }
+
+  /* --------------------------------------------------------------------------
+     Buttons / links
+     -------------------------------------------------------------------------- */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    padding: 0.9rem 1.5rem;
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    font-weight: 560;
+    letter-spacing: 0.01em;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.35s var(--ease-out), background-color 0.35s var(--ease-out),
+      color 0.35s var(--ease-out), border-color 0.35s var(--ease-out),
+      box-shadow 0.35s var(--ease-out);
+    white-space: nowrap;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  .btn-primary {
+    background: var(--color-ink);
+    color: #fff;
+    box-shadow: 0 10px 26px -12px rgb(22 22 27 / 0.55);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-indigo);
+    box-shadow: 0 14px 30px -12px rgb(62 78 245 / 0.55);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-ink);
+    border-color: color-mix(in srgb, var(--color-ink) 18%, transparent);
+  }
+
+  .btn-ghost:hover {
+    border-color: color-mix(in srgb, var(--color-ink) 42%, transparent);
+    background: color-mix(in srgb, var(--color-ink) 4%, transparent);
+  }
+
+  .btn-light {
+    background: #fff;
+    color: var(--color-ink);
+    box-shadow: 0 10px 26px -14px rgb(0 0 0 / 0.5);
+  }
+
+  .btn-light:hover {
+    background: var(--color-paper);
+  }
+
+  .btn-sm {
+    padding: 0.62rem 1.1rem;
+    font-size: 0.875rem;
+  }
+
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 560;
+    font-size: 0.9375rem;
+    color: var(--color-ink);
+    transition: color 0.3s var(--ease-out);
+  }
+
+  .link-arrow svg {
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  .link-arrow:hover {
+    color: var(--color-indigo);
+  }
+
+  .link-arrow:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* --------------------------------------------------------------------------
+     Surfaces
+     -------------------------------------------------------------------------- */
+
+  .panel {
+    background: rgb(255 255 255 / 0.82);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 20px;
+    box-shadow: var(--shadow-panel);
+    backdrop-filter: blur(6px);
+  }
+
+  .panel-solid {
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 20px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.34rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
+    background: rgb(255 255 255 / 0.7);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-ink-2);
+  }
+
+  .chip-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--accent, var(--color-indigo));
+  }
+
+  .hairline {
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+  }
+
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  /* --------------------------------------------------------------------------
+     Forms
+     -------------------------------------------------------------------------- */
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .field label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-2);
+  }
+
+  .field .req {
+    color: var(--color-coral);
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
+    border-radius: 12px;
+    padding: 0.8rem 0.95rem;
+    font-size: 0.975rem;
+    transition: border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+  }
+
+  .field input:hover,
+  .field select:hover,
+  .field textarea:hover {
+    border-color: color-mix(in srgb, var(--color-ink) 28%, transparent);
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--color-indigo);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-indigo) 18%, transparent);
+  }
+
+  .field textarea {
+    min-height: 9.5rem;
+    resize: vertical;
+  }
+
+  .field-error {
+    font-size: 0.8125rem;
+    color: #b42318;
+    min-height: 1.1em;
+  }
+
+  .field [aria-invalid="true"] {
+    border-color: #d92d20;
+  }
+
+  /* --------------------------------------------------------------------------
+     FAQ accordion
+     -------------------------------------------------------------------------- */
+
+  .faq-item {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 11%, transparent);
+  }
+
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.35rem 0.15rem;
+    font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+    font-weight: 540;
+    transition: color 0.25s var(--ease-out);
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary:hover {
+    color: var(--color-indigo);
+  }
+
+  .faq-icon {
+    position: relative;
+    flex: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.2rem;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 22%, transparent);
+  }
+
+  .faq-icon::before,
+  .faq-icon::after {
+    content: "";
+    position: absolute;
+    inset: 50% 30%;
+    height: 1.5px;
+    background: currentColor;
+    transform: translateY(-50%);
+    transition: transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out);
+  }
+
+  .faq-icon::after {
+    transform: translateY(-50%) rotate(90deg);
+  }
+
+  .faq-item[open] .faq-icon::after {
+    transform: translateY(-50%) rotate(0deg);
+    opacity: 0;
+  }
+
+  .faq-body {
+    padding: 0 2.5rem 1.5rem 0.15rem;
+    color: var(--color-ink-2);
+    max-width: 46rem;
+  }
+
+  /* --------------------------------------------------------------------------
+     Misc
+     -------------------------------------------------------------------------- */
+
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    background: linear-gradient(90deg, var(--color-indigo), var(--color-amber));
+    z-index: 80;
+    pointer-events: none;
+  }
+
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    background: var(--color-ink);
+    color: #fff;
+    padding: 0.7rem 1.1rem;
+    border-radius: 10px;
+    transform: translateY(-200%);
+    transition: transform 0.25s var(--ease-out);
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.14'/%3E%3C/svg%3E");
+  }
+}
+
+/* --------------------------------------------------------------------------
+   JS-enhanced reveal states (never hide content when JS is unavailable)
+   -------------------------------------------------------------------------- */
+
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+}
+
+html.js [data-reveal="fade"] {
+  transform: none;
+}
+
+html.js [data-reveal="left"] {
+  transform: translate3d(-30px, 0, 0);
+}
+
+html.js [data-reveal="right"] {
+  transform: translate3d(30px, 0, 0);
+}
+
+html.js [data-reveal="scale"] {
+  transform: scale(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Shared visual-module chrome (used by the interactive service demos)
+   -------------------------------------------------------------------------- */
+
+@layer components {
+  .viz-stage {
+    position: relative;
+    border-radius: clamp(20px, 2.5vw, 30px);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.92), rgb(255 255 255 / 0.72));
+    box-shadow: var(--shadow-lift);
+    overflow: hidden;
+  }
+
+  .viz-chrome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.8rem 1.15rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    background: rgb(251 250 247 / 0.85);
+    flex-wrap: wrap;
+  }
+
+  .viz-chrome-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .win-dots {
+    display: inline-flex;
+    gap: 5px;
+    flex: none;
+  }
+
+  .win-dots i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-ink) 14%, transparent);
+  }
+
+  .viz-url {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    color: var(--color-ink-3);
+    background: color-mix(in srgb, var(--color-ink) 5%, transparent);
+    border-radius: 999px;
+    padding: 0.3rem 0.7rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  .viz-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  .viz-note::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-amber);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-amber) 22%, transparent);
+  }
+
+  /* Segmented control */
+  .seg {
+    display: inline-flex;
+    padding: 3px;
+    gap: 2px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-ink) 6%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
+  }
+
+  .seg button {
+    border: none;
+    background: transparent;
+    border-radius: 999px;
+    padding: 0.42rem 0.95rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-ink-2);
+    cursor: pointer;
+    transition: background-color 0.3s var(--ease-out), color 0.3s var(--ease-out),
+      box-shadow 0.3s var(--ease-out);
+  }
+
+  .seg button[aria-pressed='true'],
+  .seg button[aria-selected='true'] {
+    background: #fff;
+    color: var(--color-ink);
+    box-shadow: 0 1px 3px rgb(22 22 27 / 0.14);
+  }
+
+  .seg button:hover {
+    color: var(--color-ink);
+  }
+
+  /* Annotation pin */
+  .annot {
+    position: absolute;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out);
+  }
+
+  .annot.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .annot .pin {
+    flex: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-amber);
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgb(22 22 27 / 0.3);
+  }
+
+  .annot .annot-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--color-ink);
+    color: #fff;
+    padding: 0.3rem 0.55rem;
+    border-radius: 7px;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgb(22 22 27 / 0.25);
+  }
+
+  /* Status pills */
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.24rem 0.5rem;
+    border-radius: 6px;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
+    color: var(--color-ink-2);
+    background: #fff;
+  }
+
+  .status.is-run {
+    border-color: color-mix(in srgb, var(--color-azure) 40%, transparent);
+    color: var(--color-azure);
+    background: color-mix(in srgb, var(--color-azure) 8%, #fff);
+  }
+
+  .status.is-done {
+    border-color: color-mix(in srgb, var(--color-emerald) 40%, transparent);
+    color: var(--color-emerald);
+    background: color-mix(in srgb, var(--color-emerald) 8%, #fff);
+  }
+
+  .status.is-wait {
+    border-color: color-mix(in srgb, var(--color-amber) 45%, transparent);
+    color: var(--color-amber);
+    background: color-mix(in srgb, var(--color-amber) 9%, #fff);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Service deliverable grids (shared across service pages)
+   -------------------------------------------------------------------------- */
+
+@layer components {
+  .deliver-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 1.4rem);
+  }
+
+  .deliver-item {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    padding: 1.3rem 1.25rem;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 16px;
+    background: linear-gradient(180deg, #fff, var(--color-paper));
+    transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out),
+      border-color 0.4s var(--ease-out);
+  }
+
+  .deliver-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lift);
+    border-color: color-mix(in srgb, var(--accent, var(--color-indigo)) 35%, transparent);
+  }
+
+  .di-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--accent, var(--color-indigo));
+    padding-top: 0.3rem;
+    flex: none;
+  }
+
+  .deliver-item h3 {
+    font-size: 1rem;
+    font-weight: 610;
+    margin-bottom: 0.4rem;
+    line-height: 1.25;
+  }
+
+  .deliver-item p {
+    font-size: 0.86rem;
+    line-height: 1.55;
+    color: var(--color-ink-2);
+  }
+
+  @media (max-width: 64rem) {
+    .deliver-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .deliver-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+/* ---------- legal pages ---------- */
+@layer components {
+  .legal-body {
+    font-size: 1.02rem;
+    line-height: 1.75;
+    color: var(--color-ink-2);
+  }
+
+  .legal-body > p:first-child {
+    font-size: 1.12rem;
+    color: var(--color-ink);
+  }
+
+  .legal-body h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.2rem);
+    color: var(--color-ink);
+    margin-top: 2.4rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.2;
+  }
+
+  .legal-body a {
+    color: var(--color-indigo);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .legal-body ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    margin: 1rem 0 1.25rem;
+  }
+
+  .legal-body ul li {
+    position: relative;
+    padding-left: 1.4rem;
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+
+  .legal-body ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 0.55rem;
+    height: 2px;
+    background: var(--color-indigo);
+    border-radius: 2px;
+  }
+}

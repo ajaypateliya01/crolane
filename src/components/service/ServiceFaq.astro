@@ -1,0 +1,69 @@
+---
+import FaqList, { type FaqItem } from '../FaqList.astro';
+import type { Service } from '../../config/services';
+
+interface Props {
+  service: Service;
+  items: FaqItem[];
+}
+const { service, items } = Astro.props;
+---
+
+<section class="section-sm sv-faq" aria-labelledby="sv-faq-title" style={`--accent:${service.accent};`}>
+  <div class="container-x sv-faq-grid">
+    <div>
+      <p class="eyebrow" data-reveal="fade">FAQs</p>
+      <h2 class="display-md" id="sv-faq-title" data-reveal>
+        Questions about {service.navTitle.toLowerCase()}
+      </h2>
+      <p class="sv-faq-sub" data-reveal data-reveal-delay="0.06">
+        Something not covered? <a href="/contact/">Ask us directly</a>.
+      </p>
+    </div>
+    <div data-reveal="fade">
+      <FaqList items={items} idPrefix={`faq-${service.slug}`} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .sv-faq {
+    background: var(--color-paper);
+  }
+
+  .sv-faq-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .sv-faq-grid > div:first-child {
+    position: sticky;
+    top: 7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .sv-faq-sub {
+    font-size: 0.95rem;
+    color: var(--color-ink-2);
+  }
+
+  .sv-faq-sub a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 64rem) {
+    .sv-faq-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .sv-faq-grid > div:first-child {
+      position: static;
+    }
+  }
+</style>

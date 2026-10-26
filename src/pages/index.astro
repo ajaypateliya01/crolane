@@ -1,0 +1,370 @@
+---
+export const prerender = true;
+
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import ProblemsBento from '../components/ProblemsBento.astro';
+import ApproachPath from '../components/ApproachPath.astro';
+import ServiceRows from '../components/ServiceRows.astro';
+import AbLab from '../components/AbLab.astro';
+import AnalyticsDash from '../components/AnalyticsDash.astro';
+import TrackingFlow from '../components/TrackingFlow.astro';
+import WorkflowFlow from '../components/WorkflowFlow.astro';
+import VoiceAgent from '../components/VoiceAgent.astro';
+import ShopifyJourney from '../components/ShopifyJourney.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import FaqList from '../components/FaqList.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SITE } from '../config/site';
+
+const title = `${SITE.name} | Conversion optimization, analytics and practical AI`;
+const description = SITE.description;
+
+const why = [
+  {
+    num: '01',
+    title: 'Evidence over opinion',
+    body: 'Recommendations come from observed behaviour, clean data and tests, not from the loudest voice in the room.',
+  },
+  {
+    num: '02',
+    title: 'Measurement quality first',
+    body: 'A report is only as trustworthy as the events behind it. Validation, not just configuration, is part of the work.',
+  },
+  {
+    num: '03',
+    title: 'Scope said out loud',
+    body: 'You get a written scope of what is included, what is not and what we need from you. No vague bundles, no invented guarantees.',
+  },
+  {
+    num: '04',
+    title: 'Realistic use of AI',
+    body: 'Automation where it genuinely saves time, human review where it genuinely matters, and honesty about what is still not worth automating.',
+  },
+];
+
+const processSteps = [
+  {
+    num: '01',
+    title: 'Conversation',
+    body: 'A short call or email thread about the business problem, the current experience and what you have already tried.',
+  },
+  {
+    num: '02',
+    title: 'Scope',
+    body: 'A written scope: deliverables, access needed, timeline and cost. You approve it before any work begins.',
+  },
+  {
+    num: '03',
+    title: 'Implementation',
+    body: 'The actual work, with checkpoints. Analytics validated, experiments documented, automations reviewed before anything customer facing goes live.',
+  },
+  {
+    num: '04',
+    title: 'Review',
+    body: 'A clear read-out: what was found, what was decided, what changed and what is worth doing next.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'How does an engagement start?',
+    a: 'With a conversation. You tell us where you think the journey loses people, we ask practical questions, and if it looks like a fit we send a written scope with deliverables, access needs, timing and cost. Nothing starts until you approve it.',
+  },
+  {
+    q: 'Do you guarantee conversion lifts?',
+    a: 'No, and you should be careful around anyone who does. We guarantee careful work, honest measurement and honest read outs. How much a business improves depends on its traffic, offer, market and how well changes are implemented.',
+  },
+  {
+    q: 'Are the numbers and demos on this site real results?',
+    a: 'No. Every metric, heatmap, conversation and experiment shown here is illustrative demo data built to explain how the work functions. We do not publish fabricated client results, logos or testimonials.',
+  },
+  {
+    q: 'What access do you need from us?',
+    a: 'It depends on the service. Analytics and tag work needs access to your GA4 and tag manager properties. Audits need a way to review the live experience, ideally with session data if you have it. Automation and voice projects need the tools you want connected. We list exactly what is needed in the scope.',
+  },
+  {
+    q: 'How long does the work take?',
+    a: 'It depends on scope and access. Timelines are agreed in writing before work starts, including anything we are waiting on from your side, so there are no moving targets.',
+  },
+  {
+    q: 'Can you work alongside our developers or agency?',
+    a: 'Yes. Findings, event plans, test designs and automation specs are documented so whoever implements them can follow the logic. If you would like us to implement within scope, that can be part of the project.',
+  },
+  {
+    q: 'Is advanced CRM integration or enterprise automation included by default?',
+    a: 'No. Standard automation covers practical, well defined workflows with clear review points. Complex CRM, calendar or telephony integrations are scoped separately based on your stack, access and feasibility.',
+  },
+];
+---
+
+<Base title={title} description={description}>
+  <Hero />
+  <ProblemsBento />
+  <ApproachPath />
+  <ServiceRows />
+  <AbLab />
+  <AnalyticsDash />
+  <TrackingFlow />
+  <WorkflowFlow />
+  <VoiceAgent />
+  <ShopifyJourney />
+
+  <!-- Why CROLANE -->
+  <section class="section why tone-paper" aria-labelledby="why-title">
+    <div class="container-x why-grid">
+      <div class="why-left">
+        <p class="eyebrow" data-reveal="fade">Why CROLANE</p>
+        <h2 class="display-lg" id="why-title" data-reveal>
+          Calm method over <span class="display-italic">loud promises</span>.
+        </h2>
+        <p class="lede" data-reveal data-reveal-delay="0.08">
+          Conversion work is easy to oversell and hard to do properly. These are the standards we
+          hold the work to.
+        </p>
+      </div>
+      <ol class="why-list">
+        {
+          why.map((w, i) => (
+            <li data-reveal data-reveal-delay={String(0.05 * i)}>
+              <span class="why-num">{w.num}</span>
+              <div>
+                <h3>{w.title}</h3>
+                <p>{w.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section process tone-white" id="process" aria-labelledby="process-title">
+    <div class="container-x">
+      <SectionHeading
+        eyebrow="Working together"
+        title="A process that fits the problem, not a package."
+        lede="Different services need different work. The way we work together stays simple and legible from the first email to the final read-out."
+        id="process-title"
+      />
+      <ol class="process-grid">
+        {
+          processSteps.map((s, i) => (
+            <li class="process-step" data-reveal data-reveal-delay={String(0.06 * i)}>
+              <span class="pr-num" aria-hidden="true">{s.num}</span>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="process-note" data-reveal="fade">
+        Every engagement ends with documented findings and next steps, whether the project was an
+        audit, an experiment cycle, an implementation or an automation build.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq-section" aria-labelledby="faq-title">
+    <div class="container-x faq-grid">
+      <div class="faq-left">
+        <p class="eyebrow" data-reveal="fade">FAQs</p>
+        <h2 class="display-md" id="faq-title" data-reveal>Questions worth answering first.</h2>
+        <p class="faq-sub" data-reveal data-reveal-delay="0.06">
+          Anything not covered here?
+          <a href="/contact/">Send it over</a>, we answer in plain language.
+        </p>
+      </div>
+      <div data-reveal="fade">
+        <FaqList items={faqs} idPrefix="home-faq" />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .why {
+    background: var(--color-paper);
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    gap: clamp(2.5rem, 6vw, 5.5rem);
+    align-items: start;
+  }
+
+  .why-left {
+    position: sticky;
+    top: 7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+
+  .why-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .why-list li {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 1.25rem;
+    padding: clamp(1.4rem, 3vw, 2rem) 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 11%, transparent);
+  }
+
+  .why-list li:last-child {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 11%, transparent);
+  }
+
+  .why-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--color-indigo);
+    padding-top: 0.35rem;
+  }
+
+  .why-list h3 {
+    font-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+    font-weight: 590;
+    margin-bottom: 0.5rem;
+  }
+
+  .why-list p {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--color-ink-2);
+    max-width: 36rem;
+  }
+
+  /* Process */
+  .process {
+    background: #fff;
+  }
+
+  .process-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+    counter-reset: none;
+  }
+
+  .process-step {
+    position: relative;
+    padding: 1.6rem 1.4rem 1.7rem;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 18px;
+    background: linear-gradient(180deg, #fff, var(--color-paper));
+    transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
+  }
+
+  .process-step:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .process-step::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 1.4rem;
+    right: 1.4rem;
+    height: 3px;
+    border-radius: 0 0 4px 4px;
+    background: linear-gradient(90deg, var(--color-indigo), color-mix(in srgb, var(--color-indigo) 30%, transparent));
+    opacity: 0.7;
+  }
+
+  .pr-num {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    color: var(--color-ink-3);
+  }
+
+  .process-step h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+    font-weight: 400;
+    margin: 0.6rem 0 0.55rem;
+  }
+
+  .process-step p {
+    font-size: 0.89rem;
+    line-height: 1.6;
+    color: var(--color-ink-2);
+  }
+
+  .process-note {
+    margin-top: clamp(1.75rem, 4vw, 2.5rem);
+    font-size: 0.875rem;
+    color: var(--color-ink-3);
+    max-width: 46rem;
+    padding-top: 1.25rem;
+    border-top: 1px dashed color-mix(in srgb, var(--color-ink) 14%, transparent);
+  }
+
+  /* FAQ */
+  .faq-section {
+    background: var(--color-paper);
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .faq-left {
+    position: sticky;
+    top: 7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .faq-sub {
+    font-size: 0.95rem;
+    color: var(--color-ink-2);
+    line-height: 1.6;
+  }
+
+  .faq-sub a {
+    color: var(--color-indigo);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 64rem) {
+    .process-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .why-grid,
+    .faq-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .why-left,
+    .faq-left {
+      position: static;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .process-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

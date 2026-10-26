@@ -1,0 +1,16 @@
+---
+import CtaBand from '../CtaBand.astro';
+import type { Service } from '../../config/services';
+
+interface Props {
+  service: Service;
+}
+const { service } = Astro.props;
+---
+
+<CtaBand
+  eyebrow={`Start with ${service.navTitle.toLowerCase()}`}
+  title="Tell us where the journey loses people."
+  copy="Send a short note about the business problem behind this service. We will reply with honest thoughts on fit, scope and what starting would involve."
+  primaryLabel="Discuss this service"
+/>

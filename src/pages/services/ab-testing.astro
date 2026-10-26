@@ -1,0 +1,298 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+import ServiceLayout from '../../components/service/ServiceLayout.astro';
+import AbLab from '../../components/AbLab.astro';
+import { serviceBySlug } from '../../config/services';
+
+const service = serviceBySlug('ab-testing')!;
+const faqs = [
+  {
+    q: 'How do you decide what to test first?',
+    a: 'By how much the change could matter, how likely it is to change behaviour, and how cheap it is to ship. We write the hypothesis, the metric and the decision rule before anything is built.',
+  },
+  {
+    q: 'How long does an experiment need to run?',
+    a: 'It depends on traffic and on how big a difference you want to detect. Rather than a fixed number of days, we size the test for your traffic volume so the read out is not a coin flip. If traffic is too low for a clean A/B test, we will say so and suggest alternatives.',
+  },
+  {
+    q: 'What if the variant loses?',
+    a: 'A loss is still a result: it tells you what your visitors responded to and prevents a change that would have wasted engineering time. Read-outs report both outcomes honestly.',
+  },
+  {
+    q: 'Do you handle the tool setup as well?',
+    a: 'If testing is not yet in place, the experiment setup and event validation can be part of the scope. If you already have a platform, we work inside it and document the configuration.',
+  },
+];
+---
+
+<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path}>
+  <ServiceLayout
+    service={service}
+    lede="Plan and run experiments that compare two experiences, measure real behaviour and replace opinion with evidence. No rigged demos, no invented win rates, just a fair question and a readable answer."
+    artAlt="Two frosted glass slabs side by side split by a thin seam of light, amber and indigo tones"
+    faqs={faqs}
+    visualTone="tone-cool"
+    problemTitle="Most website arguments are untestable opinions"
+    problemLead="The redesign debate, the hero banner debate, the button colour debate. Experiments settle them with visitor behaviour instead of seniority."
+    deliverablesTitle="What an experimentation engagement produces"
+    deliverablesLead="Everything needed to run a defensible test: hypothesis, design, measurement and decision framework."
+    processTitle="The experiment lifecycle"
+    processVariant="timeline"
+    scopeTitle="What experimentation includes (and what it does not)"
+  >
+    <Fragment slot="visual">
+      <AbLab />
+    </Fragment>
+
+    <Fragment slot="problem">
+      <p>
+        Two experienced people can look at the same page and disagree completely about what
+        visitors want. That disagreement is fine. <strong>Acting on it without evidence is the
+        expensive part.</strong>
+      </p>
+      <p>
+        A/B testing turns the disagreement into a question with a defined metric: if we show
+        half the visitors a different experience, does behaviour change enough to matter? The
+        process forces clarity before launch, because you cannot interpret a result you did not
+        plan for.
+      </p>
+      <div class="callout">
+        <strong>Honest caveat:</strong> not every question deserves a test. Low traffic, long
+        buying cycles or tiny potential gains often make a structured before-and-after analysis
+        the better tool. Part of the work is recommending the right method, including when it
+        is not A/B testing.
+      </div>
+      <p>
+        And results are read carefully: a variant with a higher number in an underpowered test
+        has not proven anything. Sample size, segmentation and novelty effects are discussed
+        before conclusions are drawn.
+      </p>
+    </Fragment>
+
+    <Fragment slot="deliverables">
+      <ul class="deliver-grid">
+        <li class="deliver-item">
+          <span class="di-num">01</span>
+          <div>
+            <h3>Test backlog</h3>
+            <p>Prioritised hypotheses drawn from audit findings, analytics and customer questions.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">02</span>
+          <div>
+            <h3>Experiment design</h3>
+            <p>Metric, hypothesis, variants, audience split and success criteria in one document.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">03</span>
+          <div>
+            <h3>Implementation QA</h3>
+            <p>Checks that the variant renders correctly, events fire once and splits are random.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">04</span>
+          <div>
+            <h3>Monitoring</h3>
+            <p>Guardrail metrics watched during the run so tests do not quietly break something else.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">05</span>
+          <div>
+            <h3>Read-out</h3>
+            <p>What was tested, what the data supports, what it does not and what to do next.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">06</span>
+          <div>
+            <h3>Rollout plan</h3>
+            <p>If a variant earns confidence: how to ship it, how to keep measuring afterwards.</p>
+          </div>
+        </li>
+      </ul>
+    </Fragment>
+
+    <Fragment slot="extra">
+      <section class="section-sm sv-extra" aria-labelledby="sv-hyp-title" style={`--accent:${service.accent}; --soft:${service.accentSoft};`}>
+        <div class="container-x">
+          <header class="extra-head">
+            <div>
+              <p class="eyebrow" data-reveal="fade">Framework</p>
+              <h2 class="display-md" id="sv-hyp-title" data-reveal>Anatomy of a useful hypothesis</h2>
+            </div>
+            <p class="extra-note" data-reveal="fade">
+              Three illustrative examples of the format. Real hypotheses are written against
+              your own findings.
+            </p>
+          </header>
+          <div class="hyp-cards">
+            <article class="hyp-card" data-reveal>
+              <p class="hyp-tag">H1 · Hierarchy</p>
+              <p class="hyp-body">
+                Because visitors cannot find the primary action, <strong>promoting the main CTA
+                above supporting content</strong> will increase checkout starts, measured as
+                begin_checkout sessions per product view.
+              </p>
+              <p class="hyp-meta">Primary metric: checkout start rate · Guardrail: bounce rate</p>
+            </article>
+            <article class="hyp-card" data-reveal data-reveal-delay="0.07">
+              <p class="hyp-tag">H2 · Reassurance</p>
+              <p class="hyp-body">
+                Because delivery cost appears too late, <strong>showing delivery timing and
+                returns policy before the add-to-cart action</strong> will reduce abandonment on
+                product pages, measured as add-to-cart rate.
+              </p>
+              <p class="hyp-meta">Primary metric: add-to-cart rate · Guardrail: revenue per visitor</p>
+            </article>
+            <article class="hyp-card" data-reveal data-reveal-delay="0.14">
+              <p class="hyp-tag">H3 · Forms</p>
+              <p class="hyp-body">
+                Because the enquiry form asks for unnecessary detail, <strong>removing two
+                optional fields</strong> will increase completed submissions, measured as form
+                completions per form view.
+              </p>
+              <p class="hyp-meta">Primary metric: form completion rate · Guardrail: qualified lead rate</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </Fragment>
+
+    <Fragment slot="process">
+      <ol class="p-timeline">
+        <li>
+          <span class="p-num">STEP 01</span>
+          <h3>Question</h3>
+          <p>Agree what decision the experiment will inform. If there is no decision attached, there is no test to run.</p>
+        </li>
+        <li>
+          <span class="p-num">STEP 02</span>
+          <h3>Design</h3>
+          <p>Write the hypothesis, choose the primary metric, set guardrails and size the sample against your traffic.</p>
+        </li>
+        <li>
+          <span class="p-num">STEP 03</span>
+          <h3>Build and validate</h3>
+          <p>Implement variants, verify rendering, confirm events fire correctly and check the traffic split behaves.</p>
+        </li>
+        <li>
+          <span class="p-num">STEP 04</span>
+          <h3>Run</h3>
+          <p>Let the test reach its planned sample while watching guardrail metrics. No peeking-driven early stops.</p>
+        </li>
+        <li>
+          <span class="p-num">STEP 05</span>
+          <h3>Decide</h3>
+          <p>Read the result against the original decision: ship, iterate or discard. The read-out documents the reasoning either way.</p>
+        </li>
+      </ol>
+    </Fragment>
+
+    <Fragment slot="scope">
+      <ul>
+        <li>Includes test strategy, experiment design, measurement validation and read-outs.</li>
+        <li>Includes working inside your existing testing platform, or setting one up if required.</li>
+        <li>Design and development of variant pages are scoped separately unless agreed otherwise.</li>
+        <li>We do not publish guaranteed win rates: no honest provider can promise what your visitors will do.</li>
+        <li>Illustrative metrics on this website are demo data, never CROLANE experiment results.</li>
+      </ul>
+      <p>
+        Traffic too thin for a reliable split test? The scope will say so and recommend a
+        different method instead of selling you a test that cannot answer the question.
+      </p>
+    </Fragment>
+  </ServiceLayout>
+</Base>
+
+<style>
+  .sv-extra {
+    background: linear-gradient(180deg, var(--color-paper-3), var(--color-paper));
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+  }
+
+  .extra-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .extra-head > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .extra-note {
+    font-size: 0.9rem;
+    color: var(--color-ink-3);
+    max-width: 24rem;
+  }
+
+  .hyp-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 1.4rem);
+  }
+
+  .hyp-card {
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    border-radius: 18px;
+    padding: clamp(1.3rem, 2.5vw, 1.75rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+  }
+
+  .hyp-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .hyp-tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .hyp-body {
+    font-size: 0.94rem;
+    line-height: 1.65;
+    color: var(--color-ink-2);
+  }
+
+  .hyp-body strong {
+    color: var(--color-ink);
+    font-weight: 620;
+  }
+
+  .hyp-meta {
+    margin-top: auto;
+    padding-top: 0.8rem;
+    border-top: 1px dashed color-mix(in srgb, var(--color-ink) 14%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.04em;
+    color: var(--color-ink-3);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 64rem) {
+    .hyp-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

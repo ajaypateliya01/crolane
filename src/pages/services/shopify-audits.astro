@@ -1,0 +1,297 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+import ServiceLayout from '../../components/service/ServiceLayout.astro';
+import ShopifyJourney from '../../components/ShopifyJourney.astro';
+import { serviceBySlug } from '../../config/services';
+
+const service = serviceBySlug('shopify-audits')!;
+const faqs = [
+  {
+    q: 'Do you need access to our Shopify admin?',
+    a: 'A storefront audit runs on the public experience, so most reviews need no admin access at all. If deeper work is agreed, like theme review or app configuration, access is requested separately with the least privilege that works.',
+  },
+  {
+    q: 'Is this only for Shopify themes?',
+    a: 'The service is built around Shopify storefronts: theme structure, product templates, cart and checkout expectations, app-injected elements. The checkout itself is partly Shopify controlled, which is factored into what can and cannot be changed.',
+  },
+  {
+    q: 'Do you build custom storefronts or headless builds?',
+    a: 'No, custom storefront development is not part of this service. The audit delivers findings and prioritised recommendations; implementation can be handled by your theme partner or scoped as a separate, specific project.',
+  },
+  {
+    q: 'What about AI shopping features and recommendations?',
+    a: 'Discovery and recommendation experiences are reviewed where they exist on your store, and we advise on where AI assisted discovery could genuinely help. Recommendations always use your catalog context, never invented inventory.',
+  },
+];
+---
+
+<Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path}>
+  <ServiceLayout
+    service={service}
+    lede="Storefront audits focused on what decides the sale: product page clarity, option selection, mobile shopping usability, cart and checkout friction, product discovery and how AI assisted recommendations actually behave."
+    artAlt="Three white product plinths holding a ceramic bottle, folded textile and smooth stone, one rimmed with rose light"
+    faqs={faqs}
+    visualTone="tone-white"
+    problemTitle="Shoppers decide in the details"
+    problemLead="A beautiful product page still loses sales when the variant picker confuses, delivery timing hides, or the bag gives no confidence about what happens next."
+    deliverablesTitle="Audit coverage and outputs"
+    deliverablesLead="Specific findings per template, with mobile treated as its own experience rather than a squeeze."
+    processTitle="How a storefront audit runs"
+    processVariant="rail"
+    scopeTitle="Shopify audit scope and limits"
+  >
+    <Fragment slot="visual">
+      <ShopifyJourney />
+    </Fragment>
+
+    <Fragment slot="problem">
+      <p>
+        Shopify storefronts have a shared skeleton: collection, product, cart, checkout. That
+        skeleton is also where thousands of small decisions accumulate, and each one either
+        reduces doubt or adds it.
+      </p>
+      <p>
+        <strong>Most lost sales are confidence problems, not aesthetics problems.</strong> The
+        shopper cannot tell which option they picked, whether the item ships in time, what the
+        bundle actually contains, what returns look like, or whether the bag total will change
+        on the next screen. None of these look broken in a screenshot. All of them are visible
+        in behaviour.
+      </p>
+      <div class="callout">
+        <strong>Mobile gets its own pass.</strong> Thumbnails that need pinch zoom, variant chips
+        under a sticky bar, add-to-cart buttons that move when the page loads: the desktop audit
+        will not catch these. The demo on this page is a fictional catalog; your audit runs
+        against your real store.
+      </div>
+      <p>
+        Where AI assisted discovery is present, or worth considering, the audit checks whether
+        it actually helps people find the right product, and whether its suggestions stay honest
+        to your catalog and stock.
+      </p>
+    </Fragment>
+
+    <Fragment slot="deliverables">
+      <ul class="deliver-grid">
+        <li class="deliver-item">
+          <span class="di-num">01</span>
+          <div>
+            <h3>Template review</h3>
+            <p>Collection, product, cart and key content templates reviewed on desktop and mobile.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">02</span>
+          <div>
+            <h3>Product page clarity</h3>
+            <p>Information order, option selection, media adequacy and trust details, page by page.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">03</span>
+          <div>
+            <h3>Mobile usability pass</h3>
+            <p>Thumb reach, sticky element conflicts, input behaviour and tap target quality.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">04</span>
+          <div>
+            <h3>Journey friction log</h3>
+            <p>From discovery to confirmation: each doubt-inducing moment documented with evidence.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">05</span>
+          <div>
+            <h3>Discovery review</h3>
+            <p>Search, filters, collections and any recommendation or AI assisted discovery features.</p>
+          </div>
+        </li>
+        <li class="deliver-item">
+          <span class="di-num">06</span>
+          <div>
+            <h3>Prioritised fixes</h3>
+            <p>Impact and effort ranked, written so a theme developer can act without translation.</p>
+          </div>
+        </li>
+      </ul>
+    </Fragment>
+
+    <Fragment slot="extra">
+      <section class="section-sm sv-extra" aria-labelledby="sv-shop-map-title" style={`--accent:${service.accent}; --soft:${service.accentSoft};`}>
+        <div class="container-x">
+          <header class="extra-head">
+            <div>
+              <p class="eyebrow" data-reveal="fade">Journey map</p>
+              <h2 class="display-md" id="sv-shop-map-title" data-reveal>Where shopping decisions happen</h2>
+            </div>
+            <p class="extra-note" data-reveal="fade">
+              Each stage gets its own questions, its own metrics and its own share of the
+              audit.
+            </p>
+          </header>
+          <ol class="journey-map" data-reveal data-reveal-delay="0.06">
+            <li>
+              <span class="jm-stage">01 · Discover</span>
+              <p>Can people find the right product through search, filters and collections without dead ends?</p>
+            </li>
+            <li>
+              <span class="jm-stage">02 · Evaluate</span>
+              <p>Does the product page answer the real questions in the order shoppers ask them?</p>
+            </li>
+            <li>
+              <span class="jm-stage">03 · Configure</span>
+              <p>Are variants, bundles and quantities unmistakable, on any screen size?</p>
+            </li>
+            <li>
+              <span class="jm-stage">04 · Commit</span>
+              <p>Does the bag and checkout path keep trust intact until the confirmation appears?</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </Fragment>
+
+    <Fragment slot="process">
+      <ol class="p-rail">
+        <li>
+          <span class="p-num">STEP 01</span>
+          <h3>Catalog context</h3>
+          <p>We learn the range, the margins, the seasonal pressure and which products matter most commercially.</p>
+        </li>
+        <li>
+          <span class="p-num">STEP 02</span>
+          <h3>Structured walkthrough</h3>
+          <p>Real browsing paths on desktop and mobile: search, collection, product, cart, checkout, plus the returns to previous steps.</p>
+        </li>
+        <li>
+          <span class="p-num">STEP 03</span>
+          <h3>Evidence pass</h3>
+          <p>Findings are checked against analytics where available, so opinion does not outrank behaviour.</p>
+        </li>
+        <li>
+          <span class="p-num">STEP 04</span>
+          <h3>Priorities</h3>
+          <p>Ranked recommendations written for your theme partner or development team, with a read-out to walk through them.</p>
+        </li>
+      </ol>
+    </Fragment>
+
+    <Fragment slot="scope">
+      <ul>
+        <li>Includes storefront review of agreed templates and journeys, desktop and mobile, with prioritised findings.</li>
+        <li>Includes product discovery, search and filter review, and assessment of existing recommendation features.</li>
+        <li>Custom theme development, headless builds and complex app configuration are not included by default.</li>
+        <li>Checkout behaviour is partly controlled by Shopify; findings respect what is actually changeable in your setup.</li>
+        <li>The demo store on this page is fictional and connects to no Shopify account.</li>
+      </ul>
+      <p>
+        If a recommendation needs custom development, the priority list will distinguish quick
+        theme adjustments from deeper builds so the budget conversation is honest.
+      </p>
+    </Fragment>
+  </ServiceLayout>
+</Base>
+
+<style>
+  .sv-extra {
+    background: linear-gradient(180deg, var(--color-paper), #fbeef1);
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
+  }
+
+  .extra-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .extra-head > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .extra-note {
+    font-size: 0.9rem;
+    color: var(--color-ink-3);
+    max-width: 26rem;
+  }
+
+  .journey-map {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 1.4rem);
+    counter-reset: none;
+  }
+
+  .journey-map li {
+    position: relative;
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+    border-radius: 18px;
+    padding: clamp(1.3rem, 2.5vw, 1.7rem);
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+  }
+
+  .journey-map li:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .journey-map li:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -1.05rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-size: 1.1rem;
+    z-index: 1;
+  }
+
+  .jm-stage {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--soft);
+    border-radius: 999px;
+    padding: 0.3rem 0.65rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .journey-map p {
+    font-size: 0.89rem;
+    line-height: 1.6;
+    color: var(--color-ink-2);
+  }
+
+  @media (max-width: 64rem) {
+    .journey-map {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .journey-map li:nth-child(2n)::after {
+      display: none;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .journey-map {
+      grid-template-columns: 1fr;
+    }
+
+    .journey-map li::after {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,904 @@
+---
+/**
+ * A living analytics environment: KPIs, an interactive line chart, funnel,
+ * traffic sources, an event stream and a tag/trigger relationship diagram.
+ * Everything is illustrative demo data rendered as real interface elements.
+ */
+const sessions = [1520, 1680, 1610, 1890, 2050, 1980, 2260, 2410, 2320, 2650, 2740, 2890];
+const keyEvents = [96, 110, 104, 130, 142, 138, 160, 175, 168, 196, 204, 221];
+const labels = ['1', '3', '5', '7', '9', '11', '13', '15', '17', '19', '21', '23'];
+
+const W = 640;
+const H = 230;
+const PADX = 14;
+const PADY = 18;
+const MAX = 3000;
+
+const xAt = (i: number) => PADX + (i * (W - PADX * 2)) / (sessions.length - 1);
+const yAt = (v: number) => H - PADY - (v / MAX) * (H - PADY * 2);
+
+const linePath = (vals: number[]) =>
+  vals.map((v, i) => `${i === 0 ? 'M' : 'L'}${xAt(i).toFixed(1)} ${yAt(v).toFixed(1)}`).join(' ');
+
+const areaPath =
+  linePath(sessions) +
+  ` L${xAt(sessions.length - 1).toFixed(1)} ${H - PADY} L${xAt(0).toFixed(1)} ${H - PADY} Z`;
+
+const points = sessions.map((v, i) => ({
+  x: Number(xAt(i).toFixed(1)),
+  y: Number(yAt(v).toFixed(1)),
+  s: v,
+  e: keyEvents[i],
+  d: labels[i],
+}));
+
+const sources = [
+  { name: 'Organic search', pct: 42 },
+  { name: 'Paid campaigns', pct: 24 },
+  { name: 'Direct', pct: 19 },
+  { name: 'Referral', pct: 9 },
+  { name: 'Social', pct: 6 },
+];
+
+const funnel = [
+  { step: 'Product views', count: 48210, w: 100 },
+  { step: 'Add to cart', count: 6171, w: 64 },
+  { step: 'Checkout started', count: 3471, w: 44 },
+  { step: 'Purchases', count: 2218, w: 30 },
+];
+
+const stream = [
+  { t: '+0.0s', name: 'page_view', where: '/home', tone: 'ok' },
+  { t: '+4.2s', name: 'view_item', where: '/products/field-bottle', tone: 'ok' },
+  { t: '+11.8s', name: 'add_to_cart', where: 'product page', tone: 'run' },
+  { t: '+19.4s', name: 'begin_checkout', where: '/cart', tone: 'run' },
+  { t: '+31.0s', name: 'purchase', where: '/checkout/thanks', tone: 'done' },
+];
+---
+
+<section class="section analytics tone-white" aria-labelledby="dash-title">
+  <div class="container-x">
+    <header class="dash-head">
+      <div>
+        <p class="eyebrow eyebrow--accent" style="--accent: var(--color-azure);" data-reveal="fade">
+          Analytics & tracking demonstration
+        </p>
+        <h2 class="display-lg" id="dash-title" data-reveal>
+          Measurement that reads like a <span class="display-italic">clear answer</span>.
+        </h2>
+      </div>
+      <p class="lede" data-reveal data-reveal-delay="0.08">
+        Events, funnels and tags only become useful when they agree with each other. This is a
+        simulated analytics environment: built as real interface elements, powered by illustrative
+        demo data.
+      </p>
+    </header>
+
+    <div
+      class="viz-stage dash"
+      data-dash
+      data-reveal="scale"
+      style="--accent: var(--color-azure);"
+    >
+      <div class="viz-chrome">
+        <div class="viz-chrome-left">
+          <span class="win-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="viz-url">analytics.example / demo property / overview</span>
+        </div>
+        <div class="dash-chrome-right">
+          <span class="chip">28 day window</span>
+          <span class="viz-note">Illustrative demo data</span>
+        </div>
+      </div>
+
+      <!-- KPI row -->
+      <div class="kpi-row">
+        <div class="kpi">
+          <p class="kpi-label">Sessions</p>
+          <p class="kpi-value" data-count="48,210">48,210</p>
+          <p class="kpi-delta up">+8.4% vs previous demo period</p>
+        </div>
+        <div class="kpi">
+          <p class="kpi-label">Key events</p>
+          <p class="kpi-value" data-count="3,142">3,142</p>
+          <p class="kpi-delta up">+5.1% vs previous demo period</p>
+        </div>
+        <div class="kpi">
+          <p class="kpi-label">Conversion rate</p>
+          <p class="kpi-value" data-count="4.6%">4.6%</p>
+          <p class="kpi-delta">key events / sessions</p>
+        </div>
+        <div class="kpi">
+          <p class="kpi-label">Add-to-cart rate</p>
+          <p class="kpi-value" data-count="12.8%">12.8%</p>
+          <p class="kpi-delta">product view to cart</p>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <!-- Line chart -->
+        <section class="dash-card chart-card" data-draw-trigger aria-label="Sessions over the demo period">
+          <header class="card-head">
+            <div>
+              <h3>Sessions and key events</h3>
+              <p class="card-sub">28 day demo window · daily values</p>
+            </div>
+            <div class="chart-legend">
+              <span class="lg lg-sessions"><i></i>Sessions</span>
+              <span class="lg lg-events"><i></i>Key events</span>
+            </div>
+          </header>
+          <div
+            class="chart-wrap"
+            data-chart
+            data-points={JSON.stringify(points)}
+            tabindex="0"
+            role="img"
+            aria-label="Line chart of illustrative demo sessions rising from about 1,500 to 2,900 per day, with key events rising from about 96 to 221."
+          >
+            <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" class="chart-svg">
+              <defs>
+                <linearGradient id="area-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#2563d9" stop-opacity="0.22"></stop>
+                  <stop offset="1" stop-color="#2563d9" stop-opacity="0"></stop>
+                </linearGradient>
+              </defs>
+              <g class="grid-lines">
+                {[0, 1, 2, 3].map((i) => (
+                  <line x1={PADX} x2={W - PADX} y1={PADY + (i * (H - PADY * 2)) / 3} y2={PADY + (i * (H - PADY * 2)) / 3} />
+                ))}
+              </g>
+              <path d={areaPath} class="area-fill" />
+              <path d={linePath(sessions)} data-draw class="line line-sessions" />
+              <path d={linePath(keyEvents)} data-draw class="line line-events" />
+              <g class="chart-focus" data-chart-focus hidden>
+                <line class="focus-line" y1={PADY - 6} y2={H - PADY} />
+                <circle class="focus-dot focus-dot-s" r="5" />
+                <circle class="focus-dot focus-dot-e" r="4" />
+              </g>
+            </svg>
+            <div class="chart-readout" data-chart-readout hidden>
+              <p class="cr-day">Day <span data-cr-day>·</span></p>
+              <p class="cr-row"><i class="cr-s"></i><span data-cr-s>·</span> sessions</p>
+              <p class="cr-row"><i class="cr-e"></i><span data-cr-e>·</span> key events</p>
+            </div>
+          </div>
+          <div class="chart-x">
+            {labels.map((l) => <span>Day {l}</span>)}
+          </div>
+        </section>
+
+        <!-- Traffic sources -->
+        <section class="dash-card" aria-label="Traffic sources, demo data">
+          <header class="card-head">
+            <div>
+              <h3>Traffic sources</h3>
+              <p class="card-sub">Share of demo sessions</p>
+            </div>
+          </header>
+          <ul class="source-list" data-bars>
+            {
+              sources.map((s) => (
+                <li>
+                  <span class="src-name">{s.name}</span>
+                  <span class="src-track">
+                    <span class="src-fill" style={`--w:${s.pct}%`} />
+                  </span>
+                  <span class="src-pct" data-count={`${s.pct}%`}>{s.pct}%</span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <!-- Funnel -->
+        <section class="dash-card" aria-label="Funnel, demo data">
+          <header class="card-head">
+            <div>
+              <h3>Purchase funnel</h3>
+              <p class="card-sub">Illustrative stage counts</p>
+            </div>
+          </header>
+          <ol class="funnel">
+            {
+              funnel.map((f) => (
+                <li>
+                  <span class="fn-step">{f.step}</span>
+                  <span class="fn-bar-wrap">
+                    <span class="fn-bar" style={`--w:${f.w}%`} />
+                  </span>
+                  <span class="fn-count" data-count={String(f.count)}>{f.count.toLocaleString('en-US')}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </section>
+
+        <!-- Event stream -->
+        <section class="dash-card" aria-label="Event stream, demo data">
+          <header class="card-head">
+            <div>
+              <h3>Event stream</h3>
+              <p class="card-sub">A single illustrative session</p>
+            </div>
+            <span class="status is-run" data-stream-status>Listening</span>
+          </header>
+          <ul class="stream" data-stream>
+            {
+              stream.map((e) => (
+                <li data-tone={e.tone} class="stream-row">
+                  <span class="st-time">{e.t}</span>
+                  <span class="st-name">{e.name}</span>
+                  <span class="st-where">{e.where}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <!-- Tag diagram -->
+        <section class="dash-card" data-draw-trigger aria-label="Tag manager relationship, demo diagram">
+          <header class="card-head">
+            <div>
+              <h3>From event to report</h3>
+              <p class="card-sub">How a measurement plan becomes a configured tag</p>
+            </div>
+          </header>
+          <div class="gtm">
+            <svg viewBox="0 0 560 190" class="gtm-svg" aria-hidden="true">
+              <path d="M118 95 H 214" class="gtm-edge" data-draw />
+              <path d="M330 95 H 424" class="gtm-edge" data-draw />
+              <path d="M272 62 C 300 30 380 26 448 26" class="gtm-edge alt" data-draw />
+              <path d="M272 128 C 300 160 380 164 448 164" class="gtm-edge alt" data-draw />
+              <g class="gtm-node">
+                <rect x="8" y="66" width="110" height="58" rx="12" />
+                <text x="63" y="92" text-anchor="middle" class="gn-t">Event</text>
+                <text x="63" y="110" text-anchor="middle" class="gn-s">generate_lead</text>
+              </g>
+              <g class="gtm-node">
+                <rect x="214" y="66" width="116" height="58" rx="12" />
+                <text x="272" y="92" text-anchor="middle" class="gn-t">Trigger</text>
+                <text x="272" y="110" text-anchor="middle" class="gn-s">form_submit</text>
+              </g>
+              <g class="gtm-node node-tag">
+                <rect x="424" y="0" width="128" height="52" rx="12" />
+                <text x="488" y="24" text-anchor="middle" class="gn-t">Tag</text>
+                <text x="488" y="41" text-anchor="middle" class="gn-s">analytics event</text>
+              </g>
+              <g class="gtm-node node-tag">
+                <rect x="424" y="69" width="128" height="52" rx="12" />
+                <text x="488" y="93" text-anchor="middle" class="gn-t">Tag</text>
+                <text x="488" y="110" text-anchor="middle" class="gn-s">ad conversion</text>
+              </g>
+              <g class="gtm-node node-tag">
+                <rect x="424" y="138" width="128" height="52" rx="12" />
+                <text x="488" y="162" text-anchor="middle" class="gn-t">Tag</text>
+                <text x="488" y="179" text-anchor="middle" class="gn-s">crm webhook</text>
+              </g>
+              <circle class="gtm-pulse" r="5">
+                <animateMotion dur="3.6s" repeatCount="indefinite" path="M118 95 H 214"></animateMotion>
+              </circle>
+            </svg>
+            <ul class="gtm-list">
+              <li><span class="gtm-dot"></span>One event can fan out to several destinations.</li>
+              <li><span class="gtm-dot"></span>Triggers decide when tags fire.</li>
+              <li><span class="gtm-dot"></span>Configuration lives in one place, not scattered in page code.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Data quality -->
+        <section class="dash-card quality" aria-label="Data quality checks, demo data">
+          <header class="card-head">
+            <div>
+              <h3>Data quality checks</h3>
+              <p class="card-sub">Validation is part of the implementation</p>
+            </div>
+            <span class="status is-done">12 / 12 passing</span>
+          </header>
+          <ul class="checks">
+            <li><span class="tick" aria-hidden="true"></span>No duplicate purchase events in the demo stream</li>
+            <li><span class="tick" aria-hidden="true"></span>Key event parameters present on every conversion</li>
+            <li><span class="tick" aria-hidden="true"></span>Consent state respected before tags fire</li>
+            <li><span class="tick" aria-hidden="true"></span>Cross-domain path reviewed for the demo journey</li>
+          </ul>
+        </section>
+      </div>
+
+      <p class="dash-disclaimer">
+        This dashboard is a visual demonstration. It is not connected to live Google Analytics or
+        Google Tag Manager data, and it does not imply any endorsement by Google. All figures are
+        illustrative.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../scripts/analytics';
+</script>
+
+<style>
+  .analytics {
+    background:
+      radial-gradient(80% 50% at 10% 0%, rgb(37 99 217 / 0.05), transparent 55%),
+      #fff;
+    overflow: clip;
+  }
+
+  .dash-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: end;
+    margin-bottom: clamp(2.5rem, 5vw, 3.75rem);
+  }
+
+  .dash-head h2 {
+    margin-top: 1.1rem;
+    max-width: 17ch;
+  }
+
+  .dash-chrome-right {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    background: color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+  }
+
+  .kpi {
+    background: rgb(255 255 255 / 0.92);
+    padding: 1.15rem 1.35rem;
+  }
+
+  .kpi-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  .kpi-value {
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3vw, 2.35rem);
+    line-height: 1.1;
+    margin-top: 0.35rem;
+  }
+
+  .kpi-delta {
+    font-size: 0.72rem;
+    color: var(--color-ink-3);
+    margin-top: 0.25rem;
+  }
+
+  .kpi-delta.up {
+    color: var(--color-emerald);
+  }
+
+  .dash-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 1.2rem;
+    background: color-mix(in srgb, var(--color-ink) 4%, transparent);
+  }
+
+  .dash-card {
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 16px;
+    padding: 1.15rem 1.25rem;
+    box-shadow: 0 1px 2px rgb(22 22 27 / 0.04);
+    grid-column: span 2;
+    min-width: 0;
+  }
+
+  .chart-card {
+    grid-column: span 4;
+  }
+
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .card-head h3 {
+    font-size: 0.975rem;
+    font-weight: 600;
+  }
+
+  .card-sub {
+    font-size: 0.74rem;
+    color: var(--color-ink-3);
+    margin-top: 0.15rem;
+  }
+
+  /* Chart */
+  .chart-legend {
+    display: flex;
+    gap: 0.9rem;
+  }
+
+  .lg {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    color: var(--color-ink-2);
+  }
+
+  .lg i {
+    width: 14px;
+    height: 3px;
+    border-radius: 2px;
+  }
+
+  .lg-sessions i {
+    background: var(--color-azure);
+  }
+
+  .lg-events i {
+    background: var(--color-amber);
+  }
+
+  .chart-wrap {
+    position: relative;
+    outline-offset: 4px;
+  }
+
+  .chart-svg {
+    width: 100%;
+    height: clamp(180px, 24vw, 250px);
+    overflow: visible;
+  }
+
+  .grid-lines line {
+    stroke: color-mix(in srgb, var(--color-ink) 8%, transparent);
+    stroke-width: 1;
+  }
+
+  .area-fill {
+    fill: url(#area-grad);
+    opacity: 0;
+    animation: area-in 1.2s 0.5s var(--ease-out) forwards;
+  }
+
+  @keyframes area-in {
+    to {
+      opacity: 1;
+    }
+  }
+
+  .line {
+    fill: none;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .line-sessions {
+    stroke: var(--color-azure);
+  }
+
+  .line-events {
+    stroke: var(--color-amber);
+    stroke-width: 2;
+    stroke-dasharray: 0; /* overridden by JS draw */
+  }
+
+  .focus-line {
+    stroke: color-mix(in srgb, var(--color-ink) 35%, transparent);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+  }
+
+  .focus-dot-s {
+    fill: #fff;
+    stroke: var(--color-azure);
+    stroke-width: 2.5;
+  }
+
+  .focus-dot-e {
+    fill: #fff;
+    stroke: var(--color-amber);
+    stroke-width: 2.5;
+  }
+
+  .chart-readout {
+    position: absolute;
+    top: 8px;
+    right: 6px;
+    background: var(--color-ink);
+    color: #fff;
+    border-radius: 10px;
+    padding: 0.55rem 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    line-height: 1.5;
+    pointer-events: none;
+    box-shadow: 0 10px 24px -10px rgb(0 0 0 / 0.5);
+    min-width: 9.5rem;
+  }
+
+  .cr-day {
+    color: rgb(255 255 255 / 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.58rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .cr-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .cr-row i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .cr-s {
+    background: #6f9bff;
+  }
+
+  .cr-e {
+    background: #f0a64a;
+  }
+
+  .chart-x {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    color: var(--color-ink-3);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    overflow: hidden;
+  }
+
+  .chart-x span:nth-child(even) {
+    display: none;
+  }
+
+  /* Sources */
+  .source-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .source-list li {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr 2.6rem;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.78rem;
+  }
+
+  .src-name {
+    color: var(--color-ink-2);
+  }
+
+  .src-track {
+    height: 8px;
+    border-radius: 99px;
+    background: color-mix(in srgb, var(--color-ink) 7%, transparent);
+    overflow: hidden;
+  }
+
+  .src-fill {
+    display: block;
+    height: 100%;
+    width: var(--w);
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--color-azure), color-mix(in srgb, var(--color-azure) 55%, #7fb2ff));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1s var(--ease-out);
+  }
+
+  [data-bars].play .src-fill {
+    transform: scaleX(1);
+  }
+
+  .src-pct {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-align: right;
+    color: var(--color-ink-2);
+  }
+
+  /* Funnel */
+  .funnel {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .funnel li {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr 3.4rem;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.78rem;
+  }
+
+  .fn-step {
+    color: var(--color-ink-2);
+  }
+
+  .fn-bar-wrap {
+    height: 22px;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--color-ink) 6%, transparent);
+    overflow: hidden;
+  }
+
+  .fn-bar {
+    display: block;
+    height: 100%;
+    width: var(--w);
+    border-radius: inherit;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--color-azure) 80%, #fff), var(--color-azure));
+    opacity: 0.85;
+  }
+
+  .funnel li:last-child .fn-bar {
+    background: linear-gradient(90deg, color-mix(in srgb, var(--color-emerald) 70%, #fff), var(--color-emerald));
+  }
+
+  .fn-count {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-align: right;
+    color: var(--color-ink);
+  }
+
+  /* Stream */
+  .stream {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 11.5rem;
+  }
+
+  .stream-row {
+    display: grid;
+    grid-template-columns: 3.6rem 1fr auto;
+    gap: 0.6rem;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 9px;
+    background: var(--color-paper);
+    transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+  }
+
+  .stream-row.pending {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .st-time {
+    color: var(--color-ink-3);
+  }
+
+  .st-name {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .st-where {
+    color: var(--color-ink-3);
+    font-size: 0.62rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 9rem;
+  }
+
+  .stream-row[data-tone='done'] {
+    border-color: color-mix(in srgb, var(--color-emerald) 35%, transparent);
+    background: color-mix(in srgb, var(--color-emerald) 5%, #fff);
+  }
+
+  .stream-row[data-tone='run'] {
+    border-color: color-mix(in srgb, var(--color-azure) 30%, transparent);
+  }
+
+  /* GTM diagram */
+  .gtm-svg {
+    width: 100%;
+    height: auto;
+  }
+
+  .gtm-edge {
+    stroke: color-mix(in srgb, var(--color-ink) 40%, transparent);
+    stroke-width: 2;
+    fill: none;
+  }
+
+  .gtm-edge.alt {
+    stroke-dasharray: 4 5;
+    stroke: color-mix(in srgb, var(--color-azure) 55%, transparent);
+  }
+
+  .gtm-node rect {
+    fill: #fff;
+    stroke: color-mix(in srgb, var(--color-ink) 18%, transparent);
+    stroke-width: 1.5;
+  }
+
+  .gtm-node.node-tag rect {
+    fill: color-mix(in srgb, var(--color-azure) 5%, #fff);
+    stroke: color-mix(in srgb, var(--color-azure) 35%, transparent);
+  }
+
+  .gn-t {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    fill: var(--color-ink-2);
+  }
+
+  .gn-s {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    fill: var(--color-ink);
+  }
+
+  .gtm-pulse {
+    fill: var(--color-azure);
+    filter: drop-shadow(0 0 4px rgb(37 99 217 / 0.6));
+  }
+
+  .gtm-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    margin-top: 0.9rem;
+    font-size: 0.8rem;
+    color: var(--color-ink-2);
+  }
+
+  .gtm-list li {
+    display: flex;
+    gap: 0.55rem;
+    align-items: flex-start;
+  }
+
+  .gtm-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-azure);
+    margin-top: 0.45rem;
+    flex: none;
+  }
+
+  /* Quality */
+  .checks {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    color: var(--color-ink-2);
+  }
+
+  .checks li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+  }
+
+  .tick {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-emerald) 14%, #fff);
+    border: 1.5px solid var(--color-emerald);
+    position: relative;
+    flex: none;
+    margin-top: 0.15rem;
+  }
+
+  .tick::after {
+    content: '';
+    position: absolute;
+    left: 3.5px;
+    top: 2px;
+    width: 4.5px;
+    height: 7px;
+    border: solid var(--color-emerald);
+    border-width: 0 1.8px 1.8px 0;
+    transform: rotate(45deg);
+  }
+
+  .dash-disclaimer {
+    padding: 0.95rem 1.35rem 1.2rem;
+    font-size: 0.8rem;
+    color: var(--color-ink-3);
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    background: rgb(255 255 255 / 0.85);
+  }
+
+  /* Responsive */
+  @media (max-width: 64rem) {
+    .kpi-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dash-card,
+    .chart-card {
+      grid-column: span 6;
+    }
+
+    .dash-head {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .dash-grid {
+      grid-template-columns: 1fr;
+      padding: 0.8rem;
+    }
+
+    .dash-card,
+    .chart-card {
+      grid-column: auto;
+    }
+
+    .kpi-row {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .source-list li,
+    .funnel li {
+      grid-template-columns: 5.5rem 1fr 2.8rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .area-fill {
+      animation: none;
+      opacity: 1;
+    }
+
+    .gtm-pulse {
+      display: none;
+    }
+
+    .src-fill {
+      transition: none;
+      transform: scaleX(1);
+    }
+  }
+</style>
