@@ -7,6 +7,7 @@ const service = serviceBySlug('ab-testing')!;
 <div
   class="experiment-lab"
   data-experiment-lab
+  data-scenario="cta"
   style={`--accent:${service.accent}; --soft:${service.accentSoft};`}
 >
   <header class="ex-head">
@@ -95,6 +96,8 @@ const service = serviceBySlug('ab-testing')!;
             <strong>Field Bottle 750</strong>
             <span class="ex-mock-meta">$24 · 4.6 rating · 128 reviews</span>
             <button class="ex-mock-cta is-quiet" type="button" tabindex="-1" data-ex-control-cta>Add to bag</button>
+            <span class="ex-delivery-late">Delivery charges appear later, at checkout</span>
+            <span class="ex-proof-plain">4.6 rating sits far below the price</span>
             <small data-ex-control-note>The action sits quietly lower on the page.</small>
           </div>
 
@@ -133,6 +136,8 @@ const service = serviceBySlug('ab-testing')!;
             <span class="ex-mock-kicker">Field series</span>
             <strong>Field Bottle 750</strong>
             <span class="ex-mock-meta">$24 · 4.6 rating · 128 reviews</span>
+            <span class="ex-delivery-pill"><i></i>Free delivery · arrives Thursday</span>
+            <span class="ex-proof-pill">★ 4.6 (128) · Free returns · $24</span>
             <button class="ex-mock-cta is-strong" type="button" tabindex="-1" data-ex-variant-cta>Add to bag · $24</button>
             <small data-ex-variant-note>Price joins the action, so the next step is obvious.</small>
           </div>
@@ -619,6 +624,58 @@ const service = serviceBySlug('ab-testing')!;
     color: #fff;
     border: 1px solid var(--accent);
     box-shadow: 0 12px 24px -14px color-mix(in srgb, var(--accent) 80%, transparent);
+  }
+
+  /* Scenario-specific changes: each question changes the mock visibly,
+     not just the caption. Hidden unless that scenario is selected. */
+  .ex-delivery-late,
+  .ex-proof-plain,
+  .ex-delivery-pill,
+  .ex-proof-pill {
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 650;
+    line-height: 1.35;
+    border-radius: 999px;
+    padding: 0.34rem 0.65rem;
+    margin-top: 0.35rem;
+  }
+
+  .ex-delivery-late,
+  .ex-proof-plain {
+    color: var(--color-ink-3);
+    border: 1px dashed color-mix(in srgb, var(--color-ink) 22%, transparent);
+    background: rgb(255 255 255 / 0.55);
+  }
+
+  .ex-delivery-pill {
+    color: #0c4630;
+    background: color-mix(in srgb, var(--color-emerald) 16%, #fff);
+    border: 1px solid color-mix(in srgb, var(--color-emerald) 38%, transparent);
+  }
+
+  .ex-delivery-pill i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-emerald);
+    flex: none;
+  }
+
+  .ex-proof-pill {
+    color: color-mix(in srgb, var(--color-amber) 82%, #000);
+    background: color-mix(in srgb, var(--color-amber) 15%, #fff);
+    border: 1px solid color-mix(in srgb, var(--color-amber) 42%, transparent);
+  }
+
+  .experiment-lab[data-scenario='delivery'] .ex-delivery-late,
+  .experiment-lab[data-scenario='delivery'] .ex-delivery-pill,
+  .experiment-lab[data-scenario='proof'] .ex-proof-plain,
+  .experiment-lab[data-scenario='proof'] .ex-proof-pill {
+    display: inline-flex;
+    animation: ex-log-in 0.45s var(--ease-out);
   }
 
   .ex-stream {

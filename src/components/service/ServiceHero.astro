@@ -47,6 +47,7 @@ const { service, lede, artAlt } = Astro.props;
         <span class="sv-ring sv-ring--a"></span>
         <span class="sv-ring sv-ring--b"></span>
         <span class="sv-bars"><b></b><b></b><b></b><b></b></span>
+        <span class="sv-dot"></span>
       </span>
       <figcaption class="sv-art-caption">
         <span class="chip"><span class="chip-dot"></span>Custom visual · {service.navTitle}</span>
@@ -234,6 +235,40 @@ const { service, lede, artAlt } = Astro.props;
     50% { transform: scaleY(1.15); }
   }
 
+  .sv-dot {
+    position: absolute;
+    top: 0.95rem;
+    right: 0.95rem;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid rgb(255 255 255 / 0.92);
+    box-shadow:
+      0 0 12px 3px color-mix(in srgb, var(--accent) 55%, transparent),
+      0 0 0 0 color-mix(in srgb, var(--accent) 42%, transparent);
+    animation: sv-dot-ping 2.4s ease-out infinite;
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  @keyframes sv-dot-ping {
+    0% {
+      box-shadow:
+        0 0 12px 3px color-mix(in srgb, var(--accent) 55%, transparent),
+        0 0 0 0 color-mix(in srgb, var(--accent) 42%, transparent);
+    }
+    70%, 100% {
+      box-shadow:
+        0 0 16px 4px color-mix(in srgb, var(--accent) 42%, transparent),
+        0 0 0 14px transparent;
+    }
+  }
+
+  .sv-hero-art:hover .sv-dot {
+    transform: scale(1.35);
+    animation-duration: 1.1s;
+  }
+
   .sv-art-caption .chip {
     animation: sv-chip-float 4.5s ease-in-out infinite;
   }
@@ -244,7 +279,7 @@ const { service, lede, artAlt } = Astro.props;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .sv-hero-art img, .sv-scan, .sv-ring, .sv-bars b, .sv-art-caption .chip {
+    .sv-hero-art img, .sv-scan, .sv-ring, .sv-bars b, .sv-dot, .sv-art-caption .chip {
       animation: none;
     }
   }

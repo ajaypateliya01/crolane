@@ -160,6 +160,7 @@ function initExperimentLab(root: HTMLElement) {
   };
 
   let scenario = SCENARIOS.cta;
+  let scenarioId = 'cta';
   let running = false;
   let raf = 0;
   let dotTimer = 0;
@@ -245,6 +246,7 @@ function initExperimentLab(root: HTMLElement) {
   }
 
   function applyScenario() {
+    root.dataset.scenario = scenarioId;
     els.hypothesis.textContent = scenario.hypothesis;
     els.decision.textContent = scenario.decision;
     els.controlCta.textContent = scenario.controlCta;
@@ -346,8 +348,10 @@ function initExperimentLab(root: HTMLElement) {
 
   scenarioBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
-      const next = SCENARIOS[btn.dataset.exScenario || 'cta'];
+      const nextId = btn.dataset.exScenario || 'cta';
+      const next = SCENARIOS[nextId];
       if (!next) return;
+      scenarioId = nextId;
       scenario = next;
       scenarioBtns.forEach((item) => {
         const active = item === btn;
