@@ -161,6 +161,7 @@ function initCroLab(root: HTMLElement) {
     deltaEl.hidden = false;
     statusEl.textContent = 'Fix applied. In a real engagement, this is the change an A/B test would validate next.';
     applyBtn.disabled = true;
+    applyBtn.classList.remove('attn');
     applyBtn.textContent = 'Fix applied';
   }
 

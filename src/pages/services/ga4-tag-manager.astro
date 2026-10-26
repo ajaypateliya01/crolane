@@ -3,7 +3,7 @@ export const prerender = true;
 
 import Base from '../../layouts/Base.astro';
 import ServiceLayout from '../../components/service/ServiceLayout.astro';
-import AnalyticsDash from '../../components/AnalyticsDash.astro';
+import Ga4Lab from '../../components/Ga4Lab.astro';
 import { serviceBySlug } from '../../config/services';
 
 const service = serviceBySlug('ga4-tag-manager')!;
@@ -43,7 +43,7 @@ const faqs = [
     scopeTitle="What analytics implementation includes"
   >
     <Fragment slot="visual">
-      <AnalyticsDash />
+      <Ga4Lab />
     </Fragment>
 
     <Fragment slot="problem">

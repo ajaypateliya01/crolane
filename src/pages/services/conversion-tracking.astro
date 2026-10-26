@@ -3,7 +3,7 @@ export const prerender = true;
 
 import Base from '../../layouts/Base.astro';
 import ServiceLayout from '../../components/service/ServiceLayout.astro';
-import TrackingFlow from '../../components/TrackingFlow.astro';
+import TrackingLab from '../../components/TrackingLab.astro';
 import { serviceBySlug } from '../../config/services';
 
 const service = serviceBySlug('conversion-tracking')!;
@@ -43,7 +43,7 @@ const faqs = [
     scopeTitle="What conversion tracking includes"
   >
     <Fragment slot="visual">
-      <TrackingFlow />
+      <TrackingLab />
     </Fragment>
 
     <Fragment slot="problem">

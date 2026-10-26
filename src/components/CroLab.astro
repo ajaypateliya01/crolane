@@ -45,7 +45,7 @@ const service = serviceBySlug('cro-audit')!;
               <li>Put one proof point beside the action, not below it</li>
             </ul>
           </div>
-          <button class="btn btn-primary cl-apply" type="button" data-cl-apply>Apply the fix</button>
+          <button class="btn btn-primary cl-apply attn" type="button" data-cl-apply>Apply the fix</button>
           <p class="cl-hint">Pick a stage, then apply the fix to watch the funnel respond.</p>
         </div>
 
@@ -223,6 +223,17 @@ const service = serviceBySlug('cro-audit')!;
     margin-top: 0.3rem;
   }
 
+  .cl-apply.attn {
+    animation: cl-play-glow 2.1s ease-in-out infinite;
+  }
+
+  @keyframes cl-play-glow {
+    50% {
+      box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 20%, transparent),
+        0 18px 34px -16px color-mix(in srgb, var(--accent) 72%, transparent);
+    }
+  }
+
   .cl-apply:disabled {
     opacity: 0.75;
     cursor: default;
@@ -379,7 +390,7 @@ const service = serviceBySlug('cro-audit')!;
     .cl-fill, .cl-tab, .cl-steps li, .cl-steps li::before {
       transition: none;
     }
-    .cl-delta, .cl-live-dot, .cl-right {
+    .cl-delta, .cl-live-dot, .cl-right, .cl-apply.attn {
       animation: none;
     }
   }
