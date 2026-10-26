@@ -20,7 +20,7 @@ function initWorkflow(root: HTMLElement) {
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const runBtn = root.querySelector<HTMLButtonElement>('[data-wf-run]');
-  const summary = root.querySelector<HTMLElement>('[data-wf-summary]');
+  const summary = root.querySelector<HTMLElement>('[data-wf-run-summary]');
   const titleEl = root.querySelector<HTMLElement>('[data-wf-title]');
   const descEl = root.querySelector<HTMLElement>('[data-wf-desc]');
   const detailEl = root.querySelector<HTMLElement>('[data-wf-detail]');
@@ -55,23 +55,32 @@ function initWorkflow(root: HTMLElement) {
     if (cls) el.classList.add(cls);
   }
 
+  let runComplete = false;
+  let selectedId = 'n1';
+
   function select(id: string) {
     const meta = metas.get(id);
     if (!meta) return;
+    selectedId = id;
     btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.nodeBtn === id)));
     if (titleEl) titleEl.textContent = meta.title;
     if (descEl) descEl.textContent = meta.desc;
     if (detailEl) detailEl.textContent = meta.detail;
     if (payloadEl) {
-      payloadEl.innerHTML = `<pre></pre>`;
-      const pre = payloadEl.querySelector('pre');
-      if (pre) pre.textContent = meta.payload;
+      let pre = payloadEl.querySelector('pre');
+      if (!pre) {
+        pre = document.createElement('pre');
+        payloadEl.prepend(pre);
+      }
+      pre.textContent = meta.payload;
       const isOutcome = id === 'n7';
       payloadEl.classList.toggle('is-outcome', isOutcome);
       payloadEl.setAttribute('aria-label', isOutcome ? 'Recorded outcome' : 'Sample payload');
       if (payloadLabel) {
         payloadLabel.textContent = isOutcome ? 'Outcome · recorded' : 'Sample payload';
       }
+      // The run summary belongs to the finished outcome, inside the black box.
+      if (summary) summary.hidden = !(runComplete && isOutcome);
     }
   }
 
@@ -80,6 +89,7 @@ function initWorkflow(root: HTMLElement) {
       setStatus(id, 'idle', '');
       nodeEl(id)?.classList.remove('flow-run', 'flow-done');
     });
+    runComplete = false;
     summary?.setAttribute('hidden', '');
     runBtn && (runBtn.textContent = 'Run the demo');
   }
@@ -89,7 +99,8 @@ function initWorkflow(root: HTMLElement) {
 
   function finish() {
     running = false;
-    summary?.removeAttribute('hidden');
+    runComplete = true;
+    if (selectedId === 'n7') summary?.removeAttribute('hidden');
     if (runBtn) runBtn.textContent = 'Run again';
   }
 

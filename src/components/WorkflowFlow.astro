@@ -160,13 +160,13 @@ const nodes: Node[] = [
             <pre>channel: website form
 name: Rohan S.
 message: "Need a quote for a 40 page site"</pre>
-          </div>
-          <div class="wf-summary" data-wf-summary hidden>
-            <p class="label-mono">Run summary</p>
-            <p>
-              Enquiry classified, missing detail routed to a clarifying reply, human review
-              requested. <strong>7 steps, 0 manual reads.</strong>
-            </p>
+            <div class="wf-run-summary" data-wf-run-summary hidden>
+              <p class="wf-rs-label">Run summary</p>
+              <p class="wf-rs-text">
+                Enquiry classified, missing detail routed to a clarifying reply, human review
+                requested. <strong>7 steps, 0 manual reads.</strong>
+              </p>
+            </div>
           </div>
         </aside>
       </div>
@@ -416,22 +416,34 @@ message: "Need a quote for a 40 page site"</pre>
     word-break: break-word;
   }
 
-  .wf-summary {
-    background: color-mix(in srgb, var(--color-emerald) 8%, #fff);
-    border: 1px solid color-mix(in srgb, var(--color-emerald) 30%, transparent);
-    border-radius: 12px;
-    padding: 0.85rem 0.95rem;
+  /* Run summary lives inside the black outcome box, in green. */
+  .wf-run-summary {
+    border-top: 1px solid rgb(185 232 210 / 0.22);
+    margin-top: 0.8rem;
+    padding-top: 0.8rem;
   }
 
-  .wf-summary .label-mono {
-    color: var(--color-emerald);
-    margin-bottom: 0.3rem;
+  .wf-run-summary[hidden] {
+    display: none;
   }
 
-  .wf-summary p:last-child {
-    font-size: 0.85rem;
-    color: var(--color-ink-2);
-    line-height: 1.55;
+  .wf-rs-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #7fd6ae;
+    margin-bottom: 0.35rem;
+  }
+
+  .wf-rs-text {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #b9e8d2;
+  }
+
+  .wf-rs-text strong {
+    color: #eafff3;
   }
 
   .wf-disclaimer {
