@@ -53,7 +53,7 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
     </div>
 
     <div class="dash-wrap" data-reveal="scale" data-reveal-delay="0.18">
-      <div class="dash" data-hero-dash>
+      <div class="dash" data-hero-dash data-tilt="5">
         <div class="dash-top">
           <span class="dash-dots" aria-hidden="true"><i></i><i></i><i></i></span>
           <span class="dash-title">Store performance</span>
@@ -82,7 +82,7 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
         <div class="rev-row">
           <div>
             <span class="kpi-label">Revenue today</span>
-            <span class="rev-value">₹<span data-kpi="revenue">12,48,300</span></span>
+            <span class="rev-value">$<span data-kpi="revenue">184,520</span></span>
           </div>
           <span class="delta-chip">+12.4% vs yesterday · demo</span>
         </div>
@@ -115,6 +115,14 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
           <div class="chart-legend" aria-hidden="true">
             <span><i class="lg lg-a"></i>Variant A</span>
             <span><i class="lg lg-b"></i>Variant B · test</span>
+            <span class="vis-now"><i class="ev ev-e"></i><b data-kpi="visitors">312</b>&nbsp;visitors now</span>
+          </div>
+          <div class="donut" aria-hidden="true">
+            <svg viewBox="0 0 44 44">
+              <circle class="donut-bg" cx="22" cy="22" r="17"></circle>
+              <circle class="donut-val" cx="22" cy="22" r="17"></circle>
+            </svg>
+            <span>B</span>
           </div>
         </div>
 
@@ -136,7 +144,7 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
       </div>
       <div class="hero-chip chip-b anim-float-late" aria-hidden="true">
         <span class="hc-dot hc-emerald"></span>
-        <span data-toast>Purchase · ₹1,890 · just now</span>
+        <span data-toast>Purchase · $120 · just now</span>
       </div>
     </div>
   </div>
@@ -440,6 +448,74 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
     white-space: nowrap;
   }
 
+  .dash::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 35%, rgb(255 255 255 / 0.35) 50%, transparent 65%);
+    transform: translateX(-130%);
+    animation: dash-shine 5.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes dash-shine {
+    0%, 55% { transform: translateX(-130%); }
+    85%, 100% { transform: translateX(130%); }
+  }
+
+  .vis-now {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  .vis-now b { color: var(--color-ink); }
+
+  .donut {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.6rem;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+  }
+
+  .donut svg {
+    position: absolute;
+    inset: 0;
+    transform: rotate(-90deg);
+  }
+
+  .donut circle {
+    fill: none;
+    stroke-width: 5;
+  }
+
+  .donut-bg { stroke: color-mix(in srgb, var(--color-ink) 9%, transparent); }
+
+  .donut-val {
+    stroke: var(--color-amber);
+    stroke-linecap: round;
+    stroke-dasharray: 72 107;
+    animation: donut-spin 7s linear infinite;
+    transform-origin: center;
+  }
+
+  @keyframes donut-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .donut span {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--color-amber);
+  }
+
   .chart-box {
     position: relative;
     border: 1px solid color-mix(in srgb, var(--color-ink) 7%, transparent);
@@ -641,6 +717,8 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
 
   @media (prefers-reduced-motion: reduce) {
     .scroll-line::after,
+    .dash::after,
+    .donut-val,
     .live-dot,
     .grad-word,
     .dash::before {

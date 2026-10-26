@@ -1006,3 +1006,54 @@ html.js [data-reveal="scale"] {
     animation: none;
   }
 }
+
+/* Cursor spotlight: a soft theme-tinted light that follows the pointer. */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 520px;
+  height: 520px;
+  margin: -260px 0 0 -260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(62 78 245 / 0.09), rgb(199 116 21 / 0.04) 45%, transparent 65%);
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+@media (pointer: coarse) {
+  .cursor-glow {
+    display: none;
+  }
+}
+
+/* Primary buttons get a light sweep on hover. */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 32%, rgb(255 255 255 / 0.35) 50%, transparent 68%);
+  transform: translateX(-130%);
+  transition: transform 0.85s var(--ease-out);
+  pointer-events: none;
+}
+
+.btn-primary:hover::after {
+  transform: translateX(130%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-glow {
+    display: none;
+  }
+  .btn-primary::after {
+    display: none;
+  }
+}

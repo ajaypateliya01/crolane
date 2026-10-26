@@ -16,6 +16,7 @@ export function initHeroDash(root: HTMLElement) {
   const elCarts = q<HTMLElement>('[data-kpi="carts"]');
   const elRate = q<HTMLElement>('[data-kpi="rate"]');
   const elRevenue = q<HTMLElement>('[data-kpi="revenue"]');
+  const elVisitors = q<HTMLElement>('[data-kpi="visitors"]');
   const area = q<SVGPathElement>('[data-chart-area]');
   const lineA = q<SVGPathElement>('[data-chart-a]');
   const lineB = q<SVGPathElement>('[data-chart-b]');
@@ -28,15 +29,16 @@ export function initHeroDash(root: HTMLElement) {
     purchases: 1284,
     carts: 3912,
     checkout: 986,
-    revenue: 1248300,
+    revenue: 184520,
     rate: 3.42,
+    visitors: 312,
   };
 
   const N = 26;
   const seriesA: number[] = Array.from({ length: N }, (_, i) => 70 + Math.sin(i * 0.55) * 22 + i * 1.1);
   const seriesB: number[] = seriesA.map((v, i) => v * 1.07 + 7 + Math.sin(i * 0.4) * 5);
 
-  const fmt = (n: number) => Math.round(n).toLocaleString('en-IN');
+  const fmt = (n: number) => Math.round(n).toLocaleString('en-US');
   const W = 560;
   const H = 190;
 
@@ -78,6 +80,7 @@ export function initHeroDash(root: HTMLElement) {
     elCarts!.textContent = fmt(state.carts);
     elRate!.textContent = `${state.rate.toFixed(2)}%`;
     elRevenue!.textContent = fmt(state.revenue);
+    if (elVisitors) elVisitors.textContent = fmt(state.visitors);
     root.querySelectorAll<HTMLElement>('[data-evt]').forEach((el) => {
       const key = el.dataset.evt as keyof typeof state;
       if (key in state) el.textContent = fmt(state[key] as number);
@@ -91,10 +94,10 @@ export function initHeroDash(root: HTMLElement) {
   }
 
   const toasts = [
-    'Purchase · ₹1,890 · just now',
-    'Add to cart · Field Bottle · now',
-    'Checkout started · ₹3,390 · now',
-    'Purchase · ₹2,450 · just now',
+    'Purchase · $120 · just now',
+    'Add to cart · $48 · now',
+    'Checkout started · $214 · now',
+    'Purchase · $156 · just now',
   ];
   let toastIdx = 0;
 
@@ -105,8 +108,9 @@ export function initHeroDash(root: HTMLElement) {
     state.carts += cartsInc;
     state.purchases += buyInc;
     state.checkout += checkoutInc;
-    state.revenue += buyInc * (1150 + Math.random() * 950) + cartsInc * 35;
+    state.revenue += buyInc * (82 + Math.random() * 68) + cartsInc * 3;
     state.rate = Math.max(3.08, Math.min(3.86, state.rate + (Math.random() - 0.46) * 0.07));
+    state.visitors = Math.max(240, Math.min(430, state.visitors + Math.floor((Math.random() - 0.44) * 14)));
 
     const nextA = seriesA[seriesA.length - 1] + (Math.random() - 0.42) * 11 + 0.7;
     seriesA.push(Math.max(26, Math.min(158, nextA)));
