@@ -313,6 +313,34 @@ const hypotheses = [
     container-type: inline-size;
   }
 
+  /* Gentle attention glow on the differences toggle until first use. */
+  [data-diffs-toggle].attn {
+    border-color: color-mix(in srgb, var(--color-amber) 70%, transparent);
+    color: var(--color-ink);
+    animation: diffs-glow 2.2s ease-in-out infinite;
+  }
+
+  @keyframes diffs-glow {
+    50% {
+      box-shadow: 0 0 0 5px rgb(199 116 21 / 0.22), 0 10px 24px -10px rgb(199 116 21 / 0.6);
+    }
+  }
+
+  /* Right-anchored annotations grow their labels leftwards, so desktop
+     panels never clip them at the edge. */
+  .annot-3,
+  .annot-6 {
+    flex-direction: row-reverse;
+  }
+
+  .ab-stage .annot {
+    z-index: 6;
+  }
+
+  .ab-stage .annot.match {
+    z-index: 7;
+  }
+
   .ab-chrome-actions {
     display: flex;
     align-items: center;
@@ -1085,6 +1113,7 @@ const hypotheses = [
     .cmp-arrow,
     .metric-delta,
     .annot.match .pin::after,
+    [data-diffs-toggle].attn,
     .ab-stage[data-diffs='true'] [data-hyp].hl {
       animation: none;
     }

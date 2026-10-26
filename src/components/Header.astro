@@ -71,6 +71,15 @@ const isActiveService = path.startsWith('/services/');
                     </li>
                   ))
                 }
+                <li>
+                  <a href="/contact/" class="menu-item menu-cta-tile">
+                    <span class="menu-num" style="color:var(--color-emerald)">→</span>
+                    <span class="menu-copy">
+                      <span class="menu-title">Not sure where to start?</span>
+                      <span class="menu-desc">Tell us the problem and we will point you to the right service.</span>
+                    </span>
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
@@ -261,7 +270,10 @@ const isActiveService = path.startsWith('/services/');
     top: calc(100% + 0.4rem);
     left: 50%;
     transform: translateX(-50%);
-    width: min(56rem, calc(100vw - 3rem));
+    width: min(56rem, calc(100vw - 2rem));
+    max-height: calc(100dvh - 5.5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     background: color-mix(in srgb, var(--color-paper) 94%, transparent);
     backdrop-filter: blur(18px) saturate(1.3);
     -webkit-backdrop-filter: blur(18px) saturate(1.3);
@@ -326,9 +338,6 @@ const isActiveService = path.startsWith('/services/');
     list-style: none;
   }
 
-  .menu-grid li:last-child {
-    grid-column: span 2;
-  }
 
   .menu-item {
     display: flex;
@@ -341,6 +350,16 @@ const isActiveService = path.startsWith('/services/');
   .menu-item:hover,
   .menu-item[data-active='true'] {
     background: #fff;
+  }
+
+  .menu-cta-tile {
+    background: color-mix(in srgb, var(--color-emerald) 8%, #fff);
+    border: 1px dashed color-mix(in srgb, var(--color-emerald) 40%, transparent);
+    height: 100%;
+  }
+
+  .menu-cta-tile:hover {
+    background: color-mix(in srgb, var(--color-emerald) 14%, #fff);
   }
 
   .menu-num {
@@ -371,6 +390,18 @@ const isActiveService = path.startsWith('/services/');
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  @media (max-width: 75rem) {
+    .menu-panel-inner {
+      grid-template-columns: 11.5rem 1fr;
+      gap: 1.25rem;
+      padding: 1.3rem;
+    }
+
+    .menu-desc {
+      -webkit-line-clamp: 2;
+    }
   }
 
   /* Mobile toggle ------------------------------------------------------ */

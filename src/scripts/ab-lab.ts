@@ -1,7 +1,7 @@
 /**
  * A/B lab interactions: difference annotations, per-case element highlights,
- * a plain-language difference summary, auto-cycling through every hypothesis
- * until the visitor takes over, and an animated sample bar. Pure DOM state;
+ * a plain-language difference summary and an animated sample bar. The lab
+ * rests in its normal state until the visitor opens the differences. Pure DOM state;
  * transitions live in CSS. Everything calms down under reduced motion.
  */
 
@@ -50,8 +50,6 @@ function initLab(lab: HTMLElement) {
 
   let diffsOn = false;
   let activeHyp = order[0] || 'h1';
-  let cycleTimer: number | undefined;
-  let interacted = false;
 
   function applyAnnotations() {
     annots.forEach((a) => {
@@ -63,8 +61,13 @@ function initLab(lab: HTMLElement) {
     });
   }
 
+  // Until the visitor opens the differences once, the toggle glows gently
+  // so it is obvious where to click. This is the resting state of the lab.
+  diffsBtn?.classList.add('attn');
+
   function setDiffs(on: boolean) {
     diffsOn = on;
+    if (on) diffsBtn?.classList.remove('attn');
     lab.dataset.diffs = String(on);
     if (diffsBtn) {
       diffsBtn.setAttribute('aria-pressed', String(on));
@@ -98,38 +101,12 @@ function initLab(lab: HTMLElement) {
       }, 160);
     }
     setCompare(id);
-    if (!diffsOn) setDiffs(true);
-    else applyAnnotations();
+    applyAnnotations();
   }
 
-  function stopCycle() {
-    window.clearInterval(cycleTimer);
-    cycleTimer = undefined;
-  }
-
-  function startCycle() {
-    if (reduced || interacted || cycleTimer !== undefined || order.length < 2) return;
-    cycleTimer = window.setInterval(() => {
-      const next = order[(order.indexOf(activeHyp) + 1) % order.length];
-      setHyp(next);
-    }, 4600);
-  }
-
-  diffsBtn?.addEventListener('click', () => {
-    interacted = true;
-    stopCycle();
-    setDiffs(!diffsOn);
-  });
+  diffsBtn?.addEventListener('click', () => setDiffs(!diffsOn));
   hypBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      interacted = true;
-      stopCycle();
-      setHyp(btn.dataset.hypBtn || 'h1');
-    });
-  });
-  lab.addEventListener('pointerdown', () => {
-    interacted = true;
-    stopCycle();
+    btn.addEventListener('click', () => setHyp(btn.dataset.hypBtn || 'h1'));
   });
 
   // Sample bar fills when the lab scrolls into view.
@@ -150,25 +127,8 @@ function initLab(lab: HTMLElement) {
     }
   }
 
-  // Auto-showcase every case while the lab is on screen.
-  if (!reduced) {
-    const vis = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.some((e) => e.isIntersecting);
-        if (visible && !document.hidden) startCycle();
-        else stopCycle();
-      },
-      { rootMargin: '100px' }
-    );
-    vis.observe(lab);
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) stopCycle();
-    });
-    window.addEventListener('pagehide', stopCycle, { once: true });
-  }
-
-  // Land in a clear state: differences visible, first case highlighted.
-  setHyp(activeHyp);
+  // Resting state: normal panels, no highlights, first case selected.
+  applyAnnotations();
 }
 
 function boot() {
