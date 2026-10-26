@@ -31,6 +31,7 @@ export function initMotion() {
   initParallax();
   initCounters();
   initDrawings();
+  initFloaters();
 
   // Recalculate after fonts and images settle.
   window.addEventListener('load', () => ScrollTrigger.refresh());
@@ -289,6 +290,20 @@ function initParallax() {
 }
 
 /** Soft spotlight that trails the pointer across the whole page. */
+function initFloaters() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll<HTMLElement>('[data-float]').forEach((el, i) => {
+    gsap.to(el, {
+      y: -9,
+      duration: 2.4 + (i % 3) * 0.55,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+      delay: i * 0.35,
+    });
+  });
+}
+
 function initSpotlight() {
   if (reduced() || !window.matchMedia('(pointer: fine)').matches) return;
   const glow = document.querySelector<HTMLElement>('.cursor-glow');

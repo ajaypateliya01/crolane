@@ -1,0 +1,386 @@
+---
+import { serviceBySlug } from '../config/services';
+
+const service = serviceBySlug('cro-audit')!;
+---
+
+<section
+  class="cro-lab"
+  data-cro-lab
+  style={`--accent:${service.accent}; --soft:${service.accentSoft};`}
+  aria-labelledby="cro-lab-title"
+>
+  <div class="container-x">
+    <header class="cl-head">
+      <p class="eyebrow eyebrow--accent" data-reveal="fade">Interactive demo · Funnel Fix Lab</p>
+      <h2 class="display-md" id="cro-lab-title" data-reveal>See a fix change the funnel</h2>
+      <p class="cl-lede" data-reveal data-reveal-delay="0.08">
+        This is the shape of a CRO audit in miniature. Pick a stage of the journey, read the
+        friction an audit typically finds there, then apply the fix and watch the funnel respond.
+      </p>
+    </header>
+
+    <div class="cl-shell" data-reveal="scale">
+      <div class="cl-tabs" role="tablist" aria-label="Journey stage">
+        <button class="cl-tab is-active" type="button" role="tab" aria-selected="true" data-cl-tab="landing">Landing page</button>
+        <button class="cl-tab" type="button" role="tab" aria-selected="false" data-cl-tab="product">Product page</button>
+        <button class="cl-tab" type="button" role="tab" aria-selected="false" data-cl-tab="cart">Cart</button>
+        <button class="cl-tab" type="button" role="tab" aria-selected="false" data-cl-tab="checkout">Checkout</button>
+      </div>
+
+      <div class="cl-grid">
+        <div class="cl-left">
+          <div class="cl-card">
+            <p class="cl-kicker">What the audit finds</p>
+            <p class="cl-finding" data-cl-finding>
+              The main promise sits below the fold on mobile, so first-time visitors scroll past
+              the reason to stay.
+            </p>
+          </div>
+          <div class="cl-card">
+            <p class="cl-kicker">The fix we would test</p>
+            <ul class="cl-steps" data-cl-steps>
+              <li>Lift the promise and primary action into the first screen</li>
+              <li>Match the headline to the ad or link that sent them</li>
+              <li>Put one proof point beside the action, not below it</li>
+            </ul>
+          </div>
+          <button class="btn btn-primary cl-apply" type="button" data-cl-apply>Apply the fix</button>
+          <p class="cl-hint">Pick a stage, then apply the fix to watch the funnel respond.</p>
+        </div>
+
+        <div class="cl-right">
+          <p class="cl-metric-label" data-cl-metric>Visitors who continue</p>
+          <p class="cl-rate"><span data-cl-rate>38</span><span class="cl-rate-unit">%</span></p>
+          <div class="cl-bars">
+            <div class="cl-bar-row">
+              <span class="cl-bar-name">Before</span>
+              <div class="cl-track"><div class="cl-fill cl-fill--before" data-cl-bar-before></div></div>
+              <b data-cl-val-before>38%</b>
+            </div>
+            <div class="cl-bar-row">
+              <span class="cl-bar-name">After fix</span>
+              <div class="cl-track"><div class="cl-fill cl-fill--after" data-cl-bar-after></div></div>
+              <b data-cl-val-after>38%</b>
+            </div>
+          </div>
+          <p class="cl-delta" data-cl-delta hidden>+19 pts after the fix</p>
+          <p class="cl-status"><span class="cl-live-dot" aria-hidden="true"></span><span data-cl-status>Showing the current experience, before any fix.</span></p>
+        </div>
+      </div>
+
+      <p class="cl-note">
+        Illustrative demo with made-up figures. A real audit measures your actual funnel first,
+        then recommends what to test. Nothing here promises a result.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../scripts/cro-lab';
+</script>
+
+<style>
+  .cro-lab {
+    padding: clamp(3.8rem, 7.5vw, 6.4rem) 0;
+    background:
+      radial-gradient(55% 60% at 88% 8%, color-mix(in srgb, var(--soft) 80%, transparent), transparent 70%),
+      var(--color-paper);
+  }
+
+  .cl-head {
+    max-width: 44rem;
+    margin-bottom: clamp(1.8rem, 4vw, 2.8rem);
+  }
+
+  .cl-lede {
+    margin-top: 1rem;
+    color: var(--color-ink-2);
+    line-height: 1.65;
+  }
+
+  .cl-shell {
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 24px;
+    box-shadow: var(--shadow-lift);
+    padding: clamp(1.2rem, 3vw, 2rem);
+  }
+
+  .cl-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .cl-tab {
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 600;
+    padding: 0.55rem 1.05rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
+    background: var(--color-paper);
+    color: var(--color-ink-2);
+    cursor: pointer;
+    transition: background-color 0.3s var(--ease-out), color 0.3s var(--ease-out),
+      border-color 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  }
+
+  .cl-tab:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+
+  .cl-tab.is-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .cl-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.2rem, 3vw, 2.2rem);
+    align-items: start;
+  }
+
+  .cl-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .cl-card {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--color-paper);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
+    border-radius: 16px;
+    padding: 1.05rem 1.2rem;
+  }
+
+  .cl-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.55rem;
+  }
+
+  .cl-finding {
+    line-height: 1.6;
+    color: var(--color-ink);
+  }
+
+  .cl-steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .cl-steps li {
+    position: relative;
+    padding-left: 1.7rem;
+    line-height: 1.5;
+    color: var(--color-ink-2);
+    transition: color 0.4s var(--ease-out);
+  }
+
+  .cl-steps li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.28em;
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 50%;
+    border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+    background: transparent;
+    transition: background-color 0.4s var(--ease-out), border-color 0.4s var(--ease-out),
+      box-shadow 0.4s var(--ease-out);
+  }
+
+  .cro-lab.applied .cl-steps li {
+    color: var(--color-ink);
+  }
+
+  .cro-lab.applied .cl-steps li::before {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+
+  .cro-lab.applied .cl-steps li:nth-child(2)::before { transition-delay: 0.25s; }
+  .cro-lab.applied .cl-steps li:nth-child(3)::before { transition-delay: 0.5s; }
+
+  .cl-apply {
+    margin-top: 0.3rem;
+  }
+
+  .cl-apply:disabled {
+    opacity: 0.75;
+    cursor: default;
+  }
+
+  .cl-hint {
+    font-size: 0.82rem;
+    color: var(--color-ink-3);
+  }
+
+  .cl-right {
+    animation: cl-float 7s ease-in-out infinite;
+    background: linear-gradient(165deg, #17171d, #1d1c26 75%);
+    color: #fff;
+    border-radius: 18px;
+    padding: clamp(1.2rem, 2.6vw, 1.7rem);
+    box-shadow: var(--shadow-panel);
+  }
+
+  .cl-metric-label {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.62);
+  }
+
+  .cl-rate {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 4.4rem);
+    line-height: 1.05;
+    margin: 0.5rem 0 1.3rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cl-rate-unit {
+    font-size: 0.45em;
+    color: rgb(255 255 255 / 0.6);
+    margin-left: 0.15rem;
+  }
+
+  .cl-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+  }
+
+  .cl-bar-row {
+    display: grid;
+    grid-template-columns: 4.6rem minmax(0, 1fr) 3rem;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .cl-bar-name {
+    font-size: 0.78rem;
+    color: rgb(255 255 255 / 0.66);
+  }
+
+  .cl-track {
+    height: 12px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.14);
+    overflow: hidden;
+  }
+
+  .cl-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    transition: width 0.9s var(--ease-out);
+  }
+
+  .cl-fill--before {
+    background: rgb(255 255 255 / 0.45);
+  }
+
+  .cl-fill--after {
+    background: var(--accent);
+  }
+
+  .cl-bar-row b {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.86rem;
+    text-align: right;
+  }
+
+  .cl-delta {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-size: 0.82rem;
+    font-weight: 650;
+    color: #0c2b1d;
+    background: #7ee2b8;
+    border-radius: 999px;
+    padding: 0.35rem 0.8rem;
+    animation: cl-pop 0.5s var(--ease-out);
+  }
+
+  .cl-delta[hidden] {
+    display: none;
+  }
+
+  @keyframes cl-pop {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .cl-status {
+    display: flex;
+    gap: 0.55rem;
+    align-items: flex-start;
+    margin-top: 1.1rem;
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: rgb(255 255 255 / 0.78);
+  }
+
+  .cl-live-dot {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    margin-top: 0.4rem;
+    border-radius: 50%;
+    background: #7ee2b8;
+    box-shadow: 0 0 0 0 rgb(126 226 184 / 0.5);
+    animation: cl-ping 2.2s ease-out infinite;
+  }
+
+  @keyframes cl-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @keyframes cl-ping {
+    0% { box-shadow: 0 0 0 0 rgb(126 226 184 / 0.5); }
+    70%, 100% { box-shadow: 0 0 0 9px transparent; }
+  }
+
+  .cl-note {
+    margin-top: 1.4rem;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: var(--color-ink-3);
+  }
+
+  @media (max-width: 56rem) {
+    .cl-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cl-fill, .cl-tab, .cl-steps li, .cl-steps li::before {
+      transition: none;
+    }
+    .cl-delta, .cl-live-dot, .cl-right {
+      animation: none;
+    }
+  }
+</style>

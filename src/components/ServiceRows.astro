@@ -48,6 +48,11 @@ import { SERVICES } from '../config/services';
               <span class="si-media">
                 <img src={s.art} alt="" loading="lazy" width="880" height="550" />
                 <span class="si-veil" aria-hidden="true" />
+                <span class="si-fx" aria-hidden="true">
+                  <span class="si-scan"></span>
+                  <span class="si-bars"><b></b><b></b><b></b></span>
+                  <span class="si-ping"></span>
+                </span>
               </span>
               <span class="si-body">
                 <span class="si-title">{s.title}</span>
@@ -209,6 +214,80 @@ import { SERVICES } from '../config/services';
     animation-play-state: paused;
   }
 
+  /* Animated visual layer: a slow scan beam, breathing data bars and a
+     soft ping, so every card image feels alive like the demos do. */
+  .si-fx {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .si-scan {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -18%;
+    height: 34%;
+    background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--accent) 26%, transparent), transparent);
+    animation: si-scan 5.2s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -0.9s);
+  }
+
+  @keyframes si-scan {
+    0%, 100% { transform: translateY(0); opacity: 0; }
+    18% { opacity: 1; }
+    55% { transform: translateY(320%); opacity: 1; }
+    72%, 99% { opacity: 0; }
+  }
+
+  .si-bars {
+    position: absolute;
+    right: 0.9rem;
+    bottom: 0.9rem;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    padding: 0.5rem 0.55rem;
+    background: rgb(19 19 24 / 0.42);
+    border: 1px solid rgb(255 255 255 / 0.22);
+    border-radius: 10px;
+    backdrop-filter: blur(3px);
+  }
+
+  .si-bars b {
+    width: 5px;
+    border-radius: 3px;
+    background: #fff;
+    animation: si-bar 2.6s ease-in-out infinite;
+  }
+
+  .si-bars b:nth-child(1) { height: 10px; animation-delay: calc(var(--i) * -0.5s); }
+  .si-bars b:nth-child(2) { height: 16px; animation-delay: calc(var(--i) * -0.5s - 0.35s); }
+  .si-bars b:nth-child(3) { height: 22px; animation-delay: calc(var(--i) * -0.5s - 0.7s); }
+
+  @keyframes si-bar {
+    0%, 100% { transform: scaleY(0.55); }
+    50% { transform: scaleY(1.15); }
+  }
+
+  .si-ping {
+    position: absolute;
+    top: 0.9rem;
+    right: 0.9rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent);
+    animation: si-ping 2.4s ease-out infinite;
+    animation-delay: calc(var(--i) * -0.7s);
+  }
+
+  @keyframes si-ping {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+    70%, 100% { box-shadow: 0 0 0 12px transparent; }
+  }
+
   @keyframes si-kenburns {
     from {
       transform: scale(1.07) translate(-1.2%, -1%);
@@ -313,6 +392,9 @@ import { SERVICES } from '../config/services';
     .si-media img {
       animation: none;
       transition: none;
+    }
+    .si-scan, .si-bars b, .si-ping {
+      animation: none;
     }
   }
 </style>

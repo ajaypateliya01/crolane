@@ -4,6 +4,7 @@ export const prerender = true;
 import Base from '../../layouts/Base.astro';
 import ServiceLayout from '../../components/service/ServiceLayout.astro';
 import CroJourney from '../../components/CroJourney.astro';
+import CroLab from '../../components/CroLab.astro';
 import { serviceBySlug } from '../../config/services';
 
 const service = serviceBySlug('cro-audit')!;
@@ -48,6 +49,7 @@ const faqs = [
   >
     <Fragment slot="visual">
       <CroJourney />
+      <CroLab />
     </Fragment>
 
     <Fragment slot="problem">
