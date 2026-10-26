@@ -227,6 +227,73 @@ export function initHeroScene(container: HTMLElement, canvas: HTMLCanvasElement)
     return m;
   });
 
+  // --- Atmosphere: drifting dust motes --------------------------------------
+  const dustGeo = new THREE.BufferGeometry();
+  const DUST = isMobile ? 140 : 260;
+  const dustPos = new Float32Array(DUST * 3);
+  for (let i = 0; i < DUST; i++) {
+    dustPos[i * 3] = (Math.random() - 0.5) * 11;
+    dustPos[i * 3 + 1] = (Math.random() - 0.5) * 5.5;
+    dustPos[i * 3 + 2] = (Math.random() - 0.5) * 4 + 0.6;
+  }
+  dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+  const dust = new THREE.Points(
+    dustGeo,
+    new THREE.PointsMaterial({
+      color: 0x7c8cff,
+      size: 0.035,
+      transparent: true,
+      opacity: 0.5,
+      depthWrite: false,
+    })
+  );
+  world.add(dust);
+
+  // Conversion node: halo glow + orbiting satellites -------------------------
+  const glowCanvas = document.createElement('canvas');
+  glowCanvas.width = glowCanvas.height = 128;
+  const gtx = glowCanvas.getContext('2d')!;
+  const grad = gtx.createRadialGradient(64, 64, 0, 64, 64, 64);
+  grad.addColorStop(0, 'rgba(124,140,255,0.9)');
+  grad.addColorStop(0.4, 'rgba(124,140,255,0.35)');
+  grad.addColorStop(1, 'rgba(124,140,255,0)');
+  gtx.fillStyle = grad;
+  gtx.fillRect(0, 0, 128, 128);
+  const glow = new THREE.Sprite(
+    new THREE.SpriteMaterial({
+      map: new THREE.CanvasTexture(glowCanvas),
+      transparent: true,
+      opacity: 0.6,
+      depthWrite: false,
+    })
+  );
+  glow.scale.setScalar(1.9);
+  nodeGroup.add(glow);
+
+  const orbits: Array<{ pivot: THREE.Group; speed: number }> = [];
+  (
+    [
+      [0.46, 0.9, '#c77415'],
+      [0.62, -0.6, '#3e4ef5'],
+    ] as Array<[number, number, string]>
+  ).forEach(([r, speed, col]) => {
+    const pivot = new THREE.Group();
+    const orbitRing = new THREE.Mesh(
+      new THREE.TorusGeometry(r, 0.008, 8, 72),
+      new THREE.MeshBasicMaterial({ color: 0x16161b, transparent: true, opacity: 0.18 })
+    );
+    orbitRing.rotation.x = Math.PI / 2.2;
+    const sat = new THREE.Mesh(
+      new THREE.SphereGeometry(0.045, 14, 14),
+      new THREE.MeshBasicMaterial({ color: new THREE.Color(col) })
+    );
+    sat.position.set(r, 0, 0);
+    pivot.add(orbitRing, sat);
+    pivot.rotation.x = 0.5;
+    nodeGroup.add(pivot);
+    orbits.push({ pivot, speed });
+  });
+
   // --- Visitors ------------------------------------------------------------
   const COUNT = isMobile ? 54 : 86;
   const pGeo = new THREE.SphereGeometry(0.042, 10, 10);
@@ -337,6 +404,13 @@ export function initHeroScene(container: HTMLElement, canvas: HTMLCanvasElement)
     camera.lookAt(0, 0.2 + scrollP * 0.1, 0);
 
     ring.rotation.z += dt * 0.6;
+    dust.rotation.y += dt * 0.02;
+    dust.position.y = Math.sin(elapsed * 0.3) * 0.08;
+    orbits.forEach((o) => {
+      o.pivot.rotation.y += dt * o.speed;
+      o.pivot.rotation.x += dt * o.speed * 0.35;
+    });
+    camera.position.x = pointer.x * 0.3 + Math.sin(elapsed * 0.35) * 0.07;
     const pulse = 1 + Math.sin(elapsed * 2.2) * 0.06;
     nodeGroup.scale.setScalar(pulse);
     markers.forEach((m, i) => {
@@ -344,7 +418,9 @@ export function initHeroScene(container: HTMLElement, canvas: HTMLCanvasElement)
       m.scale.setScalar(s);
     });
     slabs.forEach((s, i) => {
-      s.position.y = slabPositions[i][1] + Math.sin(elapsed * 0.7 + i * 1.25) * 0.045;
+      s.position.y = slabPositions[i][1] + Math.sin(elapsed * 0.7 + i * 1.25) * 0.05;
+      s.rotation.z = Math.sin(elapsed * 0.5 + i * 1.1) * 0.035;
+      s.rotation.y = (i - 2) * -0.13 + Math.sin(elapsed * 0.35 + i) * 0.05;
     });
 
     updateParticles(dt);

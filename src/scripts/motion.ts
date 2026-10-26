@@ -21,7 +21,10 @@ export function initMotion() {
 
   initSmoothScroll();
   initProgress();
+  initAmbient();
   initReveals();
+  initRevealGroups();
+  initParallax();
   initCounters();
   initDrawings();
 
@@ -90,20 +93,34 @@ function initReveals() {
 
   elements.forEach((el) => {
     const delay = parseFloat(el.dataset.revealDelay || '0');
-    gsap.to(el, {
-      opacity: 1,
-      x: 0,
-      y: 0,
-      scale: 1,
-      duration: 0.95,
-      delay,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 90%',
-        once: true,
+    const type = el.dataset.reveal || '';
+    gsap.fromTo(
+      el,
+      {
+        opacity: 0,
+        x: type === 'left' ? -42 : type === 'right' ? 42 : 0,
+        y: type === 'fade' ? 14 : 34,
+        scale: type === 'scale' ? 0.92 : 1,
+        rotate: type === 'scale' ? -0.6 : 0,
+        filter: 'blur(6px)',
       },
-    });
+      {
+        opacity: 1,
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotate: 0,
+        filter: 'blur(0px)',
+        duration: 1.1,
+        delay,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 90%',
+          once: true,
+        },
+      }
+    );
   });
 }
 
@@ -177,5 +194,92 @@ function initDrawings() {
         scrub: 0.6,
       },
     });
+  });
+}
+
+/**
+ * Ambient scroll theme: as each top-level section crosses the middle of the
+ * viewport, the fixed ambient colour fields behind the page drift to a new
+ * pairing from the site palette. Same colours, evolving mood.
+ */
+const TONES: Array<[string, string]> = [
+  ['#dfe3ff', '#f7ead6'],
+  ['#f7ead6', '#d6e6fb'],
+  ['#d6e6fb', '#e4dbff'],
+  ['#e4dbff', '#f8dbe4'],
+  ['#f8dbe4', '#d3ecdf'],
+  ['#d3ecdf', '#f7ead6'],
+  ['#f7ead6', '#dfe3ff'],
+];
+
+function initAmbient() {
+  const main = document.querySelector('main');
+  if (!main) return;
+  const sections = Array.from(main.querySelectorAll<HTMLElement>(':scope > section'));
+  if (!sections.length) return;
+
+  const root = document.documentElement;
+  const apply = (i: number) => {
+    const [a, b] = TONES[Math.abs(i) % TONES.length];
+    root.style.setProperty('--amb-a', a);
+    root.style.setProperty('--amb-b', b);
+  };
+  apply(0);
+  if (reduced()) return;
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) apply(sections.indexOf(entry.target as HTMLElement));
+      });
+    },
+    { rootMargin: '-38% 0px -38% 0px' }
+  );
+  sections.forEach((sec) => io.observe(sec));
+}
+
+/** Children of [data-reveal-group] cascade in with a stagger on scroll. */
+function initRevealGroups() {
+  const groups = gsap.utils.toArray<HTMLElement>('[data-reveal-group]');
+  if (!groups.length || reduced()) return;
+
+  groups.forEach((group) => {
+    const kids = Array.from(group.children) as HTMLElement[];
+    if (!kids.length) return;
+    gsap.fromTo(
+      kids,
+      { opacity: 0, y: 48, rotateX: 5, transformPerspective: 900 },
+      {
+        opacity: 1,
+        y: 0,
+        rotateX: 0,
+        duration: 1.05,
+        stagger: 0.1,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: group, start: 'top 86%', once: true },
+      }
+    );
+  });
+}
+
+/** [data-parallax] elements drift against the scroll for depth. */
+function initParallax() {
+  if (reduced()) return;
+  gsap.utils.toArray<HTMLElement>('[data-parallax]').forEach((el) => {
+    const amt = parseFloat(el.dataset.parallax || '24');
+    gsap.fromTo(
+      el,
+      { y: amt },
+      {
+        y: -amt,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: el.closest('section') || el,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.9,
+        },
+      }
+    );
   });
 }

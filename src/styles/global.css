@@ -922,3 +922,87 @@ html.js [data-reveal="scale"] {
     border-radius: 2px;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Ambient scroll theme: two fixed, heavily blurred colour fields whose hues
+   drift as the reader moves through the page (driven from motion.ts by
+   section position). Stays inside the existing theme palette; purely
+   decorative, pointer-transparent, and static under reduced motion.
+   -------------------------------------------------------------------------- */
+@property --amb-a {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #dfe3ff;
+}
+
+@property --amb-b {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #f7ead6;
+}
+
+:root {
+  --amb-a: #dfe3ff;
+  --amb-b: #f7ead6;
+}
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ambient span {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  transition: background-color 1.8s ease;
+}
+
+.ambient .amb-a {
+  width: 58vw;
+  height: 58vw;
+  top: -18vw;
+  right: -14vw;
+  background-color: var(--amb-a);
+  opacity: 0.5;
+}
+
+.ambient .amb-b {
+  width: 46vw;
+  height: 46vw;
+  bottom: -16vw;
+  left: -10vw;
+  background-color: var(--amb-b);
+  opacity: 0.45;
+}
+
+/* Gentle idle float for decorative chips and cards. */
+@keyframes floaty {
+  from {
+    transform: translateY(-6px);
+  }
+  to {
+    transform: translateY(8px);
+  }
+}
+
+.anim-float {
+  animation: floaty 7s ease-in-out infinite alternate;
+}
+
+.anim-float-late {
+  animation: floaty 8.5s ease-in-out -3.5s infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient span {
+    transition: none;
+  }
+  .anim-float,
+  .anim-float-late {
+    animation: none;
+  }
+}

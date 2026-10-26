@@ -81,7 +81,7 @@ function initForm(root: HTMLElement) {
 
     const service = String(data.get('service') || '');
     if (!service) {
-      setError('service', 'Please choose one of the seven services.');
+      setError('service', 'Please choose a service.');
       ok = false;
     }
 

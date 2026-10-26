@@ -1,26 +1,25 @@
 ---
 /**
- * Homepage service index: seven editorial rows, each with its own
- * generated artwork, accent hue and link to the detail page.
+ * Homepage service showcase: floating mosaic cards, each with its own
+ * artwork, accent hue and a gentle idle float. Hover lifts the card and
+ * wakes the accent; the group staggers in on scroll.
  */
 import { SERVICES } from '../config/services';
-
-
 ---
 
 <section class="section services-index" aria-labelledby="services-title">
   <div class="container-x">
     <header class="si-head">
       <div>
-        <p class="eyebrow" data-reveal="fade">Seven focused services</p>
+        <p class="eyebrow" data-reveal="fade">What we do</p>
         <h2 class="display-lg" id="services-title" data-reveal>
           Pick the problem. <span class="display-italic">We bring the method.</span>
         </h2>
       </div>
       <div class="si-head-right" data-reveal data-reveal-delay="0.08">
         <p class="lede">
-          Each service is its own discipline with its own tools. Together they cover the full
-          loop: understand behaviour, improve the journey, automate the busywork.
+          Every engagement starts with the same question: where is the journey losing people,
+          and what would prove a fix actually worked? Start with the service that matches yours.
         </p>
         <a class="link-arrow" href="/services/">
           View all services
@@ -36,30 +35,40 @@ import { SERVICES } from '../config/services';
       </div>
     </header>
 
-    <ol class="si-list">
+    <ol class="si-grid" data-reveal-group>
       {
         SERVICES.map((s, i) => (
-          <li class="si-row" data-reveal={i % 2 ? 'right' : 'left'} style={`--accent:${s.accent}; --soft:${s.accentSoft};`}>
-            <a class="si-link" href={s.path}>
-              <span class="si-num">{s.num}</span>
+          <li class="si-cell" style={`--i:${i}`}>
+            <a
+              class="si-card"
+              href={s.path}
+              style={`--accent:${s.accent}; --soft:${s.accentSoft};`}
+              aria-label={`${s.title}: learn more`}
+            >
               <span class="si-media">
-                <img src={s.art} alt={`Abstract still life illustrating ${s.title}`} loading="lazy" width="640" height="480" />
+                <img src={s.art} alt="" loading="lazy" width="880" height="550" />
+                <span class="si-veil" aria-hidden="true" />
+                <span class="si-num">{s.num}</span>
               </span>
-              <span class="si-copy">
+              <span class="si-body">
                 <span class="si-title">{s.title}</span>
                 <span class="si-desc">{s.short}</span>
+                <span class="si-cta">
+                  Explore service
+                  <span class="si-arrow" aria-hidden="true">
+                    <svg width="15" height="13" viewBox="0 0 14 12" fill="none">
+                      <path
+                        d="M1 6h11.5M8.5 1.5 13 6l-4.5 4.5"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </span>
               </span>
-              <span class="si-arrow" aria-hidden="true">
-                <svg width="18" height="16" viewBox="0 0 14 12" fill="none">
-                  <path
-                    d="M1 6h11.5M8.5 1.5 13 6l-4.5 4.5"
-                    stroke="currentColor"
-                    stroke-width="1.6"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </span>
+              <span class="si-glow" aria-hidden="true" />
             </a>
           </li>
         ))
@@ -70,7 +79,8 @@ import { SERVICES } from '../config/services';
 
 <style>
   .services-index {
-    background: var(--color-paper);
+    position: relative;
+    background: transparent;
   }
 
   .si-head {
@@ -97,110 +107,201 @@ import { SERVICES } from '../config/services';
     font-size: 1.02rem;
   }
 
-  .si-list {
+  /* --- Floating mosaic ---------------------------------------------------- */
+  .si-grid {
     list-style: none;
-    border-top: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
-  }
-
-  .si-row {
-    border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
-    position: relative;
-  }
-
-  .si-row::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, var(--soft), transparent 65%);
-    opacity: 0;
-    transition: opacity 0.45s var(--ease-out);
-    pointer-events: none;
-  }
-
-  .si-row:hover::after {
-    opacity: 0.55;
-  }
-
-  .si-link {
-    position: relative;
     display: grid;
-    grid-template-columns: 3rem minmax(0, 11rem) minmax(0, 1fr) 3rem;
-    align-items: center;
-    gap: clamp(1rem, 3vw, 2.25rem);
-    padding: clamp(1.1rem, 2.5vw, 1.6rem) 0.5rem;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(1rem, 2.2vw, 1.75rem);
   }
 
-  .si-num {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    color: var(--accent);
+  .si-cell {
+    grid-column: span 12;
+  }
+
+  @media (min-width: 48rem) {
+    .si-cell {
+      grid-column: span 6;
+    }
+    .si-cell:nth-child(1) {
+      grid-column: span 7;
+    }
+    .si-cell:nth-child(2) {
+      grid-column: span 5;
+    }
+    .si-cell:nth-child(6) {
+      grid-column: span 5;
+    }
+    .si-cell:nth-child(7) {
+      grid-column: span 7;
+    }
+  }
+
+  @media (min-width: 75rem) {
+    .si-cell:nth-child(3),
+    .si-cell:nth-child(4),
+    .si-cell:nth-child(5) {
+      grid-column: span 4;
+    }
+    .si-cell:nth-child(3) {
+      transform: translateY(1.75rem);
+    }
+    .si-cell:nth-child(5) {
+      transform: translateY(1.75rem);
+    }
+  }
+
+  .si-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 24px;
+    background: rgb(255 255 255 / 0.85);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    box-shadow: 0 2px 6px rgb(22 22 27 / 0.05), 0 18px 38px -18px rgb(22 22 27 / 0.18);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    isolation: isolate;
+    animation: si-float 8.5s ease-in-out infinite alternate;
+    animation-delay: calc(var(--i) * -1.35s);
+    transition: box-shadow 0.5s var(--ease-out), border-color 0.5s var(--ease-out);
+  }
+
+  .si-card:hover,
+  .si-card:focus-visible {
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    box-shadow:
+      0 4px 10px rgb(22 22 27 / 0.06),
+      0 34px 60px -22px color-mix(in srgb, var(--accent) 55%, transparent);
+    animation-play-state: paused;
+  }
+
+  @keyframes si-float {
+    from {
+      transform: translateY(-5px) rotate(-0.25deg);
+    }
+    to {
+      transform: translateY(7px) rotate(0.25deg);
+    }
   }
 
   .si-media {
-    border-radius: 14px;
-    overflow: hidden;
-    aspect-ratio: 4 / 3;
-    background: var(--soft);
-    border: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
+    position: relative;
     display: block;
+    aspect-ratio: 16 / 8.2;
+    overflow: hidden;
+    background: var(--soft);
   }
 
   .si-media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.7s var(--ease-out);
-  }
-
-  .si-row:hover .si-media img {
     transform: scale(1.06);
+    transition: transform 0.9s var(--ease-out);
   }
 
-  .si-copy {
+  .si-card:hover .si-media img,
+  .si-card:focus-visible .si-media img {
+    transform: scale(1.14) rotate(0.6deg);
+  }
+
+  .si-veil {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, transparent 45%, color-mix(in srgb, var(--accent) 26%, transparent)),
+      linear-gradient(120deg, color-mix(in srgb, var(--accent) 14%, transparent), transparent 55%);
+    mix-blend-mode: multiply;
+    opacity: 0.75;
+  }
+
+  .si-num {
+    position: absolute;
+    top: 0.9rem;
+    left: 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    color: #fff;
+    background: color-mix(in srgb, var(--accent) 88%, #000 6%);
+    border: 1px solid rgb(255 255 255 / 0.35);
+    border-radius: 999px;
+    padding: 0.32rem 0.65rem;
+    box-shadow: 0 8px 20px -8px rgb(22 22 27 / 0.5);
+  }
+
+  .si-body {
     display: flex;
     flex-direction: column;
-    gap: 0.45rem;
-    min-width: 0;
+    gap: 0.55rem;
+    padding: 1.35rem 1.5rem 1.5rem;
+    flex: 1;
   }
 
   .si-title {
     font-family: var(--font-display);
-    font-size: clamp(1.35rem, 2.3vw, 1.95rem);
-    line-height: 1.1;
+    font-size: clamp(1.3rem, 1.9vw, 1.65rem);
+    line-height: 1.12;
     text-wrap: balance;
     transition: color 0.35s var(--ease-out);
   }
 
-  .si-row:hover .si-title {
+  .si-card:hover .si-title {
     color: var(--accent);
   }
 
   .si-desc {
-    font-size: 0.92rem;
-    line-height: 1.6;
+    font-size: 0.93rem;
+    line-height: 1.62;
     color: var(--color-ink-2);
-    max-width: 44rem;
+  }
+
+  .si-cta {
+    margin-top: auto;
+    padding-top: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-2);
   }
 
   .si-arrow {
-    width: 3rem;
-    height: 3rem;
+    width: 2.3rem;
+    height: 2.3rem;
     border-radius: 50%;
-    border: 1.5px solid color-mix(in srgb, var(--color-ink) 18%, transparent);
+    border: 1.5px solid color-mix(in srgb, var(--color-ink) 16%, transparent);
     display: grid;
     place-items: center;
-    color: var(--color-ink-2);
-    justify-self: end;
+    background: rgb(255 255 255 / 0.9);
     transition: all 0.4s var(--ease-out);
-    background: rgb(255 255 255 / 0.8);
   }
 
-  .si-row:hover .si-arrow {
+  .si-card:hover .si-arrow {
     background: var(--accent);
     border-color: var(--accent);
     color: #fff;
-    transform: translateX(6px);
+    transform: translateX(6px) rotate(-8deg);
+  }
+
+  .si-glow {
+    position: absolute;
+    inset: auto -20% -45% -20%;
+    height: 60%;
+    background: radial-gradient(50% 100% at 50% 100%, var(--soft), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.6s var(--ease-out);
+    z-index: -1;
+  }
+
+  .si-card:hover .si-glow {
+    opacity: 1;
   }
 
   @media (max-width: 64rem) {
@@ -208,45 +309,14 @@ import { SERVICES } from '../config/services';
       grid-template-columns: 1fr;
       align-items: start;
     }
-
-    .si-link {
-      grid-template-columns: 2.2rem minmax(0, 8rem) minmax(0, 1fr) 2.6rem;
-    }
   }
 
-  @media (max-width: 44rem) {
-    .si-link {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0.85rem;
-      position: relative;
-      padding-block: 1.35rem;
+  @media (prefers-reduced-motion: reduce) {
+    .si-card {
+      animation: none;
     }
-
-    .si-media {
-      order: 3;
-      max-width: 22rem;
-      width: 100%;
-    }
-
-    .si-num {
-      position: absolute;
-      top: 1.35rem;
-      left: 0;
-    }
-
-    .si-copy {
-      padding-left: 2.5rem;
-      padding-right: 3.4rem;
-    }
-
-    .si-arrow {
-      position: absolute;
-      top: 1.15rem;
-      right: 0;
-      width: 2.6rem;
-      height: 2.6rem;
+    .si-media img {
+      transition: none;
     }
   }
 </style>
