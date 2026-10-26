@@ -5,6 +5,16 @@
  * wakes the accent; the group staggers in on scroll.
  */
 import { SERVICES } from '../config/services';
+
+const LIVE: Record<string, string[]> = {
+  'cro-audit': ['Scanning the journey', 'Friction spotted', 'Fix prioritised'],
+  'ab-testing': ['Variant live', 'Traffic splitting', 'Reading the result'],
+  'ga4-tag-manager': ['Events firing', 'Tags verified', 'Data flowing in'],
+  'conversion-tracking': ['Clicks mapped', 'Heat building', 'Drop-off spotted'],
+  'ai-automation': ['Workflow running', 'Steps automated', 'Summary delivered'],
+  'ai-voice-agents': ['Call answered', 'Listening carefully', 'Details captured'],
+  'shopify-audits': ['Storefront scan', 'Cart checked', 'Friction flagged'],
+};
 ---
 
 <section class="section services-index" aria-labelledby="services-title">
@@ -52,6 +62,9 @@ import { SERVICES } from '../config/services';
                   <span class="si-scan"></span>
                   <span class="si-bars"><b></b><b></b><b></b></span>
                   <span class="si-ping"></span>
+                </span>
+                <span class="si-live" aria-hidden="true" data-si-live-wrap data-phrases={JSON.stringify(LIVE[s.slug] ?? ['Live demo'])}>
+                  <i></i><span data-si-live>{(LIVE[s.slug] ?? ['Live demo'])[0]}</span>
                 </span>
               </span>
               <span class="si-body">
@@ -270,6 +283,54 @@ import { SERVICES } from '../config/services';
     50% { transform: scaleY(1.15); }
   }
 
+  /* Auto-cycling live status chip: the card quietly narrates its own
+     demo, and hovering wakes the whole visual layer up. */
+  .si-live {
+    position: absolute;
+    left: 0.9rem;
+    bottom: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.42rem 0.7rem;
+    background: rgb(19 19 24 / 0.55);
+    border: 1px solid rgb(255 255 255 / 0.22);
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .si-live i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent);
+    animation: si-ping 2.4s ease-out infinite;
+  }
+
+  .si-live [data-si-live] {
+    transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  }
+
+  .si-live [data-si-live].swap {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  .si-card:hover .si-scan,
+  .si-card:focus-visible .si-scan {
+    animation-duration: 1.5s;
+  }
+
+  .si-card:hover .si-bars b,
+  .si-card:focus-visible .si-bars b {
+    animation-duration: 0.8s;
+  }
+
   .si-ping {
     position: absolute;
     top: 0.9rem;
@@ -393,8 +454,37 @@ import { SERVICES } from '../config/services';
       animation: none;
       transition: none;
     }
-    .si-scan, .si-bars b, .si-ping {
+    .si-scan, .si-bars b, .si-ping, .si-live i {
       animation: none;
     }
   }
 </style>
+
+<script>
+  // Each card's live chip cycles its own phrases, staggered per card.
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduced) {
+    document.querySelectorAll<HTMLElement>('[data-si-live-wrap]').forEach((wrap, cardIndex) => {
+      const text = wrap.querySelector<HTMLElement>('[data-si-live]');
+      if (!text) return;
+      let phrases: string[] = [];
+      try {
+        phrases = JSON.parse(wrap.dataset.phrases || '[]') as string[];
+      } catch {
+        phrases = [];
+      }
+      if (phrases.length < 2) return;
+      let i = 0;
+      window.setTimeout(() => {
+        window.setInterval(() => {
+          text.classList.add('swap');
+          window.setTimeout(() => {
+            i = (i + 1) % phrases.length;
+            text.textContent = phrases[i];
+            text.classList.remove('swap');
+          }, 300);
+        }, 2900);
+      }, cardIndex * 450);
+    });
+  }
+</script>

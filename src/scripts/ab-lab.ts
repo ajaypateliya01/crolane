@@ -61,6 +61,39 @@ function initLab(lab: HTMLElement) {
     });
   }
 
+  // Pins are measured onto the actual changed elements, so every label
+  // sits right beside the change it describes, on every screen size.
+  function positionAnnots() {
+    if (!diffsOn) return;
+    annots.forEach((annot) => {
+      const panel = annot.closest<HTMLElement>('.ab-panel');
+      if (!panel) return;
+      const id = annot.dataset.hyp || '';
+      const candidates = Array.from(
+        panel.querySelectorAll<HTMLElement>(`[data-hyp="${id}"]`)
+      ).filter((el) => !el.hasAttribute('data-annot'));
+      if (!candidates.length) return;
+      const target =
+        candidates.find((el) => (el.textContent || '').includes('$')) || candidates[0];
+      const pRect = panel.getBoundingClientRect();
+      const tRect = target.getBoundingClientRect();
+      const pinHalf = (annot.querySelector<HTMLElement>('.pin')?.offsetWidth || 12) / 2;
+      const pointX = Math.max(2, tRect.left - pRect.left - pinHalf);
+      const pointY = Math.min(
+        pRect.height - 16,
+        Math.max(16, tRect.top - pRect.top + tRect.height / 2)
+      );
+      // Label extends right by default; flip it inward only if it would
+      // spill past the panel edge.
+      const flip = pointX + annot.offsetWidth > pRect.width - 4;
+      annot.classList.toggle('flip', flip);
+      annot.style.right = 'auto';
+      annot.style.bottom = 'auto';
+      annot.style.left = `${pointX}px`;
+      annot.style.top = `${pointY}px`;
+    });
+  }
+
   // Until the visitor opens the differences once, the toggle glows gently
   // so it is obvious where to click. This is the resting state of the lab.
   diffsBtn?.classList.add('attn');
@@ -74,6 +107,7 @@ function initLab(lab: HTMLElement) {
       diffsBtn.textContent = on ? 'Hide differences' : 'Show differences';
     }
     applyAnnotations();
+    if (on) requestAnimationFrame(positionAnnots);
   }
 
   function setCompare(id: string) {
@@ -102,7 +136,15 @@ function initLab(lab: HTMLElement) {
     }
     setCompare(id);
     applyAnnotations();
+    if (diffsOn) requestAnimationFrame(positionAnnots);
   }
+
+  let resizeTimer = 0;
+  window.addEventListener('resize', () => {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(positionAnnots, 120);
+  });
+  window.addEventListener('load', positionAnnots);
 
   diffsBtn?.addEventListener('click', () => setDiffs(!diffsOn));
   hypBtns.forEach((btn) => {

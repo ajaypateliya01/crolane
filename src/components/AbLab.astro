@@ -735,6 +735,22 @@ const hypotheses = [
     transform: none;
   }
 
+  /* JS measures each pin onto its changed element (see ab-lab.ts). These
+     transforms keep the pin centred on that measured point, with the
+     label flipping inward only when it would spill past the panel. */
+  .ab-stage[data-diffs='true'] .annot {
+    transform: translate(-7px, -50%);
+  }
+
+  .ab-stage .annot:not(.flip) {
+    flex-direction: row;
+  }
+
+  .ab-stage[data-diffs='true'] .annot.flip {
+    flex-direction: row-reverse;
+    transform: translate(calc(-100% + 7px), -50%);
+  }
+
   /* Simple labels: one small white card per difference, thin border, soft
      shadow. Every label shows when differences are on; each one sits in
      its own space so nothing overlaps. */
