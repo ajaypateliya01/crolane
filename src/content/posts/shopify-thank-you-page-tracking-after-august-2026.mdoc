@@ -1,0 +1,54 @@
+---
+title: Shopify Purchase Tracking Stopped After August 2026? Here Is Why
+description: >-
+  Non-Plus Shopify stores lost Additional Scripts on the Thank you page on
+  August 26, 2026. If GA4, Google Ads or Meta purchases dropped, here is what
+  changed and how to fix tracking the right way.
+date: 2026-11-27
+category: analytics
+draft: false
+---
+If your Shopify store is not on Plus and your GA4 or ad platform purchases dropped sharply at the end of August, nothing is wrong with your marketing. Your tracking code stopped running.
+
+## What changed
+
+Shopify replaced the old Thank you and Order status pages with new versions built on checkout extensibility. The old pages allowed you to paste code into an "Additional scripts" box. The new ones do not.
+
+The deadlines were split by plan. According to Google's own help page, [Shopify Plus stores had until August 28, 2025, and non-Plus stores until August 26, 2026](https://support.google.com/merchants/answer/15642481). After that date, anything pasted into Additional scripts, checkout.liquid or ScriptTags on those pages stopped firing. There was no error message. The purchase events simply stopped arriving.
+
+## How to check if this affected you
+
+1. In GA4, open Reports, then Monetization, then Ecommerce purchases, and look at daily purchases from August to now. A sudden drop around late August is the giveaway.
+2. Compare that with your Shopify orders for the same days. If Shopify orders stayed flat and GA4 purchases fell, tracking broke.
+3. In Shopify admin, go to Settings, then Checkout, and look for any old Additional scripts content. If there is tracking code in there, it is no longer running.
+4. Do the same check in Google Ads conversions and Meta Events Manager.
+
+## The right way to fix it
+
+### For GA4 and Google Ads: use the Google & YouTube app
+
+This is the route Google and Shopify support. It sends purchase and checkout events through Shopify's own pixel system. If you used to rely on pasted gtag code, connect the app, link your GA4 property and Google Ads account, and remove the old code so you do not end up with [duplicate purchase events](/blog/shopify-ga4-purchase-event-firing-twice/).
+
+### For Meta, TikTok and others: use their official Shopify apps
+
+Most ad platforms now ship an app pixel that runs inside Shopify's customer events system. Use those rather than custom code where you can.
+
+### Custom pixels: useful, with limits
+
+Shopify lets you add a custom pixel under Settings, then Customer events. It can listen for events such as checkout_completed and send data onward. It is a good fit for tools that have no app.
+
+Be careful using it for Google tags, though. Google says plainly that [running Google tags inside a Shopify custom pixel is not a supported implementation](https://support.google.com/analytics/answer/16000892), and that some events and parameters that depend on signals outside the sandbox may be lost. If you go this way, treat it as a workaround and verify the numbers.
+
+## A safe migration order
+
+1. Write down everything that used to run on the Thank you page: GA4, Google Ads, Meta, affiliate, survey tools.
+2. For each one, find its official Shopify app or app pixel. Use a custom pixel only when there is no app.
+3. Remove the old code first, then connect the new setup. Shopify's guide recommends exactly this order to [avoid duplicating or missing customer events](https://help.shopify.com/manual/promoting-marketing/pixels/pixel-migration).
+4. Place a test order and check each platform received one purchase, with the right value and order ID.
+5. Compare GA4 purchases with Shopify orders for the next seven days.
+
+## What you lose and what you can get back
+
+The data from the weeks when tracking was broken is gone; it cannot be backfilled into GA4 from the past. What you can do is fix it now, annotate the gap in GA4 so nobody misreads the trend later, and use Shopify's own reports for those weeks.
+
+If you are not sure what is firing where, a [conversion tracking setup](/services/conversion-tracking/) maps every pixel on the store, rebuilds purchase tracking on the supported route and confirms the numbers against your Shopify orders.

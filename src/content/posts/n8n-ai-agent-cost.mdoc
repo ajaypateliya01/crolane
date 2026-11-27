@@ -1,0 +1,72 @@
+---
+title: Why Your n8n AI Agent Costs So Much (and 7 Ways to Cut It)
+description: >-
+  Your n8n AI agent bill keeps growing? Here is where the tokens actually go,
+  from tool definitions to memory and retries, and seven practical fixes that
+  cut cost without hurting output.
+date: 2026-11-27
+category: workflows
+draft: false
+---
+You build an AI agent in n8n, test it on a few runs, and the cost looks tiny. Then real traffic arrives and the OpenAI or Anthropic invoice is five times what you planned. The workflow did not change. So where did the money go?
+
+In almost every n8n agent I look at, the model is not the problem. The problem is how much text gets sent to the model on every single call, and how many calls one task really makes.
+
+## Where the tokens actually go
+
+An AI Agent node does not send one prompt and get one answer. It runs a loop: it reads the conversation, decides whether to call a tool, reads the tool result, and goes again until it is done. Every pass through that loop is a new API call, and each call carries a lot of baggage.
+
+- **The system prompt.** Sent again on every turn, not once per run.
+- **Tool definitions.** Every tool you attach adds its name, description and parameter schema to every call. People in the n8n community have measured this: [tool definitions are re-billed on every turn](https://community.n8n.io/t/each-tool-you-attach-to-an-ai-agent-node-is-re-billed-every-turn-some-numbers-i-measured/304536), so an agent with eight tools pays for all eight even when it uses one.
+- **Memory.** Window buffer memory keeps adding old messages to the context. A long chat quietly becomes an expensive one.
+- **Retrieved documents.** A vector store that returns ten long chunks when two short ones would do.
+- **Tool outputs.** An HTTP Request tool that returns a full JSON response with hundreds of fields the agent never needs.
+- **Retries and loops.** An agent that cannot finish calls tools again and again until it hits the iteration limit.
+
+Multiply all of that by the number of turns per task and the number of tasks per day, and you get your bill.
+
+## 7 ways to cut the cost
+
+### 1. Measure cost per finished task, not per call
+
+Before changing anything, log tokens per execution. Add a small step after the agent that records input and output tokens, the model, and whether the task succeeded. The number that matters is cost per successful task. It tells you whether a change saved money or just moved it around.
+
+### 2. Remove tools the agent does not need
+
+Every attached tool costs tokens on every turn. If an agent has a "search orders" tool, a "refund" tool and a "send email" tool but 90% of runs only search orders, split it. Route simple requests to a lean agent with one tool and send the rare cases to a bigger one. Shorter tool descriptions help too. One clear sentence beats a paragraph.
+
+### 3. Use a cheaper model for the easy steps
+
+Classification, routing, extraction and yes/no checks rarely need your most expensive model. Put a small, cheap model in front with a Switch node: it decides what kind of request this is, and only the hard ones reach the big model. This is often the single biggest saving.
+
+### 4. Keep the prompt prefix identical so caching works
+
+Providers discount repeated prompt prefixes. OpenAI caches long repeated prefixes automatically, and Anthropic models let you mark parts of the prompt for caching. Caching only works when the start of the prompt is byte-for-byte the same on every call, so keep the system message and tool definitions stable and put anything that changes, like dates or user data, at the end.
+
+### 5. Shrink memory and retrieval
+
+Lower the memory window to the last few messages, or summarise older ones. In retrieval, reduce Top K and filter by metadata before the search so only relevant chunks come back. Several n8n users who were burning 100k+ tokens per run fixed it this way, by [sending less context rather than changing the model](https://community.n8n.io/t/cost-of-using-chatgpt-tokens/262316).
+
+### 6. Trim tool outputs before the agent sees them
+
+If a tool returns a large JSON payload, add a Set or Code node that keeps only the five fields the agent needs. The agent reads every character you give it, and it pays for every character too.
+
+### 7. Cap iterations and catch loops
+
+Set a sensible max iterations value on the agent, and send failed runs to an error branch that logs them instead of letting the agent retry forever. A retry loop at 3am is the most common reason for a surprise invoice.
+
+## Should this step use AI at all?
+
+The cheapest token is the one you never send. Look at each step and ask whether plain logic could do it. Checking if an email contains an order number, formatting a date, or routing by country does not need a model. Replacing even one AI step with an IF node can cut a workflow's cost noticeably.
+
+## A quick checklist
+
+- Tokens and cost logged per execution
+- Only the tools each agent actually uses
+- Cheap model for routing and classification
+- Stable prompt prefix for caching
+- Small memory window and low Top K
+- Tool outputs trimmed to the fields that matter
+- Max iterations set, errors routed, no silent retries
+
+If your agents are already in production and the bill keeps climbing, an [AI agent audit](/services/ai-agent-audit/) maps every workflow, measures real cost per task from your logs and gives you a fix list ordered by money saved.

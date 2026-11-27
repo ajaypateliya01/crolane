@@ -1,0 +1,59 @@
+---
+title: Post-BFCM GA4 Audit - 9 Checks Before You Trust Your Black Friday Numbers
+description: >-
+  Before you plan next year from this Black Friday, check your GA4 data. Nine
+  practical checks for purchases, revenue, channels and devices, so your BFCM
+  report tells the truth.
+date: 2026-11-27
+category: analytics
+draft: false
+---
+Black Friday and Cyber Monday are over. Now comes the part that shapes next year: deciding what worked. Which channel brought the sales, which offer, which landing page. Most of those answers will come from GA4.
+
+The problem is that the biggest traffic week of the year is also when tracking is most likely to break. New apps were installed, landing pages were launched in a hurry, and consent banners changed. Spend an hour on these nine checks before you build any report.
+
+## 1. GA4 purchases vs Shopify orders
+
+Take the BFCM period, from Thursday to Tuesday, and compare purchases in GA4 with orders in Shopify. Some gap is normal because of ad blockers and consent. A gap above roughly 15% means a tracking problem, not a marketing insight.
+
+## 2. Revenue matches the way you think it does
+
+Check whether GA4 revenue includes tax and shipping and whether Shopify's figure does. Mixing gross and net is how teams end up arguing about a number that was never comparable.
+
+## 3. No duplicate purchases
+
+Export GA4 purchases by transaction ID for the period. Any ID that appears twice is a duplicate, and duplicates make conversion rate and ROAS look better than they were. [Here is how to find and fix them](/blog/shopify-ga4-purchase-event-firing-twice/).
+
+## 4. Tracking did not break on the Thank you page
+
+If your store is not on Shopify Plus, old Thank you page scripts stopped running on August 26, 2026. If GA4 purchases look low for the whole season, [check whether this is why](/blog/shopify-thank-you-page-tracking-after-august-2026/).
+
+## 5. Email and SMS are not hiding in "direct"
+
+Open Traffic acquisition and look at Direct and Unassigned. If they jumped during BFCM, your email and SMS links probably lacked UTM tags. Next time, tag every campaign link with utm_source, utm_medium and utm_campaign. For this year, cross-check with your email platform's own revenue report.
+
+## 6. Paid social is not under-reported
+
+Compare purchases attributed to Meta and TikTok in GA4 with the ad platforms' own numbers. They will never match exactly, but if GA4 shows almost nothing from paid social while ad managers show plenty, check your UTMs and consent setup before cutting budget.
+
+## 7. Mobile vs desktop funnel
+
+Build a simple funnel for the period: view_item, add_to_cart, begin_checkout, purchase, split by device. Mobile usually converts lower than desktop. A much bigger gap than usual on mobile points to a specific page problem worth fixing before the next sale.
+
+## 8. Landing pages that got traffic but no sales
+
+List the top landing pages by sessions and look at their conversion rate. A BFCM landing page with lots of sessions and almost no purchases is the fastest win for next year, and often for January sales too.
+
+## 9. Discount codes and offers
+
+Shopify's discount report tells you which codes were used. Put that next to GA4's campaign data to see which offers actually drove orders and which ones mostly gave a discount to people who would have bought anyway.
+
+## Annotate before you forget
+
+Add GA4 annotations for the dates you launched the sale, changed the offer, installed apps or found tracking issues. In three months, nobody will remember why a line jumped.
+
+## What to do with the results
+
+You should now have three lists: tracking fixes to make before the next sale, pages that leaked sales, and offers that worked. The first list is urgent. The second is where the money is.
+
+If you want this done for you, a [GA4 and Tag Manager review](/services/ga4-tag-manager/) checks the tracking, fixes what is broken and gives you a clean BFCM report you can actually plan from.

@@ -44,7 +44,7 @@ const ld = [
 ---
 
 <Base
-  title={`${post.data.title} | CROLANE`}
+  title={post.data.title.length > 50 ? post.data.title : `${post.data.title} | CROLANE`}
   description={post.data.description}
   canonicalPath={`/blog/${post.id}/`}
   ogType="article"
