@@ -5,7 +5,7 @@
   "type": "module",
   "description": "CROLANE - conversion optimization, analytics and practical AI services website",
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=22.23.4"
   },
   "scripts": {
     "dev": "astro dev",
