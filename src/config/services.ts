@@ -47,7 +47,7 @@ export const SERVICES: Service[] = [
       'Plan and run experiments that compare two experiences, measure real behaviour and replace opinion with evidence.',
     metaTitle: 'Experimentation & A/B Testing Services for E-commerce | CROLANE',
     metaDescription:
-      'Experimentation services from a developer who builds A/B tests daily: $299 for a single test or $999/month for four, built in VWO, Convert or Shoplift with honest read-outs.',
+      'A/B testing and experimentation from a developer who builds tests daily: $299 per test or $999/month for four, in VWO, Convert or Shoplift.',
     accent: 'var(--color-indigo)',
     accentSoft: '#f8e9e1',
     art: '/images/art-ab-testing.jpg',
@@ -156,7 +156,7 @@ export const serviceBySlug = (slug: string): Service | undefined =>
 /** Service selector options for the contact form (the approved service areas). */
 export const SERVICE_OPTIONS = [
   { value: 'free-mini-audit', label: 'Free 3-leak video audit' },
-  ...bfcm.packages.map((p) => ({
+  ...(bfcm.enabled ? bfcm.packages : []).map((p) => ({
     value: `bfcm-${p.id}`,
     label: `BFCM: ${p.name} ($${p.price})`,
   })),
