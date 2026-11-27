@@ -1,0 +1,12 @@
+---
+const steps = [
+  ['Free audit', 'Send your URL. Within 48 hours you get a short video on the biggest leaks on your site.'],
+  ['Clear written quote', 'A 15 minute call to agree scope. Your quote arrives within 24 hours and is fixed before work starts.'],
+  ['Build, test, measure', 'The person who audits is the person who ships the fix. You see every change before it goes live.'],
+];
+---
+<ol class="steps">
+  {steps.map((s, i) => (
+    <li class="rv"><span class="n">0{i + 1}</span><div><h3 class="h3">{s[0]}</h3><p>{s[1]}</p></div></li>
+  ))}
+</ol>

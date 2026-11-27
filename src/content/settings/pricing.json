@@ -2,43 +2,43 @@
   "services": [
     {
       "id": "cro-audit",
-      "from": "From $599",
-      "note": "one-time, audit + 3 fixes shipped"
+      "from": "Custom quote",
+      "note": ""
     },
     {
       "id": "ab-testing",
-      "from": "$999/month",
-      "note": "4 tests a month, or $299 for one test"
+      "from": "Custom quote",
+      "note": ""
     },
     {
       "id": "ga4-tag-manager",
-      "from": "$349",
-      "note": "one-time, setup or fix"
+      "from": "Custom quote",
+      "note": ""
     },
     {
       "id": "conversion-tracking",
-      "from": "$349",
-      "note": "one-time, or $599 with GA4 + GTM"
+      "from": "Custom quote",
+      "note": ""
     },
     {
       "id": "ai-automation",
-      "from": "$499",
-      "note": "per workflow, optional $99/month care"
+      "from": "From $750",
+      "note": ""
     },
     {
       "id": "ai-voice-agents",
-      "from": "$499 setup",
-      "note": "+ $99/month, call and AI usage at cost"
+      "from": "From $1,000",
+      "note": "Call minutes billed at cost"
     },
     {
       "id": "ai-agent-audit",
-      "from": "$499",
-      "note": "one-time, cost, reliability and security"
+      "from": "From $500",
+      "note": ""
     },
     {
       "id": "shopify-audits",
-      "from": "From $599",
-      "note": "one-time, audit + 3 fixes shipped"
+      "from": "Custom quote",
+      "note": ""
     }
   ],
   "packages": [

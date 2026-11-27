@@ -1,0 +1,70 @@
+---
+// Live demo cards. Markup is static; src/scripts/demos.ts animates them only while visible.
+import type { DemoKind } from '../../config/services';
+import { TICK } from './Icons';
+interface Props { kind: DemoKind; dark?: boolean; toggle?: boolean }
+const { kind, dark = false, toggle = false } = Astro.props;
+const isDark = dark || kind === 'result';
+const titles: Record<DemoKind, string> = {
+  result: 'Product page test', dash: 'Store performance', ab: 'Test 14: Product page buy box', funnel: 'Checkout funnel, last 30 days',
+  ga4: 'GA4 DebugView', tags: 'Tag health check', voice: 'AI receptionist, live call', flow: 'n8n workflow: new lead', cost: 'AI spend per month',
+};
+const funnel = [['Landing', 100], ['Product page', 62], ['Add to cart', 21], ['Checkout', 12], ['Purchase', 3.1]];
+const tags = [['GA4 purchase', 'on'], ['Meta Pixel + CAPI', 'fix'], ['Google Ads enhanced conv.', 'fix'], ['TikTok Events API', ''], ['Consent Mode v2', '']];
+const issues = ['Route simple tasks to a smaller model', 'Stop sending full chat history', 'Cache repeat answers', 'Cap retries on failed tool calls'];
+const nodes = [['F', 'New form lead'], ['AI', 'AI qualifies'], ['C', 'CRM updated'], ['S', 'Slack alert']];
+---
+<div class="hero-demo">
+  {toggle && (
+    <div class="toggle"><span class="g"></span>See CRO in action<button type="button" aria-pressed="true">CONTROL</button><button type="button" aria-pressed="false">VARIANT</button></div>
+  )}
+  <div class="stage"><div class="tilt">
+    <div class:list={['demo', { dk: isDark }]} data-demo={kind}>
+      <div class="demo-top"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>{titles[kind]}<span class="demo-tag">Demo</span></div>
+
+      {kind === 'result' && (<>
+        <div class="pm-mock"><span class="img"></span><div class="ln"><i style="width:80%"></i><i style="width:50%"></i><span class="cta"></span><span class="badge">Sticky buy box + delivery date</span></div></div>
+        <div class="big" data-k="big">+0%</div><p class="big-sub" data-k="bsub">Add to carts on mobile, control</p>
+        <div class="chart"><svg viewBox="0 0 560 120" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="gfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#45dca0" stop-opacity=".35"></stop><stop offset="1" stop-color="#45dca0" stop-opacity="0"></stop></linearGradient></defs><path class="fill" d="M0 100 C120 98 200 96 280 80 S440 50 560 38 V120 H0Z"></path><polyline class="a" fill="none" stroke-width="2" points="0,100 140,99 280,98 420,97 560,96"></polyline><path class="b" pathLength="1" fill="none" stroke-width="2.6" stroke-linecap="round" d="M0 100 C120 98 200 96 280 80 S440 50 560 38"></path></svg></div>
+        <div class="legend"><span>Illustrative numbers</span><span class="live"><span class="pulse"></span><b data-k="v">312</b> visitors now</span></div>
+      </>)}
+
+      {kind === 'dash' && (<>
+        <div class="kpis"><div class="kpi"><small>Conversion</small><b>3.42%</b><span>+0.6 pts</span></div><div class="kpi"><small>Rev / visitor</small><b>$4.18</b><span>+11%</span></div><div class="kpi"><small>Orders</small><b data-k="o">284</b><span>+9%</span></div></div>
+        <div class="chart"><svg viewBox="0 0 560 120" preserveAspectRatio="none" aria-hidden="true"><polyline class="a" fill="none" stroke-width="2" points="0,100 140,96 280,94 420,90 560,88"></polyline><path class="b" pathLength="1" fill="none" stroke-width="2.6" stroke-linecap="round" d="M0 100 C120 96 200 90 280 72 S440 40 560 24"></path></svg></div>
+      </>)}
+
+      {kind === 'ab' && (<>
+        <div class="ab">
+          <div class="variant"><div class="vh">A: Control <span data-k="ua">4,120</span></div><div class="mock"><span class="img"></span><i style="width:80%"></i><i style="width:55%"></i><span class="cta"></span></div><div class="meter"><b data-k="ma" style="width:52%"></b></div><div class="vstat"><span>Conv.</span><b data-k="ca">3.10%</b></div></div>
+          <div class="variant win"><div class="vh">B: Variant <span data-k="ub">4,098</span></div><div class="mock"><span class="img"></span><i style="width:70%"></i><i style="width:90%"></i><span class="cta"></span></div><div class="meter"><b data-k="mb" style="width:64%"></b></div><div class="vstat"><span>Conv.</span><b data-k="cb">3.66%</b></div></div>
+        </div>
+        <div class="prob"><b data-k="p">91%</b><span>chance B beats A. Lift <b style="font-size:inherit" data-k="l">+18.1%</b></span></div>
+      </>)}
+
+      {kind === 'funnel' && (<>
+        <div class="funnel">{funnel.map((s) => <div class="step"><span>{s[0]}</span><div class="bar"><b style="width:0" data-w={s[1]}></b></div><em>{s[1]}%</em></div>)}</div>
+        <div class="leak-note" data-k="note"><b>Biggest leak:</b> 66% of visitors leave the product page without adding to cart.</div>
+      </>)}
+
+      {kind === 'ga4' && <div class="stream" data-k="stream"></div>}
+
+      {kind === 'tags' && <div class="tags">{tags.map((t) => <div class="tagrow"><span>{t[0]}</span><span class:list={['pill', t[1]]}>{t[1] === 'on' ? 'Firing' : t[1] === 'fix' ? 'Duplicate' : 'Missing'}</span></div>)}</div>}
+
+      {kind === 'voice' && (<>
+        <div class="call"><span class="ic" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" stroke="#fff" stroke-width="2" stroke-linejoin="round"></path></svg></span><div><b style="font-size:.88rem">Riverside Dental</b><small>Incoming call, 9:42 pm</small></div><span class="wv" aria-hidden="true">{Array.from({ length: 12 }, () => <i></i>)}</span></div>
+        <div class="chat" data-k="chat"></div><div class="booked" data-k="booked"><Fragment set:html={TICK} /> Booked: Tuesday 4:00 pm, added to calendar</div>
+      </>)}
+
+      {kind === 'flow' && (<>
+        <div class="flow">{nodes.map((n) => <div class="node"><span class="ni">{n[0]}</span>{n[1]}</div>)}</div>
+        <div class="flow-log" data-k="log">Waiting for trigger...</div>
+      </>)}
+
+      {kind === 'cost' && (<>
+        <div class="cost"><div class="bf"><strong>$2,340</strong><b data-h="100"></b><span>Before</span></div><div class="af"><strong>$890</strong><b data-h="38"></b><span>After fixes</span></div></div>
+        <ul class="issues">{issues.map((t) => <li><span class="x">!</span>{t}</li>)}</ul>
+      </>)}
+    </div>
+  </div></div>
+</div>

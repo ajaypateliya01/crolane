@@ -12,7 +12,7 @@ export const prerender = true;
  */
 export const GET: APIRoute = () => {
   const serviceLines = SERVICES.map(
-    (s) => `- [${s.title}](${SITE.url}${s.path}): ${s.short}`
+    (s) => `- [${s.name}](${SITE.url}${s.path}): ${s.short}`
   ).join('\n');
 
   const body = `# ${SITE.name}

@@ -1,0 +1,21 @@
+---
+// Dark hero band with dot grid and a wave into the next (white) section.
+interface Props { logos?: boolean; single?: boolean }
+const { logos = false, single = false } = Astro.props;
+const tools = ['Shopify', 'Google Analytics 4', 'Google Tag Manager', 'VWO', 'Convert', 'Optimizely', 'Shoplift', 'Hotjar', 'Microsoft Clarity', 'n8n', 'OpenAI', 'Vapi'];
+---
+<div class="night has-wave">
+  <div class="hero">
+    <div class:list={['wrap', single ? 'hero-single' : 'hero-grid']}>
+      <slot />
+    </div>
+    {logos ? (
+      <div class="logos">
+        <div class="wrap"><p class="kicker">Works with the tools you already use</p></div>
+        <div class="ticker" aria-hidden="true">{[...tools, ...tools].map((t) => <span>{t}</span>)}</div>
+        <p class="sr">{tools.join(', ')}</p>
+      </div>
+    ) : <div style="height:64px"></div>}
+  </div>
+  <svg class="wave" viewBox="0 0 1440 72" preserveAspectRatio="none" aria-hidden="true"><path d="M0 72V40C240 8 480 0 720 18s480 46 720 14v40z" fill="#fff"></path></svg>
+</div>

@@ -1,0 +1,108 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+import NightHero from '../../components/ui/NightHero.astro';
+import Demo from '../../components/ui/Demo.astro';
+import Ill from '../../components/ui/Ill.astro';
+import Steps from '../../components/ui/Steps.astro';
+import Faq from '../../components/ui/Faq.astro';
+import Carousel from '../../components/ui/Carousel.astro';
+import CtaNight from '../../components/ui/CtaNight.astro';
+import { UA, TICK } from '../../components/ui/Icons';
+import { SERVICES, priceFor, type Service } from '../../config/services';
+import { SITE } from '../../config/site';
+import pricing from '../../content/settings/pricing.json';
+
+export function getStaticPaths() {
+  return SERVICES.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+
+const { s } = Astro.props as { s: Service };
+const price = priceFor(s.id);
+const note = pricing.services.find((p) => p.id === s.id)?.note || '';
+// Same group first, then the rest, for the "pairs well with" row.
+const related = [...SERVICES.filter((x) => x.grp === s.grp && x.id !== s.id), ...SERVICES.filter((x) => x.grp !== s.grp)];
+
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: s.title,
+    serviceType: s.kw,
+    description: s.metaDescription,
+    url: `${SITE.url}${s.path}`,
+    provider: { '@id': `${SITE.url}/#organization` },
+    areaServed: 'Worldwide',
+    ...(price ? { offers: { '@type': 'Offer', priceCurrency: 'USD', price: price.replace(/[^0-9.]/g, ''), description: `${price} starting price` } } : {}),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE.url}/services/` },
+      { '@type': 'ListItem', position: 3, name: s.name, item: `${SITE.url}${s.path}` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: s.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+
+<Base title={s.metaTitle} description={s.metaDescription} jsonLd={ld}>
+  <NightHero>
+    <div>
+      <nav class="crumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/services/">Services</a><span>/</span><span aria-current="page">{s.name}</span></nav>
+      <p class="kicker" style="margin-bottom:18px">{s.kw}</p>
+      <h1 class="h1 sm">{s.h1}</h1>
+      <p class="lede" style="margin-top:22px">{s.lede}</p>
+      <div class="actions">
+        <a class="btn btn-white" href={`/contact/?service=${s.id}`} data-track="service_quote" data-track-label={s.name}>Get a quote in 24 hours <Fragment set:html={UA} /></a>
+        <a class="btn btn-line" href="#mini-audit" data-track="service_audit">Free audit</a>
+      </div>
+      {price
+        ? <span class="chip price">{price}{note && <span style="font-weight:500;opacity:.8">&nbsp;{note.toLowerCase()}</span>}</span>
+        : <span class="chip"><Fragment set:html={TICK} /> Fixed written quote before work starts</span>}
+    </div>
+    <Demo kind={s.demo} dark />
+  </NightHero>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-title"><p class="kicker c rv">What you get</p><h2 class="h2 rv" style="margin-top:14px">Everything <span class="it">included</span></h2></div>
+      <div class="get-grid">
+        {s.get.map((g, i) => <div class="get rv"><span class="gi">0{i + 1}</span><h3 class="h3">{g[0]}</h3><p>{g[1]}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap steps-grid">
+      <div>
+        <p class="kicker rv">Problems we fix</p>
+        <h2 class="h2 rv" style="margin:14px 0 28px">Sound <span class="it">familiar?</span></h2>
+        <ul class="fix-list">{s.fix.map((f) => <li class="rv">{f}</li>)}</ul>
+      </div>
+      <Ill name={s.ill} class="rv ill-bare" />
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap steps-grid">
+      <div>
+        <p class="kicker rv">How it works</p>
+        <h2 class="h2 rv" style="margin:14px 0 20px">From first message to <span class="it">results</span></h2>
+        <Steps />
+      </div>
+      <Demo kind={s.demo === 'funnel' ? 'ga4' : 'funnel'} />
+    </div>
+  </section>
+
+  <Faq items={s.faqs} title={`${s.name} questions`} alt />
+  <Carousel list={related} title="Pairs well with" />
+  <CtaNight />
+</Base>

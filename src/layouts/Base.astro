@@ -4,6 +4,9 @@ import '@fontsource-variable/instrument-sans/wght.css';
 import '@fontsource/instrument-serif/latin-400.css';
 import '@fontsource/instrument-serif/latin-400-italic.css';
 import '@fontsource-variable/jetbrains-mono/wght.css';
+import serifUrl from '@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url';
+import serifItUrl from '@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2?url';
+import sansUrl from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2?url';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE } from '../config/site';
@@ -115,6 +118,9 @@ const ldBlocks = [organizationLd, websiteLd, ...jsonLd];
         </script>
       )
     }
+    <link rel="preload" href={serifUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={serifItUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sansUrl} as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -124,7 +130,7 @@ const ldBlocks = [organizationLd, websiteLd, ...jsonLd];
     {googleVerification && <meta name="google-site-verification" content={googleVerification} />}
     {bingVerification && <meta name="msvalidate.01" content={bingVerification} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta name="theme-color" content="#fbfaf7" />
+    <meta name="theme-color" content="#140d26" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Open Graph -->
@@ -166,9 +172,6 @@ const ldBlocks = [organizationLd, websiteLd, ...jsonLd];
       )
     }
     <a class="skip-link" href="#main">Skip to content</a>
-    <div class="scroll-progress" aria-hidden="true"></div>
-    <div class="ambient" aria-hidden="true"><span class="amb-a"></span><span class="amb-b"></span></div>
-    <div class="cursor-glow" aria-hidden="true"></div>
     <Header />
     <main id="main" tabindex="-1">
       <slot />

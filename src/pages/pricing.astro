@@ -2,329 +2,93 @@
 export const prerender = true;
 
 import Base from '../layouts/Base.astro';
-import PricingCards from '../components/PricingCards.astro';
-import MiniAudit from '../components/MiniAudit.astro';
-import FaqList from '../components/FaqList.astro';
-import CtaBand from '../components/CtaBand.astro';
-import { SERVICES } from '../config/services';
-import { SITE } from '../config/site';
-import pricing from '../content/settings/pricing.json';
+import NightHero from '../components/ui/NightHero.astro';
+import Demo from '../components/ui/Demo.astro';
+import Steps from '../components/ui/Steps.astro';
+import IsoStack from '../components/ui/IsoStack.astro';
+import Faq from '../components/ui/Faq.astro';
+import CtaNight from '../components/ui/CtaNight.astro';
+import { UA, TICK } from '../components/ui/Icons';
+import { SERVICES, priceFor } from '../config/services';
 import bfcm from '../content/settings/bfcm.json';
 import { offerLive } from '../lib/offer';
 
-const title = 'Pricing: Fixed-Price CRO, A/B Testing and AI Services | CROLANE';
-const description =
-  'Published, fixed prices for CRO sprints, A/B testing programs, GA4 tracking, AI agent workflows, AI voice agents and AI audits. No sales call needed.';
+const title = 'Pricing for CRO, A/B Testing and AI Services | CROLANE';
+const description = 'How CROLANE pricing works: fixed written quotes for CRO audits, A/B testing and tracking, plus starting prices for AI receptionists, workflows and audits.';
 
-const AI_IDS = ['ai-automation', 'ai-voice-agents', 'ai-agent-audit'];
-const priceOf = (id: string) => pricing.services.find((p) => p.id === id);
-const groups = [
-  { label: 'CRO, testing and analytics', items: SERVICES.filter((s) => !AI_IDS.includes(s.id)) },
-  { label: 'AI services', items: SERVICES.filter((s) => AI_IDS.includes(s.id)) },
+const models = [
+  { k: 'One-off', name: 'Audit or Sprint', copy: 'Find the leaks and fix the biggest ones in one focused project.', items: ['Full funnel and UX review', 'Top fixes built and shipped', 'Before and after check'], best: 'Best for stores that want quick wins first.', mid: false },
+  { k: 'Ongoing', name: 'Experimentation Program', copy: 'A monthly program of research and A/B tests that compounds over time.', items: ['A new test most weeks', 'Roadmap and monthly review', 'Analytics kept clean'], best: 'Best for stores with steady traffic and orders.', mid: true },
+  { k: 'Project', name: 'Build Project', copy: 'Tracking, AI voice agents, n8n workflows or landing pages, built to spec.', items: ['Clear spec and timeline', 'Tested before handover', 'Docs and walkthrough'], best: 'Best for a specific system you need built.', mid: false },
 ];
-
+const ai = SERVICES.filter((s) => priceFor(s.id));
 const faqs = [
-  {
-    q: 'How do I pay?',
-    a: 'Pick a package or service and send your URL. You get an invoice by email (PayPal, Wise or card), usually within a few hours. Work starts once access and payment are in. All prices are in US dollars.',
-  },
-  {
-    q: 'What if my project does not fit a package?',
-    a: 'Send a short note about what you need. You get a fixed quote and a timeline within 24 hours, before you pay anything.',
-  },
-  {
-    q: 'Are monthly plans locked in?',
-    a: 'No. The A/B testing program and monthly care plans run month to month. A three-month testing plan is recommended because tests need time to reach a result, but you can stop at the end of any month.',
-  },
-  {
-    q: 'Do you guarantee results?',
-    a: 'No one can honestly guarantee a conversion lift. What is guaranteed is the scope: the work listed in your package, delivered on time. For audit sprints, if I cannot find at least 3 fixable leaks, you get a full refund.',
-  },
-  {
-    q: 'Do you offer white-label work for agencies?',
-    a: 'Yes. A/B tests are built white-label for agencies at $249 per test, or $899/month for a pack of four.',
-  },
-];
-
-const ld = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'OfferCatalog',
-    name: 'CROLANE pricing',
-    url: `${SITE.url}/pricing/`,
-    itemListElement: pricing.packages.map((p) => ({
-      '@type': 'Offer',
-      name: p.name,
-      price: p.price,
-      priceCurrency: 'USD',
-      description: p.summary,
-    })),
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((f) => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
-    })),
-  },
+  { q: 'Why is there no price list for CRO work?', a: 'Two stores never need the same work. A fixed quote for your exact scope is fairer than a package that over or under delivers.' },
+  { q: 'What shapes my quote?', a: 'The pages in scope, your traffic and how many tests it supports, the tools you already have and how fast you need it live.' },
+  { q: 'Is the quote really fixed?', a: 'Yes. If scope changes, the change is agreed in writing before any extra work starts.' },
+  { q: 'How do I pay?', a: 'You get an invoice by email. PayPal, Wise and card are accepted. Work starts once access and payment are in.' },
+  { q: 'Is there a minimum contract?', a: 'No. Programs run month to month after the first month.' },
 ];
 ---
-
-<Base title={title} description={description} canonicalPath="/pricing/" jsonLd={ld}>
-  <section class="pr-hero" aria-labelledby="pr-title">
-    <div class="container-x">
-    <div class="pr-hero-inner">
-      <p class="eyebrow" data-reveal="fade">Pricing</p>
-      <h1 class="display-xl" id="pr-title" data-reveal>
-        Fixed prices. <span class="display-italic">Shipped work.</span>
-      </h1>
-      <p class="lede" data-reveal data-reveal-delay="0.06">
-        Every price is published, so you know the cost before we talk. No sales call needed: pick
-        what fits, send your URL and get an invoice.
-      </p>
-      {
-        offerLive && (
-          <a class="pr-offer" href="/bfcm/" data-track="pricing_to_bfcm" data-reveal data-reveal-delay="0.12">
-            <span class="pr-offer-tag">{bfcm.eyebrow}</span>
-            <span>Sprint prices below are the Black Friday prices. See the full offer and countdown</span>
-          </a>
-        )
-      }
-    </div>
-    </div>
-  </section>
-
-  <section class="section pr-packages" id="packages" aria-labelledby="pk-title">
-    <div class="container-x">
-      <div class="pr-head">
-        <p class="eyebrow" data-reveal="fade">Conversion sprints</p>
-        <h2 class="display-md" id="pk-title" data-reveal>Audit plus fixes, shipped live.</h2>
+<Base title={title} description={description}>
+  <NightHero>
+    <div>
+      <p class="kicker" style="margin-bottom:18px">Pricing</p>
+      <h1 class="h1 sm">Simple pricing. A fixed quote for your <span class="it">exact scope.</span></h1>
+      <p class="lede" style="margin-top:22px">Every project gets a written quote within 24 hours of a short call. Scope and price are locked before any work starts.</p>
+      <div class="actions">
+        <a class="btn btn-white" href="/contact/" data-track="pricing_quote">Get a quote <Fragment set:html={UA} /></a>
+        <a class="btn btn-line" href="#mini-audit">Start with a free audit</a>
       </div>
-      <PricingCards mode={offerLive ? 'sale' : 'regular'} />
     </div>
-  </section>
+    <Demo kind="dash" dark />
+  </NightHero>
 
-  <section class="section pr-list tone-white" aria-labelledby="list-title">
-    <div class="container-x">
-      <div class="pr-head">
-        <p class="eyebrow" data-reveal="fade">Every service</p>
-        <h2 class="display-md" id="list-title" data-reveal>One price list, no surprises.</h2>
-      </div>
-      <div class="pr-groups">
-        {
-          groups.map((g) => (
-            <div class="pr-group" data-reveal>
-              <p class="label-mono pr-group-label">{g.label}</p>
-              <ul class="pr-rows">
-                {g.items.map((s) => {
-                  const pr = priceOf(s.id);
-                  return (
-                    <li>
-                      <a class="pr-row" href={s.path} data-track="pricing_service" data-track-label={s.id}>
-                        <span class="pr-name">
-                          <strong>{s.navTitle}</strong>
-                          <span>{s.short}</span>
-                        </span>
-                        <span class="pr-price">
-                          <strong>{pr?.from}</strong>
-                          <span>{pr?.note}</span>
-                        </span>
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))
-        }
-      </div>
-      <div class="pr-agency" data-reveal>
-        <p>
-          <strong>Agencies:</strong> white-label A/B test builds at $249 per test, or $899/month for
-          four. Your brief, your client's tool, your name on it.
-        </p>
-        <a class="btn btn-ghost" href="/contact/?service=ab-testing" data-track="pricing_agency">Send a brief</a>
+  <section>
+    <div class="wrap">
+      <div class="sec-title"><p class="kicker c rv">Ways to work</p><h2 class="h2 rv" style="margin-top:14px">Pick what fits your <span class="it">stage</span></h2></div>
+      <div class="eng-grid">
+        {models.map((m) => (
+          <div class:list={['eng rv', { mid: m.mid }]}>
+            <p class="kicker">{m.k}</p>
+            <h3 class="serif" style="font-size:2rem">{m.name}</h3>
+            <p class="muted">{m.copy}</p>
+            <ul>{m.items.map((l) => <li><Fragment set:html={TICK} />{l}</li>)}</ul>
+            <a class:list={['btn', m.mid ? 'btn-white' : 'btn-ink']} href="/contact/" data-track="pricing_model" data-track-label={m.name}>Get a custom quote <Fragment set:html={UA} /></a>
+            <p class="best">{m.best}</p>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <MiniAudit title="Not sure what you need? Start with a free video audit." />
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-title"><h2 class="h2 rv">AI services <span class="it">starting prices</span></h2><p class="rv">AI builds have a clear starting point. Your final quote depends on integrations and call or task volume.</p></div>
+      <table class="ptable rv">
+        <thead><tr><th scope="col">Service</th><th scope="col">What you get</th><th scope="col">Starting from</th></tr></thead>
+        <tbody>{ai.map((s) => <tr><td><a href={s.path}>{s.name}</a></td><td>{s.short}</td><td class="pr">{priceFor(s.id).replace(/^From\s*/i, '')}</td></tr>)}</tbody>
+      </table>
+      {offerLive && (
+        <div class="offer-note rv">
+          <div><b>{bfcm.eyebrow} offer is live</b><p>Fixed-price CRO packages from ${Math.min(...bfcm.packages.map((p) => p.price))}, only until the timer ends.</p></div>
+          <a class="btn btn-white" href="/bfcm/" data-track="pricing_offer">See the offer <Fragment set:html={UA} /></a>
+        </div>
+      )}
+    </div>
+  </section>
 
-  <section class="section faq-wrap" aria-labelledby="pr-faq-title">
-    <div class="container-x pr-faq">
+  <section class="alt">
+    <div class="wrap steps-grid">
       <div>
-        <p class="eyebrow" data-reveal="fade">FAQs</p>
-        <h2 class="display-md" id="pr-faq-title" data-reveal>About pricing and payment.</h2>
+        <p class="kicker rv">The process</p>
+        <h2 class="h2 rv" style="margin:14px 0 20px">From first message to <span class="it">results</span></h2>
+        <Steps />
       </div>
-      <FaqList items={faqs} idPrefix="pricing-faq" />
+      <IsoStack a="Audit" b="Program" c="Build" />
     </div>
   </section>
 
-  <CtaBand
-    eyebrow="Custom work"
-    title="Need something that is not on the list?"
-    copy="Send a short note about the problem. You get a fixed price and a timeline within 24 hours."
-    primaryLabel="Get a fixed quote"
-    primaryHref="/contact/"
-  />
+  <Faq items={faqs} />
+  <CtaNight />
 </Base>
-
-<style>
-  .pr-hero {
-    padding: clamp(7rem, 14vh, 9rem) 0 clamp(2.5rem, 5vh, 3.5rem);
-    background: var(--color-paper);
-  }
-
-  .pr-hero-inner {
-    display: flex;
-    flex-direction: column;
-    gap: 1.1rem;
-    max-width: 52rem;
-  }
-
-  .pr-offer {
-    display: inline-flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.75rem;
-    align-self: flex-start;
-    padding: 0.7rem 1rem;
-    border-radius: 12px;
-    background: var(--color-ink);
-    color: #fff;
-    font-size: 0.92rem;
-  }
-
-  .pr-offer:hover span:last-child {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .pr-offer-tag {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    background: var(--color-signal);
-    color: var(--color-ink);
-    padding: 0.3rem 0.55rem;
-    border-radius: 6px;
-  }
-
-  .pr-packages {
-    background: var(--color-paper-3);
-  }
-
-  .pr-head {
-    margin-bottom: 2.2rem;
-    max-width: 44rem;
-  }
-
-  .pr-groups {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(1.5rem, 4vw, 3rem);
-  }
-
-  .pr-group-label {
-    padding-bottom: 0.7rem;
-    border-bottom: 1.5px solid var(--color-ink);
-  }
-
-  .pr-rows {
-    list-style: none;
-  }
-
-  .pr-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 1.25rem;
-    padding: 1.1rem 0;
-    border-bottom: 1px solid var(--color-line);
-  }
-
-  .pr-row:hover strong {
-    color: var(--color-indigo);
-  }
-
-  .pr-name,
-  .pr-price {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .pr-name strong,
-  .pr-price strong {
-    font-weight: 600;
-    font-size: 1rem;
-  }
-
-  .pr-name span {
-    font-size: 0.86rem;
-    line-height: 1.5;
-    color: var(--color-ink-2);
-  }
-
-  .pr-price {
-    flex: none;
-    text-align: right;
-    max-width: 12rem;
-  }
-
-  .pr-price span {
-    font-size: 0.78rem;
-    line-height: 1.4;
-    color: var(--color-ink-3);
-  }
-
-  .pr-agency {
-    margin-top: 2.2rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 1.25rem 1.5rem;
-    border: 1.5px solid var(--color-ink);
-    border-radius: 16px;
-    background: var(--color-paper);
-  }
-
-  .pr-agency p {
-    max-width: 44rem;
-    font-size: 0.95rem;
-    line-height: 1.55;
-  }
-
-  .faq-wrap {
-    background: var(--color-paper);
-  }
-
-  .pr-faq {
-    display: grid;
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    gap: clamp(2rem, 5vw, 4rem);
-  }
-
-  @media (max-width: 56rem) {
-    .pr-groups,
-    .pr-faq {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (max-width: 32rem) {
-    .pr-row {
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .pr-price {
-      text-align: left;
-      max-width: none;
-    }
-  }
-</style>

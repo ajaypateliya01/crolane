@@ -1,0 +1,21 @@
+---
+import ServiceCard from './ServiceCard.astro';
+import type { Service } from '../../config/services';
+interface Props { list: Service[]; title: string; sub?: string; kicker?: string }
+const { list, title, sub, kicker } = Astro.props;
+---
+<section>
+  <div class="wrap">
+    <div class="sec-title">
+      {kicker && <p class="kicker c rv">{kicker}</p>}
+      <h2 class="h2 rv" style={kicker ? 'margin-top:14px' : ''}>{title}</h2>
+      {sub && <p class="rv">{sub}</p>}
+    </div>
+    <div class="car rv" data-carousel>
+      <button class="car-btn prev" type="button" aria-label="Previous services"><svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true"><path d="M13 6H1.5M5.5 1.5 1 6l4.5 4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+      <div class="track">{list.map((s) => <ServiceCard s={s} />)}</div>
+      <button class="car-btn next" type="button" aria-label="Next services"><svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true"><path d="M1 6h11.5M8.5 1.5 13 6l-4.5 4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+      <div class="cdots"></div>
+    </div>
+  </div>
+</section>

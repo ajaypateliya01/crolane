@@ -1,10 +1,10 @@
-import { initHeader } from './header';
-import { initMotion } from './motion';
+import { initSite } from './site';
+import { initDemos } from './demos';
 import { initTrack } from './track';
 
 function boot() {
-  initHeader();
-  initMotion();
+  initSite();
+  initDemos();
   initTrack();
 }
 

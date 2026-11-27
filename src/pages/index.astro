@@ -1,286 +1,152 @@
 ---
 export const prerender = true;
 
+import Base from '../layouts/Base.astro';
+import NightHero from '../components/ui/NightHero.astro';
+import Demo from '../components/ui/Demo.astro';
+import Carousel from '../components/ui/Carousel.astro';
+import Steps from '../components/ui/Steps.astro';
+import IsoStack from '../components/ui/IsoStack.astro';
+import Faq from '../components/ui/Faq.astro';
+import CtaNight from '../components/ui/CtaNight.astro';
+import Founder from '../components/ui/Founder.astro';
+import Reviews from '../components/ui/Reviews.astro';
+import { UA } from '../components/ui/Icons';
 import { SERVICES } from '../config/services';
 import { SITE } from '../config/site';
-import Base from '../layouts/Base.astro';
-import Hero from '../components/Hero.astro';
-import Ticker from '../components/Ticker.astro';
-import ServiceRows from '../components/ServiceRows.astro';
-import AbLab from '../components/AbLab.astro';
-import FaqList from '../components/FaqList.astro';
-import CtaBand from '../components/CtaBand.astro';
-import PricingCards from '../components/PricingCards.astro';
-import Founder from '../components/Founder.astro';
-import Reviews from '../components/Reviews.astro';
-import Leaks from '../components/Leaks.astro';
-import Compare from '../components/Compare.astro';
-import MiniAudit from '../components/MiniAudit.astro';
+import home from '../content/settings/home.json';
+import site from '../content/settings/site.json';
 import bfcm from '../content/settings/bfcm.json';
+import { offerLive, offerSafeHref } from '../lib/offer';
 
-const title = 'Shopify CRO, A/B Testing, GA4 & AI Voice Agents | CROLANE';
-const description = SITE.description;
+const title = 'CRO Agency for Shopify and Ecommerce Brands | CROLANE';
+const description =
+  'Developer-led CRO for Shopify and ecommerce brands: audits that end in shipped fixes, A/B testing, GA4 tracking and AI voice and workflow automation.';
+
+// Split the admin headline around the highlighted word so it can be set in italic.
+const hi = home.highlight?.trim();
+const idx = hi ? home.headline.indexOf(hi) : -1;
+const before = idx >= 0 ? home.headline.slice(0, idx) : home.headline;
+const after = idx >= 0 ? home.headline.slice(idx + hi.length) : '';
+const primaryHref = offerSafeHref(home.primaryHref);
+const primaryLabel = !offerLive && home.primaryHref.startsWith('/bfcm') ? 'Get a free audit' : home.primaryLabel;
+const primaryTarget = !offerLive && home.primaryHref.startsWith('/bfcm') ? '#mini-audit' : primaryHref;
+
+const tabs = [
+  { kind: 'ab', tag: 'A/B', name: 'A/B testing', sub: 'Variants, lift and confidence, live' },
+  { kind: 'ga4', tag: 'GA4', name: 'GA4 tracking', sub: 'Every event checked before it counts' },
+  { kind: 'voice', tag: 'AI', name: 'AI receptionist', sub: 'Calls answered and booked 24/7' },
+  { kind: 'flow', tag: 'n8n', name: 'AI workflows', sub: 'Leads qualified and routed in seconds' },
+] as const;
 
 const faqs = [
-  {
-    q: 'How much does a Shopify CRO audit cost?',
-    a: 'Published audit prices usually range from about $500 to over $2,000. CROLANE sprints start at $599 for a mobile product page and cart review with the top 3 fixes built and shipped, and $799 for six fixes plus a GA4 tracking check. Prices are fixed before work starts.',
-  },
-  {
-    q: 'What is the difference between a CRO audit and A/B testing?',
-    a: 'An audit finds where visitors hesitate and fixes the clear problems directly. An A/B test is for changes where the right answer is not obvious: two versions run side by side and the data decides. Most stores need the fixes first and tests second.',
-  },
-  {
-    q: 'Do I need a lot of traffic for A/B testing?',
-    a: 'For reliable A/B tests you generally need a few hundred conversions per variation over the test period. Smaller stores get more from fixing clear friction and making sure tracking is right, then testing the bigger decisions later.',
-  },
-  {
-    q: 'How does an engagement start?',
-    a: 'Two ways. Pick a fixed-price package, send your store URL and you get an invoice and a start date, usually within a few hours. Or send a short note about the problem and you get a fixed quote and timeline within 24 hours. No sales call needed either way.',
-  },
-  {
-    q: 'Do you guarantee conversion lifts?',
-    a: 'No, and you should be careful around anyone who does. We guarantee careful work, honest measurement and honest read outs. How much a business improves depends on its traffic, offer, market and how well changes are implemented.',
-  },
-  {
-    q: 'Are the numbers and demos on this site real results?',
-    a: 'No. Every metric, heatmap, conversation and experiment shown here is illustrative demo data built to explain how the work functions. We do not publish fabricated client results, logos or testimonials.',
-  },
-  {
-    q: 'What access do you need from us?',
-    a: 'It depends on the service. Analytics and tag work needs access to your GA4 and tag manager properties. Audits need a way to review the live experience, ideally with session data if you have it. Automation and voice projects need the tools you want connected. We list exactly what is needed in the scope.',
-  },
-  {
-    q: 'How long does the work take?',
-    a: 'Fix sprints go live in 24 to 48 hours. Audits take about a week. In the testing program a new A/B test launches every week. AI workflows and voice agents usually take one to two weeks. Each quote states the timeline before you pay.',
-  },
-  {
-    q: 'Can you work alongside our developers or agency?',
-    a: 'Yes. Findings, event plans, test designs and automation specs are documented so whoever implements them can follow the logic. CROLANE can also build tests white-label for agencies.',
-  },
-  {
-    q: 'Is advanced CRM integration or enterprise automation included by default?',
-    a: 'No. Standard automation covers practical, well defined workflows with clear review points. Complex CRM, calendar or telephony integrations are scoped separately based on your stack, access and feasibility.',
-  },
+  { q: 'How much does CRO work cost?', a: 'Every store needs different work, so we quote after a short call. Your quote is fixed in writing before anything starts. AI builds show a starting price on their pages, and limited offers like Black Friday have fixed package prices.' },
+  { q: 'What is the difference between a CRO audit and A/B testing?', a: 'An audit finds where visitors hesitate and fixes the clear problems directly. An A/B test is for changes where the right answer is not obvious: two versions run side by side and the data decides. Most stores need the fixes first and tests second.' },
+  { q: 'Do I need a lot of traffic for A/B testing?', a: 'For reliable tests you generally need a few hundred conversions per variation over the test period. Smaller stores get more from fixing clear friction and making sure tracking is right, then testing the bigger decisions later.' },
+  { q: 'Do you guarantee conversion lifts?', a: 'No, and be careful around anyone who does. We guarantee careful work, honest measurement and honest read-outs. Results depend on your traffic, offer and market.' },
+  { q: 'Are the numbers in the demos real client results?', a: 'No. Every metric, conversation and experiment shown in the demos is illustrative, built to show how the work functions. We do not publish made up client results, logos or testimonials.' },
+  { q: 'Can you work alongside our developers or agency?', a: 'Yes. Findings, event plans, test designs and automation specs are documented so anyone can follow them. CROLANE also builds tests white label for agencies.' },
 ];
 
-const homeLd = [
+const ld = [
   {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'CROLANE services',
-    itemListElement: SERVICES.map((s, i) => ({
-      '@type': 'ListItem',
-      position: i + 1,
-      name: s.title,
-      url: `${SITE.url}${s.path}`,
-    })),
+    itemListElement: SERVICES.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.name, url: `${SITE.url}${s.path}` })),
   },
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: faqs.map((f) => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
-    })),
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
   },
 ];
-
-
 ---
 
-<Base title={title} description={description} jsonLd={homeLd}>
-  <Hero />
-  <Ticker />
-  <Leaks />
-  <MiniAudit dark />
-  {
-    bfcm.enabled && (
-      <section class="section home-offer" aria-labelledby="home-offer-title">
-        <div class="container-x">
-          <div class="ho-head">
-            <p class="eyebrow" data-reveal="fade">{bfcm.eyebrow}</p>
-            <h2 class="display-lg" id="home-offer-title" data-reveal>
-              Fixed-price sprints, <span class="display-italic">live before Monday.</span>
-            </h2>
-            <p class="lede" data-reveal>{bfcm.lede}</p>
-          </div>
-          <PricingCards compact />
-          <p class="ho-more" data-reveal>
-            <a class="link-arrow" href="/bfcm/" data-track="home_offer_details">See everything included, FAQs and the guarantee</a>
-          </p>
-        </div>
-      </section>
-    )
-  }
-  <Compare />
-  <Founder />
-  <ServiceRows />
-  <Reviews />
-  <AbLab />
-
-  <!-- FAQ -->
-  <section class="section faq-section" aria-labelledby="faq-title">
-    <div class="container-x faq-grid">
-      <div class="faq-left">
-        <p class="eyebrow" data-reveal="fade">FAQs</p>
-        <h2 class="display-md" id="faq-title" data-reveal>Questions worth answering first.</h2>
-        <p class="faq-sub" data-reveal data-reveal-delay="0.06">
-          Anything not covered here?
-          <a href="/contact/">Send it over</a>, we answer in plain language.
-        </p>
+<Base title={title} description={description} jsonLd={ld}>
+  <NightHero logos>
+    <div>
+      <p class="kicker" style="margin-bottom:22px">{home.eyebrow}</p>
+      <h1 class="h1">{before}{idx >= 0 && <span class="it">{hi}</span>}{after}</h1>
+      <p class="lede" style="margin-top:24px">{home.lede}</p>
+      <div class="actions">
+        <a class="btn btn-white" href={primaryTarget} data-track="hero_primary">{primaryLabel} <Fragment set:html={UA} /></a>
+        {primaryTarget !== '#mini-audit' && <a class="btn btn-line" href={home.secondaryHref === '#mini-audit' ? '#mini-audit' : home.secondaryHref} data-track="hero_secondary">{home.secondaryLabel}</a>}
       </div>
-      <div data-reveal="fade">
-        <FaqList items={faqs} idPrefix="home-faq" />
+      <div class="trust" style="margin-top:28px"><Founder /><span><b>Work directly with Ajay</b><br />The person who audits ships the fix</span></div>
+    </div>
+    <Demo kind="result" toggle />
+  </NightHero>
+
+  <Carousel list={SERVICES} kicker="Services" title="Where we move your numbers" sub="Use one service or combine them. Every project starts with data, not guesses." />
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-title">
+        <p class="kicker c rv">Live demos</p>
+        <h2 class="h2 rv" style="margin-top:14px">See the work before you <span class="it">hire us</span></h2>
+        <p class="rv">Real examples of what we build. Numbers are illustrative.</p>
+      </div>
+      <div class="show-grid" data-tabs>
+        <div class="tabs" role="tablist" aria-label="Demos">
+          {tabs.map((t, i) => (
+            <button class="tab" type="button" role="tab" id={`tab-${t.kind}`} aria-controls={`panel-${t.kind}`} aria-selected={i === 0 ? 'true' : 'false'}>
+              <span class="ti">{t.tag}</span><span><b>{t.name}</b><span class="s">{t.sub}</span></span>
+            </button>
+          ))}
+        </div>
+        <div>
+          {tabs.map((t, i) => (
+            <div role="tabpanel" id={`panel-${t.kind}`} aria-labelledby={`tab-${t.kind}`} hidden={i !== 0}><Demo kind={t.kind} /></div>
+          ))}
+        </div>
       </div>
     </div>
   </section>
 
-  <CtaBand />
+  <section>
+    <div class="wrap steps-grid">
+      <div>
+        <p class="kicker rv">How it works</p>
+        <h2 class="h2 rv" style="margin:14px 0 20px">Three steps. <span class="it">No surprises.</span></h2>
+        <Steps />
+      </div>
+      <IsoStack a="Audit" b="Quote" c="Growth" />
+    </div>
+  </section>
+
+  <section class="night" style="padding:clamp(56px,7vw,96px) 0">
+    <div class="wrap">
+      <p class="kicker rv">Why CROLANE</p>
+      <h2 class="h2 rv" style="margin:14px 0 36px;max-width:820px">Developer-led, so the fix actually <span class="it">ships</span></h2>
+      <div class="why">
+        {site.proofPoints.map((p, i) => <div class="rv"><span>0{i + 1}</span><p>{p}</p></div>)}
+      </div>
+      {offerLive && (
+        <div class="offer-note rv" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);margin-top:40px">
+          <div><b>{bfcm.eyebrow}</b><p>Fixed-price CRO packages from ${Math.min(...bfcm.packages.map((p) => p.price))}, {bfcm.slots} slots only.</p></div>
+          <a class="btn btn-white" href="/bfcm/" data-track="home_offer">See the offer <Fragment set:html={UA} /></a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <Reviews />
+  <Faq items={faqs} />
+  <CtaNight />
 </Base>
 
 <style>
-  /* Homepage rhythm: a tighter, landing-page pace than the default section pad. */
-  .section {
-    padding-block: clamp(3.8rem, 7.5vw, 6.4rem);
+  .why { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid rgba(255,255,255,.14); }
+  .why div { padding: 26px 24px 8px 0; border-right: 1px solid rgba(255,255,255,.1); margin-right: 24px; }
+  .why div:last-child { border-right: 0; margin-right: 0; }
+  .why span { font-family: var(--mono); font-size: .8rem; color: var(--lav); }
+  .why p { margin-top: 14px; color: #e6e1f7; font-size: 1.02rem; line-height: 1.6; }
+  @media (max-width: 900px) {
+    .why { grid-template-columns: 1fr 1fr; }
+    .why div:nth-child(2) { border-right: 0; margin-right: 0; }
   }
-
-  .home-offer {
-    background: var(--color-paper-3);
-  }
-
-  .ho-head {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 0.8rem;
-    margin-bottom: 3rem;
-  }
-
-  .ho-more {
-    margin-top: 2rem;
-    text-align: center;
-  }
-
-  /* Process */
-  .process {
-    background: #fff;
-  }
-
-  .process-grid {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: clamp(1.25rem, 2.5vw, 2rem);
-    counter-reset: none;
-  }
-
-  .process-step {
-    position: relative;
-    padding: 1.6rem 1.4rem 1.7rem;
-    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
-    border-radius: 18px;
-    background: linear-gradient(180deg, #fff, var(--color-paper));
-    transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
-  }
-
-  .process-step:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lift);
-  }
-
-  .process-step::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 1.4rem;
-    right: 1.4rem;
-    height: 3px;
-    border-radius: 0 0 4px 4px;
-    background: linear-gradient(90deg, var(--color-indigo), color-mix(in srgb, var(--color-indigo) 30%, transparent));
-    opacity: 0.7;
-  }
-
-  .pr-num {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
-    color: var(--color-ink-3);
-  }
-
-  .process-step h3 {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 2.4vw, 1.9rem);
-    font-weight: 400;
-    margin: 0.6rem 0 0.55rem;
-  }
-
-  .process-step p {
-    font-size: 0.89rem;
-    line-height: 1.6;
-    color: var(--color-ink-2);
-  }
-
-  .process-note {
-    margin-top: clamp(1.75rem, 4vw, 2.5rem);
-    font-size: 0.875rem;
-    color: var(--color-ink-3);
-    max-width: 46rem;
-    padding-top: 1.25rem;
-    border-top: 1px dashed color-mix(in srgb, var(--color-ink) 14%, transparent);
-  }
-
-  /* FAQ */
-  .faq-section {
-    background: var(--color-paper);
-  }
-
-  .faq-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    gap: clamp(2rem, 5vw, 4.5rem);
-    align-items: start;
-  }
-
-  .faq-left {
-    position: sticky;
-    top: 7rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.1rem;
-  }
-
-  .faq-sub {
-    font-size: 0.95rem;
-    color: var(--color-ink-2);
-    line-height: 1.6;
-  }
-
-  .faq-sub a {
-    color: var(--color-indigo);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  @media (max-width: 64rem) {
-    .process-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .faq-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .faq-left {
-      position: static;
-    }
-  }
-
-  @media (max-width: 40rem) {
-    .process-grid {
-      grid-template-columns: 1fr;
-    }
+  @media (max-width: 560px) {
+    .why { grid-template-columns: 1fr; }
+    .why div { border-right: 0; margin-right: 0; border-bottom: 1px solid rgba(255,255,255,.1); padding-bottom: 22px; }
   }
 </style>
