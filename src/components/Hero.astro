@@ -1,6 +1,7 @@
 ---
 import home from '../content/settings/home.json';
 import site from '../content/settings/site.json';
+import { offerLive, offerSafeHref } from '../lib/offer';
 
 // Split the headline around the highlighted word so it can be styled.
 const hi = home.highlight?.trim();
@@ -8,6 +9,8 @@ const idx = hi ? home.headline.indexOf(hi) : -1;
 const before = idx >= 0 ? home.headline.slice(0, idx) : home.headline;
 const after = idx >= 0 ? home.headline.slice(idx + hi.length) : '';
 const proof = site.proofPoints.slice(0, 3);
+const primaryHref = offerSafeHref(home.primaryHref);
+const primaryLabel = !offerLive && home.primaryHref.startsWith('/bfcm') ? 'See pricing' : home.primaryLabel;
 
 const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
 ---
@@ -28,8 +31,8 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
       </h1>
       <p class="lede" data-reveal data-reveal-delay="0.14">{home.lede}</p>
       <div class="hero-actions" data-reveal data-reveal-delay="0.22">
-        <a class="btn btn-primary" href={home.primaryHref} data-track="hero_primary">
-          {home.primaryLabel}
+        <a class="btn btn-primary" href={primaryHref} data-track="hero_primary">
+          {primaryLabel}
           <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
             <path d="M1 6h11.5M8.5 1.5 13 6l-4.5 4.5" stroke="currentColor" stroke-width="1.6"
               stroke-linecap="round" stroke-linejoin="round"></path>

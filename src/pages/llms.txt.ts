@@ -32,8 +32,9 @@ ${serviceLines}
 
 - [Home](${SITE.url}/): what CROLANE does, live demo dashboard, service index and process.
 - [Services](${SITE.url}/services/): every service in one index, with guidance on where to start.
+- [Pricing](${SITE.url}/pricing/): published fixed prices for every package and service.
 - [About](${SITE.url}/about/): how CROLANE works and what it will not promise.
-- [Contact](${SITE.url}/contact/): start a conversation about a specific problem.
+- [Contact](${SITE.url}/contact/): get a fixed quote within 24 hours.
 
 ## Contact
 

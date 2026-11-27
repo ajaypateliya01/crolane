@@ -5,6 +5,7 @@ import { SITE } from '../config/site';
 import site from '../content/settings/site.json';
 import pricing from '../content/settings/pricing.json';
 import bfcm from '../content/settings/bfcm.json';
+import { offerLive, pricesHref } from '../lib/offer';
 
 // Services menu: two groups, each item shows its starting price.
 const AI_IDS = ['ai-automation', 'ai-voice-agents', 'ai-agent-audit'];
@@ -14,7 +15,9 @@ const MENU_GROUPS = [
   { label: 'AI services', items: SERVICES.filter((s) => AI_IDS.includes(s.id)) },
 ];
 
+// The offer bar hides itself when it promotes BFCM and the offer is off.
 const offer = site.offerBar;
+const showOfferBar = offer.enabled && (offerLive || !offer.href.startsWith('/bfcm'));
 
 const path = Astro.url.pathname;
 const isActive = (href: string) =>
@@ -25,7 +28,7 @@ const isActiveService = path.startsWith('/services/');
 
 <>
 <header class="site-header" data-header>
-  {offer.enabled && (
+  {showOfferBar && (
     <a class="offer-bar" href={offer.href} data-track="offer_bar_click">
       <span class="offer-dot" aria-hidden="true"></span>
       <span class="offer-text">{offer.text}</span>
@@ -111,7 +114,7 @@ const isActiveService = path.startsWith('/services/');
           </div>
         </li>
         <li>
-          <a class="nav-link" href="/bfcm/" data-active={isActive('/bfcm/') ? 'true' : undefined}
+          <a class="nav-link" href="/pricing/" data-active={isActive('/pricing/') || isActive('/bfcm/') ? 'true' : undefined}
             >Pricing</a
           >
         </li>
@@ -136,7 +139,7 @@ const isActiveService = path.startsWith('/services/');
     </nav>
 
     <div class="header-actions">
-      <a class="btn btn-primary btn-sm header-cta" href="/bfcm/" data-track="header_cta">See packages</a>
+      <a class="btn btn-primary btn-sm header-cta" href={pricesHref} data-track="header_cta">See packages</a>
       <button
         class="menu-toggle"
         type="button"
@@ -164,7 +167,7 @@ const isActiveService = path.startsWith('/services/');
             >Services</a
           >
         </li>
-        <li><a href="/bfcm/" data-active={isActive('/bfcm/') ? 'true' : undefined}>Pricing / BFCM</a></li>
+        <li><a href="/pricing/" data-active={isActive('/pricing/') ? 'true' : undefined}>Pricing</a></li>
         <li><a href="/blog/" data-active={isActive('/blog/') ? 'true' : undefined}>Blog</a></li>
         <li><a href="/about/" data-active={isActive('/about/') ? 'true' : undefined}>About</a></li>
         <li>
@@ -184,7 +187,7 @@ const isActiveService = path.startsWith('/services/');
         }
       </ul>
       <div class="mobile-foot">
-        <a class="btn btn-primary" href="/bfcm/" data-track="header_cta">See BFCM packages</a>
+        <a class="btn btn-primary" href={pricesHref} data-track="header_cta">{offerLive ? 'See BFCM packages' : 'See pricing'}</a>
         <a class="mobile-email" href={`mailto:${SITE.email}`}>{SITE.email}</a>
       </div>
     </nav>

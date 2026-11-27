@@ -126,10 +126,30 @@ export default config({
       },
     }),
     pricing: singleton({
-      label: 'Service starting prices',
+      label: 'Pricing page and service prices',
       path: 'src/content/settings/pricing',
       format: { data: 'json' },
       schema: {
+        packages: fields.array(
+          fields.object({
+            id: fields.text({ label: 'ID (no spaces)' }),
+            service: fields.text({ label: 'Service ID for the contact form (e.g. cro-audit)' }),
+            name: fields.text({ label: 'Name' }),
+            price: fields.integer({ label: 'Price (USD)' }),
+            badge: fields.text({ label: 'Badge (optional)' }),
+            highlight: fields.checkbox({ label: 'Highlight this card' }),
+            summary: fields.text({ label: 'One-line summary' }),
+            delivery: fields.text({ label: 'Delivery' }),
+            features: fields.array(fields.text({ label: 'Feature' }), {
+              label: 'Included',
+              itemLabel: (p) => p.value,
+            }),
+          }),
+          {
+            label: 'Everyday sprint packages (shown on /pricing/ when BFCM is off)',
+            itemLabel: (p) => `${p.fields.name.value} · $${p.fields.price.value}`,
+          },
+        ),
         services: fields.array(
           fields.object({
             id: fields.select({

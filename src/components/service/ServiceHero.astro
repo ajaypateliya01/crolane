@@ -1,6 +1,7 @@
 ---
 import type { Service } from '../../config/services';
 import pricing from '../../content/settings/pricing.json';
+import { offerLive, pricesHref } from '../../lib/offer';
 
 interface Props {
   service: Service;
@@ -39,7 +40,7 @@ const price = pricing.services.find((p) => p.id === service.id);
       )}
       <div class="sv-hero-actions" data-reveal data-reveal-delay="0.16">
         <a class="btn btn-primary" href={`/contact/?service=${service.id}`} data-track="service_hero_cta" data-track-label={service.id}>Get a quote in 24 hrs</a>
-        <a class="btn btn-ghost" href="/bfcm/" data-track="service_to_bfcm">See BFCM packages</a>
+        <a class="btn btn-ghost" href={pricesHref} data-track="service_to_pricing">{offerLive ? 'See BFCM packages' : 'See all prices'}</a>
       </div>
     </div>
     <figure class="sv-hero-art" data-reveal="scale" data-reveal-delay="0.1">

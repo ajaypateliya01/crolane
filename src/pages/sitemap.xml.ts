@@ -2,12 +2,13 @@ import type { APIRoute } from 'astro';
 import { SITE } from '../config/site';
 import { SERVICES } from '../config/services';
 import { getPosts } from '../lib/blog';
+import { offerLive } from '../lib/offer';
 
 export const prerender = true;
 
 const STATIC_ROUTES: Array<{ path: string; priority: string; changefreq: string }> = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
-  { path: '/bfcm/', priority: '0.9', changefreq: 'daily' },
+  { path: '/pricing/', priority: '0.9', changefreq: 'weekly' },
   { path: '/services/', priority: '0.9', changefreq: 'weekly' },
   { path: '/blog/', priority: '0.8', changefreq: 'daily' },
   { path: '/about/', priority: '0.6', changefreq: 'monthly' },
@@ -20,6 +21,7 @@ const lastmod = new Date().toISOString().slice(0, 10);
 export const GET: APIRoute = async () => {
   const posts = await getPosts();
   const routes: Array<{ path: string; priority: string; changefreq: string; lastmod?: string }> = [
+    ...(offerLive ? [{ path: '/bfcm/', priority: '0.9', changefreq: 'daily' }] : []),
     ...STATIC_ROUTES,
     ...SERVICES.map((s) => ({ path: s.path, priority: '0.8', changefreq: 'monthly' })),
     ...posts.map((p) => ({
