@@ -125,7 +125,7 @@ try {
   const home = await fetch(`${base}/`);
   check('GET / is 200', home.status === 200, `got ${home.status}`);
   const homeHtml = await home.text();
-  check('GET / has CROLANE title', homeHtml.includes('<title>CROLANE'));
+  check('GET / has CROLANE title', /<title>[^<]*CROLANE[^<]*<\/title>/.test(homeHtml));
   check('GET / contains hero visual stage', homeHtml.includes('viz-stage'));
 
   const svc = await fetch(`${base}/services/`);

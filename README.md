@@ -200,7 +200,7 @@ scripts/         check-links.mjs, test-mail.mjs, build-og.mjs
 Only real client reviews (added in the admin panel with permission) may be shown.
 No testimonials, client logos, metrics or results may be invented. Every chart, metric, heatmap and
 conversation in the demos is labelled illustrative, and the demos run entirely
-in the browser on fictional data. There are exactly seven services; do not add
+in the browser on fictional data. There are exactly eight services; do not add
 more without updating `src/config/services.ts`, the navigation and this file
 together.
 

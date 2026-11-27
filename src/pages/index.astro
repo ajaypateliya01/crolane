@@ -8,41 +8,31 @@ import Hero from '../components/Hero.astro';
 import Ticker from '../components/Ticker.astro';
 import ServiceRows from '../components/ServiceRows.astro';
 import AbLab from '../components/AbLab.astro';
-import SectionHeading from '../components/SectionHeading.astro';
 import FaqList from '../components/FaqList.astro';
 import CtaBand from '../components/CtaBand.astro';
 import PricingCards from '../components/PricingCards.astro';
 import Founder from '../components/Founder.astro';
 import Reviews from '../components/Reviews.astro';
+import Leaks from '../components/Leaks.astro';
+import Compare from '../components/Compare.astro';
 import bfcm from '../content/settings/bfcm.json';
 
 const title = 'Shopify CRO, A/B Testing, GA4 & AI Voice Agents | CROLANE';
 const description = SITE.description;
 
-const processSteps = [
-  {
-    num: '01',
-    title: 'Conversation',
-    body: 'A short call or email thread about the business problem, the current experience and what you have already tried.',
-  },
-  {
-    num: '02',
-    title: 'Scope',
-    body: 'A written scope: deliverables, access needed, timeline and cost. You approve it before any work begins.',
-  },
-  {
-    num: '03',
-    title: 'Implementation',
-    body: 'The actual work, with checkpoints. Analytics validated, experiments documented, automations reviewed before anything customer facing goes live.',
-  },
-  {
-    num: '04',
-    title: 'Review',
-    body: 'A clear read-out: what was found, what was decided, what changed and what is worth doing next.',
-  },
-];
-
 const faqs = [
+  {
+    q: 'How much does a Shopify CRO audit cost?',
+    a: 'Published audit prices usually range from about $500 to over $2,000. CROLANE sprints start at $599 for a mobile product page and cart review with the top 3 fixes built and shipped, and $799 for six fixes plus a GA4 tracking check. Prices are fixed before work starts.',
+  },
+  {
+    q: 'What is the difference between a CRO audit and A/B testing?',
+    a: 'An audit finds where visitors hesitate and fixes the clear problems directly. An A/B test is for changes where the right answer is not obvious: two versions run side by side and the data decides. Most stores need the fixes first and tests second.',
+  },
+  {
+    q: 'Do I need a lot of traffic for A/B testing?',
+    a: 'For reliable A/B tests you generally need a few hundred conversions per variation over the test period. Smaller stores get more from fixing clear friction and making sure tracking is right, then testing the bigger decisions later.',
+  },
   {
     q: 'How does an engagement start?',
     a: 'With a conversation. You tell us where you think the journey loses people, we ask practical questions, and if it looks like a fit we send a written scope with deliverables, access needs, timing and cost. Nothing starts until you approve it.',
@@ -102,6 +92,7 @@ const homeLd = [
 <Base title={title} description={description} jsonLd={homeLd}>
   <Hero />
   <Ticker />
+  <Leaks />
   {
     bfcm.enabled && (
       <section class="section home-offer" aria-labelledby="home-offer-title">
@@ -121,37 +112,11 @@ const homeLd = [
       </section>
     )
   }
+  <Compare />
   <Founder />
   <ServiceRows />
   <Reviews />
   <AbLab />
-
-  <!-- Process -->
-  <section class="section process tone-white" id="process" aria-labelledby="process-title">
-    <div class="container-x">
-      <SectionHeading
-        eyebrow="Working together"
-        title="A process that fits the problem, not a package."
-        lede="Different services need different work. The way we work together stays simple and legible from the first email to the final read-out."
-        id="process-title"
-      />
-      <ol class="process-grid" data-reveal-group>
-        {
-          processSteps.map((s, i) => (
-            <li class="process-step">
-              <span class="pr-num" aria-hidden="true">{s.num}</span>
-              <h3>{s.title}</h3>
-              <p>{s.body}</p>
-            </li>
-          ))
-        }
-      </ol>
-      <p class="process-note" data-reveal="fade">
-        Every engagement ends with documented findings and next steps, whether the project was an
-        audit, an experiment cycle, an implementation or an automation build.
-      </p>
-    </div>
-  </section>
 
   <!-- FAQ -->
   <section class="section faq-section" aria-labelledby="faq-title">

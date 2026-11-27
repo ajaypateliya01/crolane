@@ -142,6 +142,7 @@ export default config({
                 { label: 'Conversion Tracking', value: 'conversion-tracking' },
                 { label: 'AI Automation', value: 'ai-automation' },
                 { label: 'AI Voice Agents', value: 'ai-voice-agents' },
+                { label: 'AI Agent Audit', value: 'ai-agent-audit' },
                 { label: 'Shopify Audits', value: 'shopify-audits' },
               ],
             }),

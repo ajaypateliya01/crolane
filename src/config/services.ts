@@ -49,7 +49,7 @@ export const SERVICES: Service[] = [
     metaDescription:
       'A/B tests designed, built and read out properly by a developer who builds them daily. VWO, Convert and Shoplift. Clear keep or drop calls. From $999 per test.',
     accent: 'var(--color-indigo)',
-    accentSoft: '#e6e8fe',
+    accentSoft: '#f8e9e1',
     art: '/images/art-ab-testing.jpg',
   },
   {
@@ -65,7 +65,7 @@ export const SERVICES: Service[] = [
     metaDescription:
       'GA4 and GTM setup or repair: purchase and add_to_cart events, duplicate conversions, consent and clean reporting. Fixed price from $349.',
     accent: 'var(--color-azure)',
-    accentSoft: '#e0eafc',
+    accentSoft: '#f1efe9',
     art: '/images/art-analytics.jpg',
   },
   {
@@ -89,13 +89,13 @@ export const SERVICES: Service[] = [
     num: '05',
     slug: 'ai-automation',
     path: '/services/ai-automation/',
-    title: 'AI Systems and Workflow Automation',
-    navTitle: 'AI Systems & Automation',
+    title: 'AI Agentic Workflows and Automation',
+    navTitle: 'AI Agentic Workflows',
     short:
-      'Practical, reviewable workflows that reduce repetitive handling of form submissions, documents and internal tasks.',
-    metaTitle: 'AI Workflow Automation for Small Businesses (n8n, Make) | CROLANE',
+      'Custom AI agent workflows in n8n and similar tools that read, sort, draft and route work, with human checkpoints where it matters.',
+    metaTitle: 'AI Agentic Workflows & n8n Automation for Businesses | CROLANE',
     metaDescription:
-      'Practical AI automations for leads, forms, documents and follow-ups using n8n, Make and AI agents. Reviewed before they go live. From $499 per workflow.',
+      'Custom AI agent workflows built in n8n: lead triage, document extraction, drafting and routing, with logging and human review. Fixed price from $499 per workflow.',
     accent: 'var(--color-emerald)',
     accentSoft: '#dff2ea',
     art: '/images/art-automation.jpg',
@@ -113,12 +113,28 @@ export const SERVICES: Service[] = [
     metaDescription:
       'An AI receptionist that answers calls 24/7, handles routine questions, captures leads and books appointments. Built on Vapi or Retell. Setup from $499.',
     accent: 'var(--color-violet)',
-    accentSoft: '#ebe4ff',
+    accentSoft: '#f6ece4',
     art: '/images/art-voice.jpg',
   },
   {
-    id: 'shopify-audits',
+    id: 'ai-agent-audit',
     num: '07',
+    slug: 'ai-agent-audit',
+    path: '/services/ai-agent-audit/',
+    title: 'AI Agent and Automation Audit',
+    navTitle: 'AI Agent Audit',
+    short:
+      'A review of the AI agents and automations you already run: what they cost, where they fail, what is exposed, and how to make them cheaper and more reliable.',
+    metaTitle: 'AI Agent Audit: Cost, Reliability & Security Review | CROLANE',
+    metaDescription:
+      'Audit your AI agents, chatbots and n8n or Make automations: token and API spend, failure rates, prompt and data risks, and a prioritised fix plan. From $499.',
+    accent: 'var(--color-indigo)',
+    accentSoft: '#f8e9e1',
+    art: '/images/art-analytics.jpg',
+  },
+  {
+    id: 'shopify-audits',
+    num: '08',
     slug: 'shopify-audits',
     path: '/services/shopify-audits/',
     title: 'Shopify Commerce and AI Shopping Experience Audits',
