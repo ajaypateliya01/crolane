@@ -1093,3 +1093,29 @@ details > summary {
     animation: none;
   }
 }
+
+/* Offer bar sits inside the fixed header: push page content down by its height. */
+body.has-offer {
+  --offer-h: 2.25rem;
+}
+body.has-offer main {
+  padding-top: var(--offer-h);
+}
+@media (max-width: 40rem) {
+  body.has-offer {
+    --offer-h: 3.1rem;
+  }
+}
+
+/* Pages with a dark hero: keep the header readable before scrolling. */
+body.dark-top .site-header {
+  background: color-mix(in srgb, var(--color-paper) 94%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+/* Keep mobile pages short: the interactive A/B demo is desktop-only. */
+@media (max-width: 40rem) {
+  .ab-section {
+    display: none;
+  }
+}

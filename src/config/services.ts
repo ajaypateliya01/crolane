@@ -1,3 +1,5 @@
+import bfcm from '../content/settings/bfcm.json';
+
 export type Service = {
   id: string;
   num: string;
@@ -27,9 +29,9 @@ export const SERVICES: Service[] = [
     navTitle: 'CRO Audit & Optimization',
     short:
       'A structured review of your customer journey that finds friction, prioritises opportunities and turns findings into a practical action plan.',
-    metaTitle: 'CRO Audit and Conversion Optimization Services | CROLANE',
+    metaTitle: 'Shopify & E-commerce CRO Audit With Fixes Shipped | CROLANE',
     metaDescription:
-      'A structured conversion audit of your landing pages, product journey and checkout. We find friction, prioritise opportunities and plan evidence based improvements.',
+      'Developer-led CRO audit for Shopify and e-commerce stores. Find what stops visitors buying, then get the fixes built and shipped. Fixed price from $599.',
     accent: 'var(--color-amber)',
     accentSoft: '#f7ead6',
     art: '/images/art-cro-audit.jpg',
@@ -43,9 +45,9 @@ export const SERVICES: Service[] = [
     navTitle: 'A/B Testing & Experimentation',
     short:
       'Plan and run experiments that compare two experiences, measure real behaviour and replace opinion with evidence.',
-    metaTitle: 'A/B Testing and Experimentation Services | CROLANE',
+    metaTitle: 'A/B Testing Services for Shopify & E-commerce (VWO, Convert) | CROLANE',
     metaDescription:
-      'Hypothesis driven A/B testing and experimentation: test design, traffic splitting, measurement, read outs and practical next steps.',
+      'A/B tests designed, built and read out properly by a developer who builds them daily. VWO, Convert and Shoplift. Clear keep or drop calls. From $999 per test.',
     accent: 'var(--color-indigo)',
     accentSoft: '#e6e8fe',
     art: '/images/art-ab-testing.jpg',
@@ -59,9 +61,9 @@ export const SERVICES: Service[] = [
     navTitle: 'GA4 & Tag Management',
     short:
       'Clean analytics implementation with GA4 and Google Tag Manager, so events, conversions and reports reflect what actually happens.',
-    metaTitle: 'GA4 and Google Tag Manager Implementation | CROLANE',
+    metaTitle: 'GA4 & Google Tag Manager Setup and Fixes for Shopify | CROLANE',
     metaDescription:
-      'GA4 and Google Tag Manager implementation: measurement planning, event design, tag configuration, validation and dependable reporting.',
+      'GA4 and GTM setup or repair: purchase and add_to_cart events, duplicate conversions, consent and clean reporting. Fixed price from $349.',
     accent: 'var(--color-azure)',
     accentSoft: '#e0eafc',
     art: '/images/art-analytics.jpg',
@@ -75,9 +77,9 @@ export const SERVICES: Service[] = [
     navTitle: 'Conversion Tracking & Behaviour',
     short:
       'Follow the path from first visit to meaningful action with reliable conversion tracking and behaviour analytics.',
-    metaTitle: 'Conversion Tracking and Behaviour Analytics | CROLANE',
+    metaTitle: 'Conversion Tracking & Heatmap Setup (GA4, Meta, Hotjar) | CROLANE',
     metaDescription:
-      'Conversion tracking and behaviour analytics that map funnels, events and drop off points, so you know where the journey loses people.',
+      'Conversion tracking you can trust: GA4 events, Meta pixel and CAPI checks, Hotjar or Clarity heatmaps and funnel reports. From $349.',
     accent: 'var(--color-coral)',
     accentSoft: '#fbe6df',
     art: '/images/art-tracking.jpg',
@@ -91,9 +93,9 @@ export const SERVICES: Service[] = [
     navTitle: 'AI Systems & Automation',
     short:
       'Practical, reviewable workflows that reduce repetitive handling of form submissions, documents and internal tasks.',
-    metaTitle: 'AI Systems and Workflow Automation Services | CROLANE',
+    metaTitle: 'AI Workflow Automation for Small Businesses (n8n, Make) | CROLANE',
     metaDescription:
-      'Practical AI workflow automation: classification, drafting, routing, human checkpoints and execution logging built around your real process.',
+      'Practical AI automations for leads, forms, documents and follow-ups using n8n, Make and AI agents. Reviewed before they go live. From $499 per workflow.',
     accent: 'var(--color-emerald)',
     accentSoft: '#dff2ea',
     art: '/images/art-automation.jpg',
@@ -107,9 +109,9 @@ export const SERVICES: Service[] = [
     navTitle: 'AI Voice Agents',
     short:
       'A voice agent that answers routine questions from approved information and captures enquiries, including outside working hours.',
-    metaTitle: 'AI Voice Agents and Virtual Receptionists | CROLANE',
+    metaTitle: 'AI Voice Receptionist & Voice Agents for Businesses | CROLANE',
     metaDescription:
-      'AI voice agents that answer incoming calls, handle routine questions from approved information, capture enquiries and share out of hours information.',
+      'An AI receptionist that answers calls 24/7, handles routine questions, captures leads and books appointments. Built on Vapi or Retell. Setup from $499.',
     accent: 'var(--color-violet)',
     accentSoft: '#ebe4ff',
     art: '/images/art-voice.jpg',
@@ -123,9 +125,9 @@ export const SERVICES: Service[] = [
     navTitle: 'Shopify Experience Audits',
     short:
       'Storefront audits focused on product page clarity, mobile shopping usability, product discovery and AI assisted recommendations.',
-    metaTitle: 'Shopify Commerce and AI Shopping Experience Audits | CROLANE',
+    metaTitle: 'Shopify Store Audit: Product Page, Cart & Mobile UX | CROLANE',
     metaDescription:
-      'Shopify storefront audits covering product page clarity, mobile shopping usability, cart and checkout friction, discovery and AI assisted recommendations.',
+      'A Shopify store audit focused on product pages, cart, mobile UX and site search, with fixes you can ship this week. From $599.',
     accent: 'var(--color-rose)',
     accentSoft: '#fbe3ea',
     art: '/images/art-shopify.jpg',
@@ -136,7 +138,13 @@ export const serviceBySlug = (slug: string): Service | undefined =>
   SERVICES.find((s) => s.slug === slug);
 
 /** Service selector options for the contact form (the approved service areas). */
-export const SERVICE_OPTIONS = SERVICES.map((s) => ({
-  value: s.id,
-  label: s.title,
-}));
+export const SERVICE_OPTIONS = [
+  ...bfcm.packages.map((p) => ({
+    value: `bfcm-${p.id}`,
+    label: `BFCM: ${p.name} ($${p.price})`,
+  })),
+  ...SERVICES.map((s) => ({
+    value: s.id,
+    label: s.title,
+  })),
+];

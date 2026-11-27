@@ -1,0 +1,89 @@
+{
+  "enabled": true,
+  "eyebrow": "Black Friday · Cyber Monday 2026",
+  "headline": "Fix the leaks in your store before Cyber Monday.",
+  "lede": "A conversion audit that ends in shipped fixes, not a PDF. Fixed price, built on a duplicate theme, live in 24 to 48 hours.",
+  "deadline": "2026-11-30T04:59:00Z",
+  "deadlineLabel": "Orders close Sunday 29 Nov, 11:59 PM EST, so fixes go live before Monday.",
+  "slots": 5,
+  "packages": [
+    {
+      "id": "quick-fix",
+      "name": "Quick Fix",
+      "price": 599,
+      "regularPrice": 799,
+      "badge": "",
+      "highlight": false,
+      "summary": "For stores that need the biggest mobile leaks closed, fast.",
+      "delivery": "Delivered in 48 hours",
+      "features": [
+        "Mobile product page + cart review",
+        "10-minute video walkthrough of what is costing you sales",
+        "Top 3 fixes built and shipped",
+        "Built on a duplicate theme, published after your OK"
+      ]
+    },
+    {
+      "id": "sprint",
+      "name": "Cyber Monday Sprint",
+      "price": 799,
+      "regularPrice": 1199,
+      "badge": "Most popular",
+      "highlight": true,
+      "summary": "The full pre-Monday fix: audit, six shipped fixes and tracking you can trust.",
+      "delivery": "Live before Cyber Monday",
+      "features": [
+        "Product page, cart and home/collection review",
+        "Video walkthrough + written priority list",
+        "Top 6 fixes built and shipped",
+        "GA4 add_to_cart and purchase tracking check",
+        "Short post-BFCM summary of what moved"
+      ]
+    },
+    {
+      "id": "sprint-test",
+      "name": "Sprint + A/B Test",
+      "price": 999,
+      "regularPrice": 1499,
+      "badge": "Best value",
+      "highlight": false,
+      "summary": "Everything in the Sprint, plus a proper A/B test to prove the biggest change.",
+      "delivery": "Fixes before Monday, test runs in December",
+      "features": [
+        "Everything in Cyber Monday Sprint",
+        "1 A/B test designed, built and launched (VWO, Convert or Shoplift)",
+        "GA4 tracking issues fixed, not just flagged",
+        "Full post-BFCM GA4 report",
+        "Test read-out with a clear keep / drop call"
+      ]
+    }
+  ],
+  "addons": [
+    { "name": "Mobile speed quick wins", "price": "+$149" },
+    { "name": "Extra page (landing or collection)", "price": "+$149" },
+    { "name": "AI voice receptionist for your store or clinic", "price": "from $499 setup" }
+  ],
+  "guarantee": "If I can't find at least 3 fixable conversion leaks on your store, you get a full refund. I don't promise a conversion lift, because nobody honestly can. I promise careful work you can see live.",
+  "faqs": [
+    {
+      "q": "Do you need my Shopify password?",
+      "a": "No. You add me as a collaborator from your Shopify admin and approve the access. You can remove it any time."
+    },
+    {
+      "q": "Will you break my live store during Black Friday?",
+      "a": "No. All work happens on a duplicate of your live theme. You preview every change, and it is only published after you say yes."
+    },
+    {
+      "q": "My store is not on Shopify. Can you still help?",
+      "a": "Yes for WooCommerce, BigCommerce and custom builds. Mention your platform in the form and I will confirm what is possible before you pay."
+    },
+    {
+      "q": "Do you guarantee more sales?",
+      "a": "No. Traffic, offer and season all move results. What is guaranteed is the scope: the fixes listed in your package, shipped on time, and a refund if I can't find at least 3 real leaks."
+    },
+    {
+      "q": "How do I pay and how fast do you start?",
+      "a": "Claim a package below. You get a reply with an invoice (PayPal, Wise or card), usually within a couple of hours. Work starts as soon as access and payment are in."
+    }
+  ]
+}

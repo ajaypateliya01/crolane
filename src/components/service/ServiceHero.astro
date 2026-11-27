@@ -1,5 +1,6 @@
 ---
 import type { Service } from '../../config/services';
+import pricing from '../../content/settings/pricing.json';
 
 interface Props {
   service: Service;
@@ -7,6 +8,7 @@ interface Props {
   artAlt: string;
 }
 const { service, lede, artAlt } = Astro.props;
+const price = pricing.services.find((p) => p.id === service.id);
 ---
 
 <section
@@ -29,9 +31,15 @@ const { service, lede, artAlt } = Astro.props;
       </p>
       <h1 class="display-lg" id="sv-title" data-reveal>{service.title}</h1>
       <p class="lede" data-reveal data-reveal-delay="0.08">{lede}</p>
+      {price && (
+        <p class="sv-price" data-reveal data-reveal-delay="0.12">
+          <strong>{price.from}</strong>
+          {price.note && <span>{price.note}</span>}
+        </p>
+      )}
       <div class="sv-hero-actions" data-reveal data-reveal-delay="0.16">
-        <a class="btn btn-primary" href="/contact/">Discuss this service</a>
-        <a class="btn btn-ghost" href="/services/">All services</a>
+        <a class="btn btn-primary" href={`/contact/?service=${service.id}`} data-track="service_hero_cta" data-track-label={service.id}>Get a quote in 24 hrs</a>
+        <a class="btn btn-ghost" href="/bfcm/" data-track="service_to_bfcm">See BFCM packages</a>
       </div>
     </div>
     <figure class="sv-hero-art" data-reveal="scale" data-reveal-delay="0.1">
@@ -57,6 +65,29 @@ const { service, lede, artAlt } = Astro.props;
 </section>
 
 <style>
+  .sv-price {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.55rem 0.95rem;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+    font-size: 0.9rem;
+  }
+
+  .sv-price strong {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.35rem;
+  }
+
+  .sv-price span {
+    color: var(--color-ink-3);
+    font-size: 0.82rem;
+  }
+
   .sv-hero {
     position: relative;
     padding-top: clamp(7.5rem, 14vh, 10rem);

@@ -1,0 +1,11 @@
+{
+  "services": [
+    { "id": "cro-audit", "from": "From $599", "note": "Audit + fixes shipped" },
+    { "id": "ab-testing", "from": "From $999", "note": "Per test, built and read out" },
+    { "id": "ga4-tag-manager", "from": "From $349", "note": "Setup or fix, fixed price" },
+    { "id": "conversion-tracking", "from": "From $349", "note": "Events, pixels, heatmaps" },
+    { "id": "ai-automation", "from": "From $499", "note": "Per workflow" },
+    { "id": "ai-voice-agents", "from": "From $499 setup", "note": "+ monthly usage" },
+    { "id": "shopify-audits", "from": "From $599", "note": "PDP, cart, mobile" }
+  ]
+}

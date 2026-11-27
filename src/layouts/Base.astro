@@ -8,9 +8,19 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE } from '../config/site';
 import { SERVICES } from '../config/services';
+import StickyCta from '../components/StickyCta.astro';
+import siteSettings from '../content/settings/site.json';
 
-const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION as string | undefined;
+// Search Console verification. Env var wins; fallback keeps the tag even if Hostinger env is not set.
+const googleVerification =
+  (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION as string | undefined)?.trim() ||
+  'xAINQ9Jq5eG3oNzJ7ntBAIAydnihTpcLNxNGSFWb85E';
 const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION as string | undefined;
+// GTM container. Env var wins; fallback keeps tracking on even if Hostinger env is not set.
+const gtmId = (import.meta.env.PUBLIC_GTM_ID as string | undefined)?.trim() || 'GTM-NF276TGW';
+const ga4Id = (import.meta.env.PUBLIC_GA4_ID as string | undefined)?.trim() || 'G-P6SX0BK17M';
+const hotjarId = Number(import.meta.env.PUBLIC_HOTJAR_ID) || 6856108;
+const hasOffer = siteSettings.offerBar.enabled;
 
 interface Props {
   title: string;
@@ -21,6 +31,8 @@ interface Props {
   ogType?: string;
   /** Extra JSON-LD blocks for this page. */
   jsonLd?: Record<string, unknown>[];
+  /** Extra class on <body>, e.g. 'dark-top' for pages with a dark hero. */
+  bodyClass?: string;
 }
 
 const {
@@ -30,6 +42,7 @@ const {
   ogImage = '/images/og-default.png',
   ogType = 'website',
   jsonLd = [],
+  bodyClass,
 } = Astro.props;
 
 const canonicalURL = new URL(canonicalPath, SITE.url);
@@ -46,6 +59,14 @@ const organizationLd = {
   description: SITE.description,
   logo: `${SITE.url}/images/og-default.png`,
   knowsAbout: SERVICES.map((service) => service.title),
+  founder: {
+    '@type': 'Person',
+    name: siteSettings.founder.name,
+    jobTitle: siteSettings.founder.role,
+    sameAs: [siteSettings.founder.linkedin],
+  },
+  sameAs: [siteSettings.founder.linkedin],
+  areaServed: ['US', 'GB', 'AU', 'CA', 'IN'],
 };
 
 const websiteLd = {
@@ -66,7 +87,34 @@ const ldBlocks = [organizationLd, websiteLd, ...jsonLd];
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    {
+      gtmId && (
+        <script is:inline define:vars={{ gtmId }}>
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',gtmId);
+        </script>
+      )
+    }
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {
+      ga4Id && (
+        <>
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+          <script is:inline define:vars={{ ga4Id }}>
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function () { dataLayer.push(arguments); };
+            gtag('js', new Date());
+            gtag('config', ga4Id);
+          </script>
+        </>
+      )
+    }
+    {
+      hotjarId > 0 && (
+        <script is:inline define:vars={{ hotjarId }}>
+          (function(h,o,t,j,a,r){h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};h._hjSettings={hjid:hotjarId,hjsv:6};a=o.getElementsByTagName('head')[0];r=o.createElement('script');r.async=1;r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;a.appendChild(r);})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+        </script>
+      )
+    }
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -79,10 +127,8 @@ const ldBlocks = [organizationLd, websiteLd, ...jsonLd];
     <meta name="theme-color" content="#fbfaf7" />
     <meta name="generator" content={Astro.generator} />
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <!-- Open Graph -->
-    <meta property="og:locale" content="en_IN" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
@@ -111,7 +157,14 @@ const ldBlocks = [organizationLd, websiteLd, ...jsonLd];
       }
     </script>
   </head>
-  <body>
+  <body class:list={[{ 'has-offer': hasOffer }, bodyClass]}>
+    {
+      gtmId && (
+        <noscript>
+          <iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden" />
+        </noscript>
+      )
+    }
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"></div>
     <div class="ambient" aria-hidden="true"><span class="amb-a"></span><span class="amb-b"></span></div>
@@ -121,6 +174,7 @@ const ldBlocks = [organizationLd, websiteLd, ...jsonLd];
       <slot />
     </main>
     <Footer />
+    <StickyCta />
     <script>
       import '../scripts/app';
     </script>

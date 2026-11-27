@@ -38,7 +38,8 @@ export function initMotion() {
 }
 
 function initSmoothScroll() {
-  if (reduced()) return;
+  // Native scrolling on touch devices feels better and costs less.
+  if (reduced() || window.matchMedia('(pointer: coarse)').matches) return;
 
   const lenis = new Lenis({
     duration: 1.1,

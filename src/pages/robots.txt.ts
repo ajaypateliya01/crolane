@@ -23,6 +23,8 @@ export const GET: APIRoute = () => {
   const aiRules = aiAgents.map((agent) => `User-agent: ${agent}\nAllow: /`).join('\n\n');
   const body = `User-agent: *
 Allow: /
+Disallow: /keystatic
+Disallow: /api/
 
 ${aiRules}
 

@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+
+// Only real reviews the client agreed to share are shown.
+// The section renders nothing until at least one exists in the admin panel.
+const reviews = (await getCollection('reviews')).filter((r) => r.data.permission);
+const sourceLabel: Record<string, string> = {
+  linkedin: 'LinkedIn recommendation',
+  upwork: 'Upwork review',
+  clutch: 'Clutch review',
+  email: 'Shared with permission',
+};
+---
+
+{
+  reviews.length > 0 && (
+    <section class="section-sm reviews" aria-labelledby="reviews-title">
+      <div class="container-x">
+        <p class="eyebrow" data-reveal="fade">Client reviews</p>
+        <h2 class="display-md" id="reviews-title" data-reveal>
+          In their words.
+        </h2>
+        <div class="rv-grid" data-reveal-group>
+          {reviews.map((r) => (
+            <figure class="rv-card">
+              <blockquote>“{r.data.quote}”</blockquote>
+              <figcaption>
+                <strong>{r.data.name}</strong>
+                <span>{[r.data.role, r.data.company].filter(Boolean).join(', ')}</span>
+                {r.data.sourceUrl ? (
+                  <a href={r.data.sourceUrl} target="_blank" rel="noopener">
+                    {sourceLabel[r.data.source] ?? 'Source'} ↗
+                  </a>
+                ) : (
+                  <span class="rv-src">{sourceLabel[r.data.source]}</span>
+                )}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .reviews {
+    background: var(--color-paper);
+  }
+
+  .rv-grid {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: 1.25rem;
+  }
+
+  .rv-card {
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  blockquote {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.85rem;
+    color: var(--color-ink-2);
+  }
+
+  figcaption a,
+  .rv-src {
+    font-size: 0.75rem;
+    color: var(--color-indigo);
+  }
+</style>

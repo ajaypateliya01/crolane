@@ -9,8 +9,9 @@ const { service } = Astro.props;
 ---
 
 <CtaBand
-  eyebrow={`Start with ${service.navTitle.toLowerCase()}`}
-  title="Tell us where the journey loses people."
-  copy="Send a short note about the business problem behind this service. We will reply with honest thoughts on fit, scope and what starting would involve."
-  primaryLabel="Discuss this service"
+  eyebrow={`Start with ${service.navTitle}`}
+  title="Send your URL. Get a clear quote within 24 hours."
+  copy="A short note about the problem is enough. You get a fixed price, a timeline and what access is needed. No sales call required."
+  primaryLabel="Get a quote"
+  primaryHref={`/contact/?service=${service.id}`}
 />

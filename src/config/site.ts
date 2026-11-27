@@ -5,7 +5,7 @@ export const SITE = {
   email: 'admin@crolane.in',
   url: (process.env.SITE_URL?.trim() || 'https://crolane.in').replace(/\/$/, ''),
   description:
-    'CROLANE helps businesses improve conversion rates with evidence: CRO audits, A/B testing, GA4 and tag management, behaviour analytics, practical AI automation, AI voice agents and Shopify shopping experience audits.',
+    'Developer-led CRO for Shopify and e-commerce brands: audits with fixes shipped, A/B tests, GA4 and GTM tracking, plus AI voice receptionists and workflow automation.',
 } as const;
 
 export const NAV = [

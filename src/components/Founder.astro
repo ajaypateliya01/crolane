@@ -1,0 +1,125 @@
+---
+import site from '../content/settings/site.json';
+
+const f = site.founder;
+const initials = f.name
+  .split(' ')
+  .map((w) => w[0])
+  .join('')
+  .slice(0, 2);
+---
+
+<section class="section-sm founder" aria-labelledby="founder-title">
+  <div class="container-x fd-grid">
+    <div class="fd-photo" data-reveal="scale">
+      {f.photo ? (
+        <img src={f.photo} alt={`${f.name}, ${f.role}`} width="320" height="320" loading="lazy" decoding="async" />
+      ) : (
+        <span class="fd-initials" aria-hidden="true">{initials}</span>
+      )}
+    </div>
+    <div class="fd-copy">
+      <p class="eyebrow" data-reveal="fade">Who you will work with</p>
+      <h2 class="display-md" id="founder-title" data-reveal>
+        {f.name}
+      </h2>
+      <p class="fd-role" data-reveal>{f.role}</p>
+      <p class="fd-bio" data-reveal data-reveal-delay="0.06">{f.bio}</p>
+      <ul class="fd-proof" data-reveal data-reveal-delay="0.1">
+        {site.proofPoints.map((p) => <li>{p}</li>)}
+      </ul>
+      {f.linkedin && (
+        <a class="link-arrow" href={f.linkedin} target="_blank" rel="noopener" data-track="linkedin_click">
+          View LinkedIn profile →
+        </a>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .founder {
+    background: #fff;
+  }
+
+  .fd-grid {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: clamp(1.75rem, 5vw, 4rem);
+    align-items: center;
+    max-width: 62rem;
+  }
+
+  .fd-photo {
+    width: 15rem;
+    aspect-ratio: 1;
+    border-radius: 28px;
+    overflow: hidden;
+    background: linear-gradient(140deg, var(--color-indigo), var(--color-violet) 55%, var(--color-amber));
+    display: grid;
+    place-items: center;
+    box-shadow: var(--shadow-lift);
+  }
+
+  .fd-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .fd-initials {
+    font-family: var(--font-display);
+    font-size: 5rem;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .fd-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .fd-role {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  .fd-bio {
+    font-size: 1.02rem;
+    line-height: 1.65;
+    color: var(--color-ink-2);
+    max-width: 40rem;
+  }
+
+  .fd-proof {
+    list-style: none;
+    display: grid;
+    gap: 0.4rem;
+    font-size: 0.92rem;
+  }
+
+  .fd-proof li::before {
+    content: '✓ ';
+    color: var(--color-emerald);
+    font-weight: 700;
+  }
+
+  @media (max-width: 44rem) {
+    .fd-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .fd-photo {
+      width: 9rem;
+    }
+
+    .fd-initials {
+      font-size: 3rem;
+    }
+  }
+</style>

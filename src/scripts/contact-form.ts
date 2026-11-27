@@ -1,3 +1,4 @@
+import { sendEvent } from './track';
 /**
  * Contact form: client validation mirror, JSON submission with loading,
  * field errors, success and failure states. The form also works without
@@ -7,7 +8,18 @@
 type ApiOk = { ok: true; message?: string };
 type ApiFail = { ok: false; message?: string; errors?: Record<string, string> };
 
+function preselect(root: HTMLElement) {
+  // /contact/?package=sprint or ?service=cro-audit preselects the dropdown.
+  const params = new URLSearchParams(location.search);
+  const pkg = params.get('package');
+  const svc = params.get('service');
+  const want = pkg ? `bfcm-${pkg}` : svc;
+  const select = root.querySelector<HTMLSelectElement>('select[name="service"]');
+  if (want && select && [...select.options].some((o) => o.value === want)) select.value = want;
+}
+
 function initForm(root: HTMLElement) {
+  preselect(root);
   if (root.dataset.bound === 'true') return;
   root.dataset.bound = 'true';
 
@@ -69,7 +81,7 @@ function initForm(root: HTMLElement) {
 
     const email = String(data.get('email') || '').trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-      setError('email', 'Please enter a valid business email.');
+      setError('email', 'Please enter a valid email address.');
       ok = false;
     }
 
@@ -107,6 +119,9 @@ function initForm(root: HTMLElement) {
       if (anchor) successMsg.append(anchor);
     }
     if (success) success.hidden = false;
+    sendEvent('generate_lead', {
+      lead_type: root.querySelector<HTMLSelectElement>('select[name="service"]')?.value || 'unknown',
+    });
     form?.setAttribute('hidden', '');
     success?.querySelector<HTMLElement>('h3')?.focus?.();
   }

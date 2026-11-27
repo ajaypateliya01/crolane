@@ -11,9 +11,12 @@ import AbLab from '../components/AbLab.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import FaqList from '../components/FaqList.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { SITE } from '../config/site';
+import PricingCards from '../components/PricingCards.astro';
+import Founder from '../components/Founder.astro';
+import Reviews from '../components/Reviews.astro';
+import bfcm from '../content/settings/bfcm.json';
 
-const title = `${SITE.name} | Conversion optimization, analytics and practical AI`;
+const title = 'Shopify CRO, A/B Testing, GA4 & AI Voice Agents | CROLANE';
 const description = SITE.description;
 
 const processSteps = [
@@ -99,7 +102,28 @@ const homeLd = [
 <Base title={title} description={description} jsonLd={homeLd}>
   <Hero />
   <Ticker />
+  {
+    bfcm.enabled && (
+      <section class="section home-offer" aria-labelledby="home-offer-title">
+        <div class="container-x">
+          <div class="ho-head">
+            <p class="eyebrow" data-reveal="fade">{bfcm.eyebrow}</p>
+            <h2 class="display-lg" id="home-offer-title" data-reveal>
+              Fixed-price sprints, <span class="display-italic">live before Monday.</span>
+            </h2>
+            <p class="lede" data-reveal>{bfcm.lede}</p>
+          </div>
+          <PricingCards compact />
+          <p class="ho-more" data-reveal>
+            <a class="link-arrow" href="/bfcm/" data-track="home_offer_details">See everything included, FAQs and the guarantee →</a>
+          </p>
+        </div>
+      </section>
+    )
+  }
+  <Founder />
   <ServiceRows />
+  <Reviews />
   <AbLab />
 
   <!-- Process -->
@@ -153,6 +177,24 @@ const homeLd = [
   /* Homepage rhythm: a tighter, landing-page pace than the default section pad. */
   .section {
     padding-block: clamp(3.8rem, 7.5vw, 6.4rem);
+  }
+
+  .home-offer {
+    background: var(--color-paper-3);
+  }
+
+  .ho-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.8rem;
+    margin-bottom: 3rem;
+  }
+
+  .ho-more {
+    margin-top: 2rem;
+    text-align: center;
   }
 
   /* Process */
