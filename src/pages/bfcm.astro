@@ -60,8 +60,9 @@ const ld = [
 <Base title={title} description={description} canonicalPath="/bfcm/" jsonLd={ld} bodyClass="dark-top">
   <section class="bf-hero" aria-labelledby="bf-title">
     <div class="bf-glow" aria-hidden="true"></div>
-    <div class="container-x bf-hero-inner">
-      <p class="eyebrow" data-reveal="fade">{bfcm.eyebrow}</p>
+    <div class="container-x bf-hero-grid">
+    <div class="bf-hero-inner">
+      <p class="bf-sticker-tag" data-reveal="fade">{bfcm.eyebrow}</p>
       <h1 class="display-xl" id="bf-title" data-reveal>{bfcm.headline}</h1>
       <p class="lede" data-reveal data-reveal-delay="0.06">{bfcm.lede}</p>
 
@@ -81,6 +82,38 @@ const ld = [
         <a class="btn btn-primary" href="#packages" data-track="bfcm_hero_cta">See the 3 packages</a>
         <a class="btn btn-ghost" href="/contact/?service=shopify-audits" data-track="bfcm_question">Ask a question first</a>
       </div>
+
+      <div class="bf-slots" data-reveal data-reveal-delay="0.24">
+        <span class="bf-slot-dots" aria-hidden="true">
+          {Array.from({ length: bfcm.slots }).map(() => <i></i>)}
+        </span>
+        <span>{bfcm.slots} sprint slots open this weekend</span>
+      </div>
+    </div>
+
+    <figure class="bf-visual" data-reveal="scale" data-reveal-delay="0.15" aria-label="Example leak report on a mobile product page">
+      <span class="bf-badge" aria-hidden="true"><b>{bfcm.slots}</b> slots<br />open</span>
+      <div class="bf-phone" aria-hidden="true">
+        <div class="ph-bar"><i></i><i></i><i></i></div>
+        <div class="ph-img"></div>
+        <div class="ph-lines"><i></i><i class="short"></i></div>
+        <div class="ph-price">$64.00</div>
+        <div class="ph-text"><i></i><i></i><i></i><i class="short"></i></div>
+        <div class="ph-cta">Add to cart</div>
+        <span class="pin pin-1">1</span>
+        <span class="pin pin-2">2</span>
+        <span class="pin pin-3">3</span>
+      </div>
+      <figcaption class="bf-notes">
+        <p class="bf-notes-title">Leak report, example</p>
+        <ol>
+          <li><b>1</b>Add to cart sits below the fold on mobile</li>
+          <li><b>2</b>No delivery date near the price</li>
+          <li><b>3</b>The Black Friday discount is not shown here</li>
+        </ol>
+        <p class="bf-notes-foot">Every sprint starts with a report like this, then the fixes go live.</p>
+      </figcaption>
+    </figure>
     </div>
   </section>
 
@@ -221,12 +254,255 @@ const ld = [
     pointer-events: none;
   }
 
+
+  .bf-hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  .bf-sticker-tag {
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    background: var(--color-signal);
+    padding: 0.45rem 0.8rem;
+    border-radius: 6px;
+    transform: rotate(-2deg);
+  }
+
+  .bf-slots {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.88rem;
+    color: rgb(255 255 255 / 0.75);
+  }
+
+  .bf-slot-dots {
+    display: inline-flex;
+    gap: 0.3rem;
+  }
+
+  .bf-slot-dots i {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    background: var(--color-signal);
+  }
+
+  /* Phone mockup with numbered leak pins */
+  .bf-visual {
+    position: relative;
+    display: grid;
+    grid-template-columns: 13.5rem minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: center;
+    margin: 0;
+  }
+
+  .bf-badge {
+    position: absolute;
+    top: -1.4rem;
+    left: 9.5rem;
+    z-index: 2;
+    width: 5.6rem;
+    height: 5.6rem;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    border-radius: 50%;
+    background: var(--color-signal);
+    color: var(--color-ink);
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1.15;
+    transform: rotate(12deg);
+  }
+
+  .bf-badge b {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.9rem;
+    line-height: 1;
+  }
+
+  .bf-phone {
+    position: relative;
+    padding: 0.8rem 0.75rem 1rem;
+    border-radius: 26px;
+    background: #fff;
+    border: 6px solid #2a2a31;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .ph-bar {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .ph-bar i {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: #d9d7d0;
+  }
+
+  .ph-img {
+    height: 9.5rem;
+    border-radius: 12px;
+    background: linear-gradient(160deg, #f3e3d6, #e9d3c2);
+  }
+
+  .ph-lines,
+  .ph-text {
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .ph-lines i,
+  .ph-text i {
+    height: 0.45rem;
+    border-radius: 4px;
+    background: #e6e4de;
+  }
+
+  .ph-lines i {
+    height: 0.6rem;
+    background: #cfccc4;
+  }
+
+  .ph-lines .short,
+  .ph-text .short {
+    width: 60%;
+  }
+
+  .ph-price {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--color-ink);
+  }
+
+  .ph-cta {
+    margin-top: 0.4rem;
+    padding: 0.55rem;
+    border-radius: 8px;
+    background: var(--color-ink);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-align: center;
+    opacity: 0.35;
+  }
+
+  .pin {
+    position: absolute;
+    width: 1.6rem;
+    height: 1.6rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--color-signal);
+    color: var(--color-ink);
+    font-size: 0.78rem;
+    font-weight: 700;
+    box-shadow: 0 0 0 4px rgb(242 84 27 / 0.25);
+  }
+
+  .pin-1 { bottom: 0.7rem; right: -0.8rem; }
+  .pin-2 { top: 12.6rem; right: -0.8rem; }
+  .pin-3 { top: 3.2rem; left: -0.8rem; }
+
+  .bf-notes {
+    color: #fff;
+  }
+
+  .bf-notes-title {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.6);
+    margin-bottom: 0.8rem;
+  }
+
+  .bf-notes ol {
+    list-style: none;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .bf-notes li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    font-size: 0.92rem;
+    line-height: 1.4;
+  }
+
+  .bf-notes li b {
+    flex: none;
+    width: 1.4rem;
+    height: 1.4rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--color-signal);
+    color: var(--color-ink);
+    font-size: 0.72rem;
+  }
+
+  .bf-notes-foot {
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    color: rgb(255 255 255 / 0.6);
+  }
+
+  @media (max-width: 64rem) {
+    .bf-hero-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .bf-visual {
+      grid-template-columns: 10.5rem minmax(0, 1fr);
+      gap: 1rem;
+    }
+
+    .bf-badge {
+      left: 7rem;
+      width: 4.6rem;
+      height: 4.6rem;
+    }
+
+    .ph-img {
+      height: 6.5rem;
+    }
+
+    .pin-2 {
+      top: 9.6rem;
+    }
+
+    .bf-notes li {
+      font-size: 0.82rem;
+    }
+  }
+
   .bf-hero-inner {
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 1.3rem;
-    max-width: 52rem;
+    max-width: 40rem;
   }
 
   .bf-hero .eyebrow {
