@@ -1,0 +1,83 @@
+---
+// Closing dark CTA with the two-field free audit form (posts to /api/contact).
+import Founder from './Founder.astro';
+import { UA } from './Icons';
+interface Props { title?: string; copy?: string }
+const {
+  title = 'Let us find where your store is losing sales',
+  copy = 'Two fields, no call needed. Within 48 hours you get a short video showing the top leaks on your site, straight from Ajay.',
+} = Astro.props;
+---
+<section class="night cta-night" id="mini-audit">
+  <div class="wrap cta-grid">
+    <div>
+      <p class="kicker">Free CRO audit</p>
+      <h2 class="h2" style="margin:16px 0 18px">{title}</h2>
+      <p class="lede">{copy}</p>
+      <div class="trust" style="margin-top:28px"><Founder /><span><b>Ajay Pateliya</b>, founder. Replies within 24 hours.</span></div>
+    </div>
+    <form class="audit" data-mini-audit novalidate>
+      <div class="field"><label for="ma-url">Store URL</label><input id="ma-url" name="website" type="url" inputmode="url" required placeholder="https://yourstore.com" autocomplete="url" /></div>
+      <div class="field"><label for="ma-email">Work email</label><input id="ma-email" name="email" type="email" required placeholder="you@brand.com" autocomplete="email" /></div>
+      <input class="ma-trap" name="company_notes" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <button class="btn btn-white" type="submit" data-track="mini_audit_submit">Get my free audit <Fragment set:html={UA} /></button>
+      <p class="fine">Free. No spam. No call needed.</p>
+      <p class="ma-status" data-ma-status role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  import { sendEvent } from '../../scripts/track';
+
+  // Build the payload the contact API expects from the two visible fields.
+  const payload = (form: HTMLFormElement, startedAt: number) => {
+    const data = new FormData(form);
+    const email = String(data.get('email') || '').trim();
+    let website = String(data.get('website') || '').trim();
+    if (website && !/^https?:\/\//i.test(website)) website = `https://${website}`;
+    return {
+      name: email.split('@')[0] || 'Store owner',
+      email,
+      website,
+      service: 'free-mini-audit',
+      details: `Free 3-leak video audit request for ${website}`,
+      company_notes: String(data.get('company_notes') || ''),
+      elapsed: String(Date.now() - startedAt),
+    };
+  };
+
+  document.querySelectorAll<HTMLFormElement>('[data-mini-audit]').forEach((form) => {
+    const startedAt = Date.now();
+    const status = form.querySelector<HTMLElement>('[data-ma-status]');
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        if (status) status.textContent = 'Please add your store URL and a valid email.';
+        return;
+      }
+      if (button) button.disabled = true;
+      if (status) status.textContent = 'Sending...';
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(payload(form, startedAt)),
+        });
+        const data = (await res.json().catch(() => ({}))) as { ok?: boolean };
+        if (res.ok && data.ok) {
+          form.reset();
+          if (status) status.textContent = 'Got it. Your video audit arrives within 48 hours.';
+          sendEvent('generate_lead', { lead_type: 'free-mini-audit' });
+        } else if (status) {
+          status.textContent = 'Something went wrong. Email admin@crolane.in with your URL instead.';
+        }
+      } catch {
+        if (status) status.textContent = 'Network error. Email admin@crolane.in with your URL instead.';
+      } finally {
+        if (button) button.disabled = false;
+      }
+    });
+  });
+</script>

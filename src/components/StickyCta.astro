@@ -1,60 +1,11 @@
 ---
-import site from '../content/settings/site.json';
-import { offerLive, offerSafeHref } from '../lib/offer';
-const cta = site.stickyCta;
-const href = offerSafeHref(cta.href);
-const label = !offerLive && cta.href.startsWith('/bfcm') ? 'See pricing' : cta.label;
+// Mobile-only bar that slides in after the hero.
 const path = Astro.url.pathname;
-// Hide on the page the button points to and on contact, where the form is the CTA.
-const show = cta.enabled && path !== href && !path.startsWith('/contact') && !path.startsWith('/keystatic');
+const show = !path.startsWith('/contact') && !path.startsWith('/keystatic');
 ---
-
-{
-  show && (
-    <div class="sticky-cta" data-sticky-cta>
-      <a class="btn btn-primary" href={href} data-track="sticky_cta">
-        {label}
-        
-      </a>
-    </div>
-  )
-}
-
-<style>
-  .sticky-cta {
-    display: none;
-  }
-
-  @media (max-width: 48rem) {
-    .sticky-cta {
-      display: block;
-      position: fixed;
-      left: 0.75rem;
-      right: 0.75rem;
-      bottom: calc(0.75rem + env(safe-area-inset-bottom));
-      z-index: 55;
-      transform: translateY(150%);
-      transition: transform 0.35s var(--ease-out);
-    }
-
-    .sticky-cta.is-visible {
-      transform: none;
-    }
-
-    .sticky-cta .btn {
-      width: 100%;
-      justify-content: center;
-      box-shadow: 0 18px 40px -16px rgb(22 22 27 / 0.55);
-    }
-  }
-</style>
-
-<script>
-  // Show after the visitor scrolls past the first screen.
-  const bar = document.querySelector<HTMLElement>('[data-sticky-cta]');
-  if (bar) {
-    const onScroll = () => bar.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.6);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  }
-</script>
+{show && (
+  <div class="mcta" id="mcta">
+    <a class="btn btn-ink" href="#mini-audit" data-track="sticky_audit">Free audit</a>
+    <a class="btn btn-white" href="/contact/" data-track="sticky_contact">Talk to Ajay</a>
+  </div>
+)}

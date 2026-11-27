@@ -1,0 +1,18 @@
+---
+import Ill from './Ill.astro';
+import { priceFor, type Service } from '../../config/services';
+import { UA } from './Icons';
+interface Props { s: Service; heading?: 'h2' | 'h3' }
+const { s, heading = 'h3' } = Astro.props;
+const price = priceFor(s.id);
+const H = heading;
+---
+<a class="scard" href={s.path} data-track="service_card" data-track-label={s.name}>
+  <Ill name={s.ill} />
+  <div class="body">
+    <H class="h3">{s.name}</H>
+    <p>{s.short}</p>
+    {price && <span class="from">{price}</span>}
+    <span class="link">Explore <Fragment set:html={UA} /></span>
+  </div>
+</a>

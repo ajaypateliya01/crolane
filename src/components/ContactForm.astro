@@ -3,7 +3,7 @@ import { SERVICE_OPTIONS } from '../config/services';
 import { SITE } from '../config/site';
 ---
 
-<div class="cf-wrap" data-contact-form>
+<div class="cf-wrap cform-wrap" data-contact-form>
   <!-- Success (shown after server confirmation, via JS or ?sent=1 redirect) -->
   <div class="cf-success" data-cf-success hidden role="status">
     <span class="cf-check" aria-hidden="true">
@@ -21,7 +21,7 @@ import { SITE } from '../config/site';
       The server confirmed delivery. We will reply by email.
       If your question is urgent, write to <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
     </p>
-    <button class="btn btn-ghost btn-sm" type="button" data-cf-another>Send another enquiry</button>
+    <button class="btn btn-line-d" type="button" data-cf-another>Send another enquiry</button>
   </div>
 
   <!-- Error banner -->
@@ -129,7 +129,7 @@ import { SITE } from '../config/site';
     <input type="hidden" name="elapsed" data-cf-elapsed value="" />
 
     <div class="cf-submit-row">
-      <button class="btn btn-primary" type="submit" data-cf-submit>
+      <button class="btn btn-ink" type="submit" data-cf-submit>
         <span data-cf-submit-label>Send enquiry</span>
       </button>
       <p class="cf-privacy">
@@ -144,140 +144,3 @@ import { SITE } from '../config/site';
   import '../scripts/contact-form';
 </script>
 
-<style>
-  .cf-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 1.1rem;
-  }
-
-  .cf-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.1rem;
-  }
-
-  .cf-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.1rem;
-  }
-
-  .field .opt {
-    color: var(--color-ink-3);
-    font-weight: 400;
-    letter-spacing: 0.04em;
-  }
-
-  .cf-hint {
-    font-size: 0.76rem;
-    color: var(--color-ink-3);
-  }
-
-  .cf-trap {
-    position: absolute !important;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
-  }
-
-  .cf-submit-row {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    flex-wrap: wrap;
-    margin-top: 0.35rem;
-  }
-
-  .cf-privacy {
-    font-size: 0.78rem;
-    color: var(--color-ink-3);
-    max-width: 20rem;
-  }
-
-  .cf-privacy a {
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .cf-success,
-  .cf-error {
-    border-radius: 18px;
-    padding: clamp(1.4rem, 3vw, 2rem);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-
-  .cf-success {
-    background: color-mix(in srgb, var(--color-emerald) 7%, #fff);
-    border: 1px solid color-mix(in srgb, var(--color-emerald) 35%, transparent);
-    animation: cf-in 0.5s var(--ease-out);
-  }
-
-  .cf-error {
-    background: color-mix(in srgb, #d92d20 6%, #fff);
-    border: 1px solid color-mix(in srgb, #d92d20 35%, transparent);
-  }
-
-  @keyframes cf-in {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-  }
-
-  .cf-check {
-    width: 3.2rem;
-    height: 3.2rem;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: color-mix(in srgb, var(--color-emerald) 14%, #fff);
-    color: var(--color-emerald);
-    border: 1.5px solid color-mix(in srgb, var(--color-emerald) 45%, transparent);
-  }
-
-  .cf-success h3 {
-    font-family: var(--font-display);
-    font-size: clamp(1.6rem, 3vw, 2.1rem);
-    font-weight: 400;
-  }
-
-  .cf-success p,
-  .cf-error p {
-    font-size: 0.93rem;
-    color: var(--color-ink-2);
-    line-height: 1.6;
-  }
-
-  .cf-success a,
-  .cf-error a {
-    color: var(--color-indigo);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .cf-error p:first-child {
-    font-weight: 580;
-    color: #b42318;
-  }
-
-  .cf-error-fallback {
-    font-size: 0.85rem !important;
-  }
-
-  .cf-form.busy [data-cf-submit] {
-    opacity: 0.65;
-    pointer-events: none;
-  }
-
-  @media (max-width: 44rem) {
-    .cf-row {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

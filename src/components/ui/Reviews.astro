@@ -1,0 +1,22 @@
+---
+// Real client reviews from the admin. Renders nothing until at least one has permission ticked.
+import { getCollection } from 'astro:content';
+const reviews = (await getCollection('reviews')).filter((r) => r.data.permission);
+---
+{reviews.length > 0 && (
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-title"><p class="kicker c rv">Client words</p><h2 class="h2 rv" style="margin-top:14px">What clients <span class="it">say</span></h2></div>
+      <div class="grid3">
+        {reviews.map((r) => (
+          <figure class="get rv">
+            <blockquote class="serif" style="font-size:1.4rem;line-height:1.3">{r.data.quote}</blockquote>
+            <figcaption style="margin-top:18px;color:var(--muted);font-size:.92rem"><b style="color:var(--ink)">{r.data.name}</b>{r.data.role && `, ${r.data.role}`}{r.data.company && `, ${r.data.company}`}
+              {r.data.sourceUrl && <> <a class="link" href={r.data.sourceUrl} target="_blank" rel="noopener">Source</a></>}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

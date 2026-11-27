@@ -2,35 +2,32 @@
 export const prerender = true;
 
 import Base from '../layouts/Base.astro';
-import PricingCards from '../components/PricingCards.astro';
-import Founder from '../components/Founder.astro';
-import Reviews from '../components/Reviews.astro';
-import FaqList from '../components/FaqList.astro';
-import CtaBand from '../components/CtaBand.astro';
-import MiniAudit from '../components/MiniAudit.astro';
+import NightHero from '../components/ui/NightHero.astro';
+import Demo from '../components/ui/Demo.astro';
+import Faq from '../components/ui/Faq.astro';
+import CtaNight from '../components/ui/CtaNight.astro';
+import { UA, TICK } from '../components/ui/Icons';
 import bfcm from '../content/settings/bfcm.json';
 import { SITE } from '../config/site';
 
 // After the sale, old links and outreach emails land on the pricing page.
 if (!bfcm.enabled) return Astro.redirect('/pricing/', 301);
 
-const title = 'Black Friday Shopify CRO Sprints from $599 | CROLANE';
-const description =
-  'Fixed-price Shopify conversion sprints for BFCM: audit plus done-for-you fixes on product page, cart and mobile, live before Cyber Monday. From $599.';
+const from = Math.min(...bfcm.packages.map((p) => p.price));
+const title = `Black Friday Shopify CRO Sprints from $${from} | CROLANE`;
+const description = `Fixed-price Shopify conversion sprints: audit plus done-for-you fixes on product page, cart and mobile, live before Cyber Monday. From $${from}.`;
 
 const leaks = [
-  { t: 'Add to cart buried', d: 'On mobile the button sits below two screens of images and text.' },
-  { t: 'Offer not visible', d: 'The BFCM discount is on the homepage banner but missing on the product page.' },
-  { t: 'Surprise costs', d: 'Shipping and delivery dates appear only at checkout, so carts get abandoned.' },
-  { t: 'Broken tracking', d: 'Purchase events fire twice or not at all, so you cannot tell what worked.' },
+  'Add to cart buried below two screens of images on mobile',
+  'The BFCM discount shows on the homepage but not on product pages',
+  'Shipping cost and delivery dates appear only at checkout',
+  'Purchase events fire twice or not at all, so nothing is measurable',
 ];
-
 const steps = [
-  { n: '01', t: 'Claim a package', d: 'Pick a package and send your store URL. You get a reply and invoice, usually within a couple of hours.' },
-  { n: '02', t: 'Share collaborator access', d: 'No passwords. Work happens on a duplicate theme, never your live one.' },
-  { n: '03', t: 'Approve and go live', d: 'You preview every fix, then it is published. Done in 24 to 48 hours.' },
+  ['Claim a package', 'Pick a package and send your store URL. You get a reply and invoice, usually within a couple of hours.'],
+  ['Share collaborator access', 'No passwords. Work happens on a duplicate theme, never your live one.'],
+  ['Approve and go live', 'You preview every fix, then it is published. Done in 24 to 48 hours.'],
 ];
-
 const ld = [
   {
     '@context': 'https://schema.org',
@@ -38,693 +35,67 @@ const ld = [
     name: 'Shopify Black Friday Cyber Monday conversion sprint',
     provider: { '@id': `${SITE.url}/#organization` },
     areaServed: ['US', 'GB', 'AU', 'CA'],
-    offers: bfcm.packages.map((p) => ({
-      '@type': 'Offer',
-      name: p.name,
-      price: p.price,
-      priceCurrency: 'USD',
-      description: p.summary,
-      url: `${SITE.url}/bfcm/#packages`,
-      availability: 'https://schema.org/LimitedAvailability',
-    })),
+    offers: bfcm.packages.map((p) => ({ '@type': 'Offer', name: p.name, price: p.price, priceCurrency: 'USD', description: p.summary, url: `${SITE.url}/bfcm/#packages`, availability: 'https://schema.org/LimitedAvailability' })),
   },
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: bfcm.faqs.map((f) => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
-    })),
+    mainEntity: bfcm.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
   },
 ];
 ---
-
-<Base title={title} description={description} canonicalPath="/bfcm/" jsonLd={ld} bodyClass="dark-top">
-  <section class="bf-hero" aria-labelledby="bf-title">
-    <div class="bf-glow" aria-hidden="true"></div>
-    <div class="container-x bf-hero-grid">
-    <div class="bf-hero-inner">
-      <p class="bf-sticker-tag" data-reveal="fade">{bfcm.eyebrow}</p>
-      <h1 class="display-xl" id="bf-title" data-reveal>{bfcm.headline}</h1>
-      <p class="lede" data-reveal data-reveal-delay="0.06">{bfcm.lede}</p>
-
-      <div class="bf-urgency" data-reveal data-reveal-delay="0.12">
-        <div class="bf-count" data-countdown={bfcm.deadline} aria-live="polite">
-          <span><b data-cd="d">00</b>days</span>
-          <span><b data-cd="h">00</b>hrs</span>
-          <span><b data-cd="m">00</b>min</span>
-          <span><b data-cd="s">00</b>sec</span>
-        </div>
-        <p class="bf-deadline">
-          {bfcm.deadlineLabel} <strong>{bfcm.slots} store slots this weekend.</strong>
-        </p>
+<Base title={title} description={description} canonicalPath="/bfcm/" jsonLd={ld}>
+  <NightHero>
+    <div>
+      <p class="kicker" style="margin-bottom:18px;color:var(--lav)">{bfcm.eyebrow}</p>
+      <h1 class="h1 sm">{bfcm.headline}</h1>
+      <p class="lede" style="margin-top:22px">{bfcm.lede}</p>
+      <div class="count" data-countdown={bfcm.deadline} aria-label="Offer ends in">
+        <div><b data-c="d">00</b><small>Days</small></div><div><b data-c="h">00</b><small>Hours</small></div><div><b data-c="m">00</b><small>Min</small></div><div><b data-c="s">00</b><small>Sec</small></div>
       </div>
-
-      <div class="bf-actions" data-reveal data-reveal-delay="0.18">
-        <a class="btn btn-primary" href="#packages" data-track="bfcm_hero_cta">See the 3 packages</a>
-        <a class="btn btn-ghost" href="/contact/?service=shopify-audits" data-track="bfcm_question">Ask a question first</a>
-      </div>
-
-      <div class="bf-slots" data-reveal data-reveal-delay="0.24">
-        <span class="bf-slot-dots" aria-hidden="true">
-          {Array.from({ length: bfcm.slots }).map(() => <i></i>)}
-        </span>
-        <span>{bfcm.slots} sprint slots open this weekend</span>
-      </div>
+      <p class="slots"><span class="pulse" style="background:var(--lav)"></span>{bfcm.slots} store slots only. {bfcm.deadlineLabel}</p>
+      <div class="actions"><a class="btn btn-white" href="#packages" data-track="bfcm_hero">See the packages <Fragment set:html={UA} /></a></div>
     </div>
+    <Demo kind="funnel" dark />
+  </NightHero>
 
-    <figure class="bf-visual" data-reveal="scale" data-reveal-delay="0.15" aria-label="Example leak report on a mobile product page">
-      <span class="bf-badge" aria-hidden="true"><b>{bfcm.slots}</b> slots<br />open</span>
-      <div class="bf-phone" aria-hidden="true">
-        <div class="ph-bar"><i></i><i></i><i></i></div>
-        <div class="ph-img"></div>
-        <div class="ph-lines"><i></i><i class="short"></i></div>
-        <div class="ph-price">$64.00</div>
-        <div class="ph-text"><i></i><i></i><i></i><i class="short"></i></div>
-        <div class="ph-cta">Add to cart</div>
-        <span class="pin pin-1">1</span>
-        <span class="pin pin-2">2</span>
-        <span class="pin pin-3">3</span>
+  <section id="packages">
+    <div class="wrap">
+      <div class="sec-title"><p class="kicker c rv">Packages</p><h2 class="h2 rv" style="margin-top:14px">Pick your <span class="it">sprint</span></h2><p class="rv">Prices locked until the timer ends.</p></div>
+      <div class="pk-grid">
+        {bfcm.packages.map((p) => (
+          <div class:list={['pk rv', { pop: p.highlight }]}>
+            {p.badge && <span class="badge">{p.badge}</span>}
+            <h3 class="h3" style="font-size:1.35rem">{p.name}</h3>
+            <p style="opacity:.8;font-size:.95rem">{p.summary}</p>
+            <div class="price"><b>${p.price}</b>{p.regularPrice > p.price && <s>${p.regularPrice.toLocaleString('en-US')}</s>}</div>
+            {p.regularPrice > p.price && <span class="save">You save ${(p.regularPrice - p.price).toLocaleString('en-US')}</span>}
+            <ul>{p.features.map((f) => <li><Fragment set:html={TICK} />{f}</li>)}</ul>
+            <p style="font-size:.88rem;opacity:.75">{p.delivery}</p>
+            <a class:list={['btn', p.highlight ? 'btn-white' : 'btn-ink']} href={`/contact/?package=${p.id}`} data-track="bfcm_claim" data-track-label={p.name} data-track-value={p.price}>Claim this slot <Fragment set:html={UA} /></a>
+          </div>
+        ))}
       </div>
-      <figcaption class="bf-notes">
-        <p class="bf-notes-title">Leak report, example</p>
-        <ol>
-          <li><b>1</b>Add to cart sits below the fold on mobile</li>
-          <li><b>2</b>No delivery date near the price</li>
-          <li><b>3</b>The Black Friday discount is not shown here</li>
-        </ol>
-        <p class="bf-notes-foot">Every sprint starts with a report like this, then the fixes go live.</p>
-      </figcaption>
-    </figure>
+      {bfcm.addons.length > 0 && <div class="addons rv">{bfcm.addons.map((a) => <span>{a.name} <b>{a.price}</b></span>)}</div>}
+      {bfcm.guarantee && <div class="guarantee rv"><b>The guarantee</b>{bfcm.guarantee}</div>}
     </div>
   </section>
 
-  <section class="section-sm bf-leaks tone-white" aria-labelledby="leaks-title">
-    <div class="container-x">
-      <p class="eyebrow" data-reveal="fade">What usually leaks in BFCM week</p>
-      <h2 class="display-md" id="leaks-title" data-reveal>
-        Paid traffic is at its most expensive. <span class="display-italic">Don't let it bounce.</span>
-      </h2>
-      <ul class="leak-grid" data-reveal-group>
-        {
-          leaks.map((l) => (
-            <li class="leak">
-              <h3>{l.t}</h3>
-              <p>{l.d}</p>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <section class="section bf-packages" id="packages" aria-labelledby="packages-title">
-    <div class="container-x">
-      <div class="bf-head">
-        <p class="eyebrow" data-reveal="fade">Fixed price, no calls needed</p>
-        <h2 class="display-lg" id="packages-title" data-reveal>Pick your sprint.</h2>
-        <p class="lede" data-reveal>Every package is built on a duplicate theme and shipped only after your approval.</p>
-      </div>
-      <PricingCards />
-
-      <div class="bf-extras">
-        <div class="bf-addons" data-reveal>
-          <p class="label-mono">Add-ons</p>
-          <ul>
-            {
-              bfcm.addons.map((a) => (
-                <li>
-                  <span>{a.name}</span>
-                  <b>{a.price}</b>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-        <div class="bf-guarantee" data-reveal data-reveal-delay="0.06">
-          <p class="label-mono">The honest guarantee</p>
-          <p>{bfcm.guarantee}</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section-sm bf-steps tone-white" aria-labelledby="steps-title">
-    <div class="container-x">
-      <p class="eyebrow" data-reveal="fade">How it works</p>
-      <h2 class="display-md" id="steps-title" data-reveal>Three steps, no meetings.</h2>
-      <ol class="step-grid" data-reveal-group>
-        {
-          steps.map((s) => (
-            <li class="step">
-              <span>{s.n}</span>
-              <h3>{s.t}</h3>
-              <p>{s.d}</p>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
-
-  <MiniAudit title="Not sure which package? Start free." />
-  <Founder />
-  <Reviews />
-
-  <section class="section faq-wrap" aria-labelledby="bf-faq-title">
-    <div class="container-x bf-faq">
+  <section class="alt">
+    <div class="wrap steps-grid" style="align-items:start">
       <div>
-        <p class="eyebrow" data-reveal="fade">FAQs</p>
-        <h2 class="display-md" id="bf-faq-title" data-reveal>Before you claim a slot.</h2>
+        <p class="kicker rv">What usually leaks</p>
+        <h2 class="h2 rv" style="margin:14px 0 28px">Fixed in your <span class="it">sprint</span></h2>
+        <ul class="fix-list" style="grid-template-columns:1fr">{leaks.map((l) => <li class="rv">{l}</li>)}</ul>
       </div>
-      <FaqList items={bfcm.faqs} idPrefix="bfcm-faq" />
+      <div>
+        <p class="kicker rv">How it works</p>
+        <h2 class="h2 rv" style="margin:14px 0 20px">Live in <span class="it">48 hours</span></h2>
+        <ol class="steps">{steps.map((s, i) => <li class="rv"><span class="n">0{i + 1}</span><div><h3 class="h3">{s[0]}</h3><p>{s[1]}</p></div></li>)}</ol>
+      </div>
     </div>
   </section>
 
-  <CtaBand
-    eyebrow="Slots are limited"
-    title="Get the fixes live before Cyber Monday."
-    copy="Claim a package and send your store URL. You will get a reply with the next steps and an invoice, usually within a couple of hours."
-    primaryLabel="Claim the Cyber Monday Sprint"
-    primaryHref="/contact/?package=sprint"
-  />
+  <Faq items={bfcm.faqs} title="Offer questions" />
+  <CtaNight title="Not sure which package fits?" copy="Send your URL. You get a short video with the top leaks on your store and the package that fits, within 48 hours." />
 </Base>
-
-<script>
-  // Countdown to the offer deadline. Hides itself once the deadline passes.
-  const el = document.querySelector<HTMLElement>('[data-countdown]');
-  if (el) {
-    const end = new Date(el.dataset.countdown || '').getTime();
-    const pad = (n: number) => String(n).padStart(2, '0');
-    const set = (k: string, v: number) => {
-      const b = el.querySelector(`[data-cd="${k}"]`);
-      if (b) b.textContent = pad(v);
-    };
-    const tick = () => {
-      const left = end - Date.now();
-      if (!end || left <= 0) {
-        el.style.display = 'none';
-        return;
-      }
-      set('d', Math.floor(left / 864e5));
-      set('h', Math.floor((left / 36e5) % 24));
-      set('m', Math.floor((left / 6e4) % 60));
-      set('s', Math.floor((left / 1e3) % 60));
-      setTimeout(tick, 1000);
-    };
-    tick();
-  }
-</script>
-
-<style>
-  .bf-hero {
-    position: relative;
-    overflow: clip;
-    padding: clamp(7rem, 14vh, 9rem) 0 clamp(3rem, 6vh, 4.5rem);
-    background: var(--color-dark);
-    color: #fff;
-  }
-
-  .bf-glow {
-    position: absolute;
-    inset: -20% -10% auto auto;
-    width: 60rem;
-    height: 40rem;
-    background:
-      radial-gradient(circle at 70% 40%, rgb(242 84 27 / 0.28), transparent 60%);
-    filter: blur(40px);
-    pointer-events: none;
-  }
-
-
-  .bf-hero-grid {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    gap: clamp(2rem, 5vw, 4.5rem);
-    align-items: center;
-  }
-
-  .bf-sticker-tag {
-    align-self: flex-start;
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-ink);
-    background: var(--color-signal);
-    padding: 0.45rem 0.8rem;
-    border-radius: 6px;
-    transform: rotate(-2deg);
-  }
-
-  .bf-slots {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    font-size: 0.88rem;
-    color: rgb(255 255 255 / 0.75);
-  }
-
-  .bf-slot-dots {
-    display: inline-flex;
-    gap: 0.3rem;
-  }
-
-  .bf-slot-dots i {
-    width: 0.7rem;
-    height: 0.7rem;
-    border-radius: 50%;
-    background: var(--color-signal);
-  }
-
-  /* Phone mockup with numbered leak pins */
-  .bf-visual {
-    position: relative;
-    display: grid;
-    grid-template-columns: 13.5rem minmax(0, 1fr);
-    gap: 1.25rem;
-    align-items: center;
-    margin: 0;
-  }
-
-  .bf-badge {
-    position: absolute;
-    top: -1.4rem;
-    left: 9.5rem;
-    z-index: 2;
-    width: 5.6rem;
-    height: 5.6rem;
-    display: grid;
-    place-content: center;
-    text-align: center;
-    border-radius: 50%;
-    background: var(--color-signal);
-    color: var(--color-ink);
-    font-size: 0.7rem;
-    font-weight: 600;
-    line-height: 1.15;
-    transform: rotate(12deg);
-  }
-
-  .bf-badge b {
-    display: block;
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: 1.9rem;
-    line-height: 1;
-  }
-
-  .bf-phone {
-    position: relative;
-    padding: 0.8rem 0.75rem 1rem;
-    border-radius: 26px;
-    background: #fff;
-    border: 6px solid #2a2a31;
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-  }
-
-  .ph-bar {
-    display: flex;
-    gap: 0.25rem;
-  }
-
-  .ph-bar i {
-    width: 0.4rem;
-    height: 0.4rem;
-    border-radius: 50%;
-    background: #d9d7d0;
-  }
-
-  .ph-img {
-    height: 9.5rem;
-    border-radius: 12px;
-    background: linear-gradient(160deg, #f3e3d6, #e9d3c2);
-  }
-
-  .ph-lines,
-  .ph-text {
-    display: grid;
-    gap: 0.3rem;
-  }
-
-  .ph-lines i,
-  .ph-text i {
-    height: 0.45rem;
-    border-radius: 4px;
-    background: #e6e4de;
-  }
-
-  .ph-lines i {
-    height: 0.6rem;
-    background: #cfccc4;
-  }
-
-  .ph-lines .short,
-  .ph-text .short {
-    width: 60%;
-  }
-
-  .ph-price {
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: var(--color-ink);
-  }
-
-  .ph-cta {
-    margin-top: 0.4rem;
-    padding: 0.55rem;
-    border-radius: 8px;
-    background: var(--color-ink);
-    color: #fff;
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-align: center;
-    opacity: 0.35;
-  }
-
-  .pin {
-    position: absolute;
-    width: 1.6rem;
-    height: 1.6rem;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    background: var(--color-signal);
-    color: var(--color-ink);
-    font-size: 0.78rem;
-    font-weight: 700;
-    box-shadow: 0 0 0 4px rgb(242 84 27 / 0.25);
-  }
-
-  .pin-1 { bottom: 0.7rem; right: -0.8rem; }
-  .pin-2 { top: 12.6rem; right: -0.8rem; }
-  .pin-3 { top: 3.2rem; left: -0.8rem; }
-
-  .bf-notes {
-    color: #fff;
-  }
-
-  .bf-notes-title {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgb(255 255 255 / 0.6);
-    margin-bottom: 0.8rem;
-  }
-
-  .bf-notes ol {
-    list-style: none;
-    display: grid;
-    gap: 0.7rem;
-  }
-
-  .bf-notes li {
-    display: flex;
-    gap: 0.6rem;
-    align-items: flex-start;
-    font-size: 0.92rem;
-    line-height: 1.4;
-  }
-
-  .bf-notes li b {
-    flex: none;
-    width: 1.4rem;
-    height: 1.4rem;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    background: var(--color-signal);
-    color: var(--color-ink);
-    font-size: 0.72rem;
-  }
-
-  .bf-notes-foot {
-    margin-top: 1rem;
-    font-size: 0.82rem;
-    color: rgb(255 255 255 / 0.6);
-  }
-
-  @media (max-width: 64rem) {
-    .bf-hero-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (max-width: 30rem) {
-    .bf-visual {
-      grid-template-columns: 10.5rem minmax(0, 1fr);
-      gap: 1rem;
-    }
-
-    .bf-badge {
-      left: 7rem;
-      width: 4.6rem;
-      height: 4.6rem;
-    }
-
-    .ph-img {
-      height: 6.5rem;
-    }
-
-    .pin-2 {
-      top: 9.6rem;
-    }
-
-    .bf-notes li {
-      font-size: 0.82rem;
-    }
-  }
-
-  .bf-hero-inner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 1.3rem;
-    max-width: 40rem;
-  }
-
-  .bf-hero .eyebrow {
-    color: #ffcf85;
-  }
-
-  .bf-hero .display-xl {
-    font-size: clamp(2.5rem, 5.4vw, 4.6rem);
-    color: #fff;
-  }
-
-  .bf-hero .lede {
-    color: rgb(255 255 255 / 0.78);
-    max-width: 40rem;
-  }
-
-  .bf-urgency {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem 1.5rem;
-    align-items: center;
-  }
-
-  .bf-count {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .bf-count span {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 3.6rem;
-    padding: 0.55rem 0.4rem;
-    border-radius: 14px;
-    background: rgb(255 255 255 / 0.08);
-    border: 1px solid rgb(255 255 255 / 0.14);
-    font-family: var(--font-mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgb(255 255 255 / 0.6);
-  }
-
-  .bf-count b {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: 1.8rem;
-    letter-spacing: 0;
-    color: #fff;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .bf-deadline {
-    font-size: 0.9rem;
-    color: rgb(255 255 255 / 0.75);
-    max-width: 26rem;
-    line-height: 1.5;
-  }
-
-  .bf-deadline strong {
-    color: #ffcf85;
-  }
-
-  .bf-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem;
-  }
-
-  .bf-hero .btn-primary {
-    background: var(--color-signal);
-    color: var(--color-ink);
-  }
-
-  .bf-hero .btn-ghost {
-    color: #fff;
-    border-color: rgb(255 255 255 / 0.3);
-  }
-
-  .leak-grid {
-    list-style: none;
-    margin-top: 2rem;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1rem;
-  }
-
-  .leak {
-    padding: 1.3rem;
-    border-radius: 18px;
-    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
-    background: var(--color-paper);
-  }
-
-  .leak h3 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.4rem;
-  }
-
-  .leak p {
-    font-size: 0.88rem;
-    line-height: 1.55;
-    color: var(--color-ink-2);
-  }
-
-  .bf-packages {
-    background: var(--color-paper-3);
-    scroll-margin-top: 6rem;
-  }
-
-  .bf-head {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.8rem;
-    margin-bottom: 3rem;
-  }
-
-  .bf-extras {
-    margin-top: 2.5rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-  }
-
-  .bf-addons,
-  .bf-guarantee {
-    padding: 1.5rem;
-    border-radius: 20px;
-    background: #fff;
-    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
-  }
-
-  .bf-addons ul {
-    list-style: none;
-    margin-top: 0.8rem;
-    display: grid;
-    gap: 0.6rem;
-    font-size: 0.92rem;
-  }
-
-  .bf-addons li {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  .bf-guarantee p:last-child {
-    margin-top: 0.8rem;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: var(--color-ink-2);
-  }
-
-  .step-grid {
-    list-style: none;
-    margin-top: 2rem;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-  }
-
-  .step {
-    padding: 1.5rem;
-    border-radius: 18px;
-    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
-  }
-
-  .step span {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--color-indigo);
-  }
-
-  .step h3 {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: 1.5rem;
-    margin: 0.4rem 0;
-  }
-
-  .step p {
-    font-size: 0.9rem;
-    line-height: 1.55;
-    color: var(--color-ink-2);
-  }
-
-  .faq-wrap {
-    background: var(--color-paper);
-  }
-
-  .bf-faq {
-    display: grid;
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    gap: clamp(2rem, 5vw, 4rem);
-  }
-
-  @media (max-width: 60rem) {
-    .leak-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .bf-extras,
-    .step-grid,
-    .bf-faq {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (max-width: 30rem) {
-    .leak-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .bf-count span {
-      min-width: 3.1rem;
-    }
-  }
-</style>

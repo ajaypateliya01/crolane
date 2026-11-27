@@ -2,6 +2,8 @@
 export const prerender = true;
 
 import Base from '../layouts/Base.astro';
+import NightHero from '../components/ui/NightHero.astro';
+import CtaNight from '../components/ui/CtaNight.astro';
 import { SITE } from '../config/site';
 
 const title = `Privacy | ${SITE.name}`;
@@ -10,16 +12,16 @@ const updated = '26 October 2026';
 ---
 
 <Base title={title} description={description} canonicalPath="/privacy/">
-  <section class="legal-hero" aria-labelledby="privacy-title">
-    <div class="container-narrow">
-      <p class="eyebrow">Legal</p>
-      <h1 class="display-lg" id="privacy-title">Privacy notice</h1>
-      <p class="legal-updated">Last updated: {updated}</p>
+  <NightHero single>
+    <div>
+      <p class="kicker" style="margin-bottom:18px">Legal</p>
+      <h1 class="h1 sm" id="privacy-title">Privacy notice</h1>
+      <p class="lede" style="margin-top:18px">Last updated: {updated}</p>
     </div>
-  </section>
+  </NightHero>
 
-  <section class="section-sm tone-paper">
-    <div class="container-narrow legal-body">
+  <section>
+    <div class="wrap prose">
       <p>
         This notice explains what happens to information you share with {SITE.name} through this
         website, written for humans rather than lawyers. If anything is unclear, email <a
@@ -78,25 +80,7 @@ const updated = '26 October 2026';
       </p>
     </div>
   </section>
+  <CtaNight />
 </Base>
 
-<style>
-  .legal-hero {
-    padding-top: clamp(7.5rem, 14vh, 9.5rem);
-    padding-bottom: clamp(2rem, 5vw, 3rem);
-    background: var(--color-paper);
-  }
 
-  .legal-hero h1 {
-    margin-top: 1.2rem;
-  }
-
-  .legal-updated {
-    margin-top: 1rem;
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-ink-3);
-  }
-</style>

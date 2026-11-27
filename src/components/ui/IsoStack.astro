@@ -1,0 +1,12 @@
+---
+interface Props { a: string; b: string; c: string }
+const { a, b, c } = Astro.props;
+---
+<div class="iso-wrap rv" aria-hidden="true">
+  <div class="iso">
+    <div class="iso-grid"></div>
+    <div class="layer l1"><span><i>1</i>{a}</span></div>
+    <div class="layer l2"><span><i>2</i>{b}</span></div>
+    <div class="layer l3"><span><i>3</i>{c}</span></div>
+  </div>
+</div>

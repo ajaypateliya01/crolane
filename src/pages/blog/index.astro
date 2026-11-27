@@ -2,133 +2,45 @@
 export const prerender = true;
 
 import Base from '../../layouts/Base.astro';
+import NightHero from '../../components/ui/NightHero.astro';
+import Ill from '../../components/ui/Ill.astro';
+import CtaNight from '../../components/ui/CtaNight.astro';
+import { UA } from '../../components/ui/Icons';
 import { getPosts, CATEGORY_LABELS, fmtDate, readMins } from '../../lib/blog';
+import { artFor } from '../../lib/blog-art';
 import { SITE } from '../../config/site';
 
 const posts = await getPosts();
-const title = 'Blog: AI Agents, Workflows, Voice AI & CRO | CROLANE';
-const description =
-  'Practical guides on AI agents, automation workflows, AI voice receptionists, A/B testing and GA4. Written by a developer who builds them.';
-
-const ld = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'Blog',
-    name: 'CROLANE Blog',
-    url: `${SITE.url}/blog/`,
-    publisher: { '@id': `${SITE.url}/#organization` },
-  },
-];
+const title = 'CRO, GA4 and AI Automation Blog | CROLANE';
+const description = 'Practical guides on Shopify CRO, A/B testing, GA4 tracking, AI voice receptionists and n8n agents. Written by a developer who builds them.';
+const ld = [{ '@context': 'https://schema.org', '@type': 'Blog', name: 'CROLANE Blog', url: `${SITE.url}/blog/`, publisher: { '@id': `${SITE.url}/#organization` } }];
 ---
-
 <Base title={title} description={description} canonicalPath="/blog/" jsonLd={ld}>
-  <section class="bl-hero">
-    <div class="container-x">
-      <p class="eyebrow" data-reveal="fade">Blog</p>
-      <h1 class="display-xl" data-reveal>AI agents, workflows <span class="display-italic">and what actually converts.</span></h1>
-      <p class="lede" data-reveal>Hands-on notes from building A/B tests, tracking and AI agents for real businesses.</p>
+  <NightHero single>
+    <div>
+      <p class="kicker" style="margin-bottom:18px">Blog</p>
+      <h1 class="h1 sm">CRO, analytics and AI, <span class="it">explained plainly</span></h1>
+      <p class="lede" style="margin-top:22px">Hands-on notes from building A/B tests, tracking and AI agents for real stores. What to check, and how to fix it.</p>
+    </div>
+  </NightHero>
+  <section>
+    <div class="wrap">
+      <div class="grid3">
+        {posts.map((p) => (
+          <div class="rv">
+            <a class="post-card" href={`/blog/${p.id}/`}>
+              <Ill name={artFor(p.data.category)} />
+              <div class="body">
+                <span class="tagx">{CATEGORY_LABELS[p.data.category] || 'Guide'} &nbsp; {readMins(p.body)} min read</span>
+                <h2 class="h3">{p.data.title}</h2>
+                <p>{p.data.description}</p>
+                <span class="link">Read article <Fragment set:html={UA} /></span>
+              </div>
+            </a>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
-
-  <section class="section-sm tone-white">
-    <div class="container-x">
-      {
-        posts.length === 0 ? (
-          <p class="bl-empty">First posts are on the way.</p>
-        ) : (
-          <ul class="bl-grid" data-reveal-group>
-            {posts.map((p) => (
-              <li>
-                <a class="bl-card" href={`/blog/${p.id}/`}>
-                  {p.data.cover && <img src={p.data.cover} alt="" width="640" height="360" loading="lazy" decoding="async" />}
-                  <span class="bl-meta">
-                    {CATEGORY_LABELS[p.data.category] ?? p.data.category} / {fmtDate(p.data.date)} / {readMins(p.body)} min read
-                  </span>
-                  <h2>{p.data.title}</h2>
-                  <p>{p.data.description}</p>
-                  <span class="bl-read">Read</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        )
-      }
-    </div>
-  </section>
+  <CtaNight />
 </Base>
-
-<style>
-  .bl-hero {
-    padding: clamp(7rem, 14vh, 9rem) 0 clamp(2.5rem, 5vh, 3.5rem);
-    background: var(--color-paper);
-  }
-
-  .bl-hero .container-x {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 56rem;
-  }
-
-  .bl-grid {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
-    gap: 1.25rem;
-  }
-
-  .bl-card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-    height: 100%;
-    padding: 1.5rem;
-    border-radius: 20px;
-    background: var(--color-paper);
-    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
-    transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
-  }
-
-  .bl-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lift);
-  }
-
-  .bl-card img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-  }
-
-  .bl-meta {
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-ink-3);
-  }
-
-  .bl-card h2 {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: 1.6rem;
-    line-height: 1.15;
-  }
-
-  .bl-card p {
-    font-size: 0.92rem;
-    line-height: 1.55;
-    color: var(--color-ink-2);
-    flex: 1;
-  }
-
-  .bl-read {
-    color: var(--color-indigo);
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
-
-  .bl-empty {
-    color: var(--color-ink-3);
-  }
-</style>

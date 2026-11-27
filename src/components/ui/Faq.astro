@@ -1,0 +1,29 @@
+---
+// FAQ accordion: only one answer open at a time, with a sidebar CTA.
+import Founder from './Founder.astro';
+import { UA } from './Icons';
+import type { Faq } from '../../config/services';
+interface Props { items: Faq[]; title?: string; alt?: boolean }
+const { items, title = 'Questions, answered', alt = false } = Astro.props;
+---
+<section class:list={[{ alt }]}>
+  <div class="wrap faq-grid">
+    <div class="side-card rv">
+      <div style="margin-bottom:18px"><Founder /></div>
+      <h2 class="serif" style="font-size:2rem">Still have a question?</h2>
+      <p>Ask Ajay directly. You get a real answer within 24 hours, not a sales script.</p>
+      <a class="btn btn-white" href="/contact/" data-track="faq_contact">Talk to Ajay <Fragment set:html={UA} /></a>
+    </div>
+    <div>
+      <h2 class="h2 rv" style="margin-bottom:28px">{title}</h2>
+      <div class="faq">
+        {items.map((f, i) => (
+          <details class="rv" name="faq" open={i === 0}>
+            <summary><span class="no">{String(i + 1).padStart(2, '0')}</span><span>{f.q}</span><span class="pm" aria-hidden="true">+</span></summary>
+            <p class="ans">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

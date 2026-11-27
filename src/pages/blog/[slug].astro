@@ -3,8 +3,12 @@ export const prerender = true;
 
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import Founder from '../../components/Founder.astro';
-import CtaBand from '../../components/CtaBand.astro';
+import NightHero from '../../components/ui/NightHero.astro';
+import Founder from '../../components/ui/Founder.astro';
+import Ill from '../../components/ui/Ill.astro';
+import CtaNight from '../../components/ui/CtaNight.astro';
+import { UA } from '../../components/ui/Icons';
+import { artFor } from '../../lib/blog-art';
 import { getPosts, CATEGORY_LABELS, fmtDate, readMins } from '../../lib/blog';
 import { SITE } from '../../config/site';
 import site from '../../content/settings/site.json';
@@ -41,6 +45,8 @@ const ld = [
     ],
   },
 ];
+const posts = await getPosts();
+const related = [...posts.filter((p) => p.id !== post.id && p.data.category === post.data.category), ...posts.filter((p) => p.id !== post.id && p.data.category !== post.data.category)].slice(0, 3);
 ---
 
 <Base
@@ -51,147 +57,37 @@ const ld = [
   ogImage={post.data.cover || undefined}
   jsonLd={ld}
 >
-  <article class="post">
-    <header class="post-head container-x">
-      <nav class="crumb" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a></nav>
-      <p class="post-meta" data-reveal="fade">
-        {CATEGORY_LABELS[post.data.category] ?? post.data.category} / {fmtDate(post.data.date)} / {readMins(post.body)} min read
-      </p>
-      <h1 class="display-lg" data-reveal>{post.data.title}</h1>
-      {post.data.description && <p class="lede" data-reveal data-reveal-delay="0.06">{post.data.description}</p>}
-      <p class="post-by">By <a href={site.founder.linkedin} target="_blank" rel="noopener">{site.founder.name}</a></p>
-    </header>
-    {post.data.cover && <img class="post-cover container-x" src={post.data.cover} alt="" width="1200" height="630" />}
-    <div class="post-body container-x">
-      <Content />
+  <NightHero single>
+    <div style="max-width:860px">
+      <nav class="crumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span>{CATEGORY_LABELS[post.data.category] || 'Guide'}</span></nav>
+      <h1 class="h1 sm">{post.data.title}</h1>
+      {post.data.description && <p class="lede" style="margin-top:22px">{post.data.description}</p>}
+      <div class="trust" style="margin-top:26px"><Founder /><span><b><a href={site.founder.linkedin} target="_blank" rel="noopener">{site.founder.name}</a></b><br />{fmtDate(post.data.date)}, {readMins(post.body)} min read</span></div>
     </div>
-  </article>
-  <Founder />
-  <CtaBand
-    eyebrow="Want this built for you?"
-    title="Send your URL. Get a clear quote within 24 hours."
-    copy="AI agents, automations, voice receptionists or conversion fixes: a fixed price and timeline, no sales call needed."
-    primaryLabel="Get a quote"
-    primaryHref="/contact/"
-  />
+  </NightHero>
+  <section>
+    <div class="wrap">
+      {post.data.cover && <img class="post-cover" src={post.data.cover} alt="" width="1200" height="630" />}
+      <article class="prose"><Content /></article>
+      <div class="offer-note" style="max-width:740px;margin:48px auto 0">
+        <div><b>Want this checked on your store?</b><p>Get a free video audit with the top leaks, within 48 hours.</p></div>
+        <a class="btn btn-white" href="#mini-audit" data-track="post_audit">Get a free audit <Fragment set:html={UA} /></a>
+      </div>
+      <div class="author"><Founder size="lg" /><div><b>{site.founder.name}</b><p>{site.founder.role}</p></div></div>
+    </div>
+  </section>
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-title"><h2 class="h2">Keep <span class="it">reading</span></h2></div>
+      <div class="grid3">
+        {related.map((p) => (
+          <a class="post-card" href={`/blog/${p.id}/`}>
+            <Ill name={artFor(p.data.category)} />
+            <div class="body"><span class="tagx">{CATEGORY_LABELS[p.data.category] || 'Guide'}</span><h3 class="h3">{p.data.title}</h3><p>{p.data.description}</p><span class="link">Read article <Fragment set:html={UA} /></span></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaNight />
 </Base>
-
-<style>
-  .post-head {
-    padding-top: clamp(7rem, 14vh, 9rem);
-    padding-bottom: 2rem;
-    max-width: 48rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.9rem;
-  }
-
-  .crumb {
-    font-size: 0.8rem;
-    color: var(--color-ink-3);
-  }
-
-  .post-meta {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-ink-3);
-  }
-
-  .post-by a {
-    color: var(--color-indigo);
-  }
-
-  .post-cover {
-    display: block;
-    max-width: 56rem;
-    width: 100%;
-    height: auto;
-    border-radius: 20px;
-    margin-bottom: 2rem;
-  }
-
-  .post-body {
-    max-width: 44rem;
-    padding-bottom: 4rem;
-    font-size: 1.06rem;
-    line-height: 1.75;
-    color: var(--color-ink-2);
-  }
-
-  .post-body :global(h2) {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: 2rem;
-    line-height: 1.15;
-    color: var(--color-ink);
-    margin: 2.4rem 0 0.8rem;
-  }
-
-  .post-body :global(h3) {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--color-ink);
-    margin: 1.8rem 0 0.6rem;
-  }
-
-  .post-body :global(p),
-  .post-body :global(ul),
-  .post-body :global(ol) {
-    margin-bottom: 1.1rem;
-  }
-
-  .post-body :global(ul),
-  .post-body :global(ol) {
-    padding-left: 1.3rem;
-  }
-
-  .post-body :global(li) {
-    margin-bottom: 0.4rem;
-  }
-
-  .post-body :global(a) {
-    color: var(--color-indigo);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .post-body :global(strong) {
-    color: var(--color-ink);
-  }
-
-  .post-body :global(code) {
-    font-family: var(--font-mono);
-    font-size: 0.88em;
-    background: var(--color-paper-3);
-    padding: 0.1rem 0.35rem;
-    border-radius: 6px;
-  }
-
-  .post-body :global(pre) {
-    background: var(--color-dark);
-    color: #e9e9f0;
-    padding: 1.1rem;
-    border-radius: 14px;
-    overflow-x: auto;
-    margin-bottom: 1.2rem;
-  }
-
-  .post-body :global(pre code) {
-    background: none;
-    padding: 0;
-  }
-
-  .post-body :global(blockquote) {
-    border-left: 3px solid var(--color-indigo);
-    padding-left: 1rem;
-    color: var(--color-ink);
-  }
-
-  .post-body :global(img) {
-    max-width: 100%;
-    height: auto;
-    border-radius: 12px;
-  }
-</style>

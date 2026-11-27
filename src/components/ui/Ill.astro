@@ -1,0 +1,6 @@
+---
+import { illustration, type IllKey } from '../../lib/iso';
+interface Props { name: IllKey; class?: string }
+const { name, class: cls } = Astro.props;
+---
+<div class:list={['ill', cls]} set:html={illustration(name)} />

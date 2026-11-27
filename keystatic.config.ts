@@ -166,7 +166,7 @@ export default config({
                 { label: 'Shopify Audits', value: 'shopify-audits' },
               ],
             }),
-            from: fields.text({ label: 'Price text, e.g. "From $599"' }),
+            from: fields.text({ label: 'Public price. Write "Custom quote" to hide the price, or e.g. "From $1,000"' }),
             note: fields.text({ label: 'Small note, e.g. "fixed price, 48 hr delivery"' }),
           }),
           { label: 'Prices', itemLabel: (p) => `${p.fields.id.value}: ${p.fields.from.value}` },

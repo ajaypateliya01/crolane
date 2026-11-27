@@ -1,0 +1,11 @@
+---
+// Founder face: photo when one is set in the admin, otherwise a monogram.
+import site from '../../content/settings/site.json';
+interface Props { size?: 'sm' | 'lg' | 'xl' }
+const { size = 'sm' } = Astro.props;
+const photo = site.founder.photo;
+const px = size === 'sm' ? 42 : size === 'lg' ? 64 : 280;
+---
+{photo
+  ? <img class="photo" src={photo} width={px} height={px} alt={site.founder.name} loading="lazy" style={`width:${px}px;height:${px}px`} />
+  : <span class:list={['monogram', size !== 'sm' && size]} aria-hidden="true">A</span>}
