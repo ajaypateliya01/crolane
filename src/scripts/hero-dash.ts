@@ -23,6 +23,7 @@ export function initHeroDash(root: HTMLElement) {
   const dot = q<SVGCircleElement>('[data-chart-dot]');
   const barsBox = q<HTMLElement>('[data-bars]');
   const toast = document.querySelector<HTMLElement>('[data-toast]');
+  const toastMeta = document.querySelector<HTMLElement>('[data-toast-meta]');
   if (!elPurchases || !elCarts || !elRate || !elRevenue || !area || !lineA || !lineB) return;
 
   const state = {
@@ -93,11 +94,12 @@ export function initHeroDash(root: HTMLElement) {
     draw();
   }
 
+  // [event and amount, time label]
   const toasts = [
-    'Purchase / $120 / just now',
-    'Add to cart / $48 / now',
-    'Checkout started / $214 / now',
-    'Purchase / $156 / just now',
+    ['Purchase $120', 'just now'],
+    ['Add to cart $48', 'now'],
+    ['Checkout started $214', 'now'],
+    ['Purchase $156', 'just now'],
   ];
   let toastIdx = 0;
 
@@ -126,7 +128,8 @@ export function initHeroDash(root: HTMLElement) {
     }
     if (toast && Math.random() < 0.55) {
       toastIdx = (toastIdx + 1) % toasts.length;
-      toast.textContent = toasts[toastIdx];
+      toast.textContent = toasts[toastIdx][0];
+      if (toastMeta) toastMeta.textContent = toasts[toastIdx][1];
     }
     render(true);
   }
