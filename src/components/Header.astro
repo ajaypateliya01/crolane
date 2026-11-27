@@ -16,10 +16,10 @@ const nav = [
 ];
 const on = (href: string) => path.startsWith(href);
 ---
-{showOfferBar && (
-  <div class="offer"><span class="tag">Offer</span>{offer.text} <a href={offer.href} data-track="offer_bar_click">{offer.linkLabel}</a></div>
-)}
 <header class="site" id="hdr">
+  {showOfferBar && (
+    <div class="offer"><span class="tag">Offer</span><span class="offer-text">{offer.text}</span> <a href={offer.href} data-track="offer_bar_click">{offer.linkLabel}</a></div>
+  )}
   <div class="wrap nav">
     <a class="logo" href="/" aria-label="CROLANE home">
       <span class="logo-mark" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M2 12 6 7l3 3 5-7" fill="none" stroke="#140d26" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>CROLANE
