@@ -54,11 +54,11 @@ const ld = [
   <article class="post">
     <header class="post-head container-x">
       <nav class="crumb" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a></nav>
-      <p class="post-meta">
+      <p class="post-meta" data-reveal="fade">
         {CATEGORY_LABELS[post.data.category] ?? post.data.category} · {fmtDate(post.data.date)} · {readMins(post.body)} min read
       </p>
-      <h1 class="display-lg">{post.data.title}</h1>
-      {post.data.description && <p class="lede">{post.data.description}</p>}
+      <h1 class="display-lg" data-reveal>{post.data.title}</h1>
+      {post.data.description && <p class="lede" data-reveal data-reveal-delay="0.06">{post.data.description}</p>}
       <p class="post-by">By <a href={site.founder.linkedin} target="_blank" rel="noopener">{site.founder.name}</a></p>
     </header>
     {post.data.cover && <img class="post-cover container-x" src={post.data.cover} alt="" width="1200" height="630" />}

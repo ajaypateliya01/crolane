@@ -6,5 +6,5 @@
   "primaryLabel": "See BFCM packages",
   "primaryHref": "/bfcm/",
   "secondaryLabel": "Get a free mini audit",
-  "secondaryHref": "/contact/?service=cro-audit"
+  "secondaryHref": "#mini-audit"
 }

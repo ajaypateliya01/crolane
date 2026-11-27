@@ -37,7 +37,7 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
         </a>
         <a class="btn btn-ghost" href={home.secondaryHref} data-track="hero_secondary">{home.secondaryLabel}</a>
       </div>
-      <a class="hero-founder" href="/about/" data-track="hero_founder">
+      <a class="hero-founder" href="/about/" data-track="hero_founder" data-reveal data-reveal-delay="0.26">
         {site.founder.photo && <img src={site.founder.photo} alt="" width="40" height="40" />}
         <span><strong>Work directly with {site.founder.name.split(' ')[0]}</strong> · replies within a few hours</span>
       </a>
@@ -615,13 +615,13 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
     flex: 1;
     min-height: 12%;
     border-radius: 4px 4px 2px 2px;
-    background: linear-gradient(180deg, var(--color-indigo), var(--color-azure, #2563d9));
+    background: var(--color-ink);
     opacity: 0.85;
     transition: height 0.9s var(--ease-out);
   }
 
   .bars span:nth-child(3n) {
-    background: linear-gradient(180deg, var(--color-amber), var(--color-coral, #d9552f));
+    background: var(--color-signal);
   }
 
   .events {
