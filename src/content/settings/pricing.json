@@ -1,53 +1,10 @@
 {
-  "services": [
-    {
-      "id": "cro-audit",
-      "from": "Custom quote",
-      "note": ""
-    },
-    {
-      "id": "ab-testing",
-      "from": "Custom quote",
-      "note": ""
-    },
-    {
-      "id": "ga4-tag-manager",
-      "from": "Custom quote",
-      "note": ""
-    },
-    {
-      "id": "conversion-tracking",
-      "from": "Custom quote",
-      "note": ""
-    },
-    {
-      "id": "ai-automation",
-      "from": "From $750",
-      "note": ""
-    },
-    {
-      "id": "ai-voice-agents",
-      "from": "From $1,000",
-      "note": "Call minutes billed at cost"
-    },
-    {
-      "id": "ai-agent-audit",
-      "from": "From $500",
-      "note": ""
-    },
-    {
-      "id": "shopify-audits",
-      "from": "Custom quote",
-      "note": ""
-    }
-  ],
   "packages": [
     {
       "id": "quick-fix",
       "service": "cro-audit",
       "name": "Quick Fix",
       "price": 799,
-      "badge": "",
       "highlight": false,
       "summary": "For stores that need the biggest mobile leaks closed, fast.",
       "delivery": "Delivered in 48 hours",
@@ -90,6 +47,41 @@
         "GA4 tracking issues fixed, not just flagged",
         "Test read-out with a clear keep / drop call"
       ]
+    }
+  ],
+  "services": [
+    {
+      "id": "cro-audit",
+      "from": "Custom quote"
+    },
+    {
+      "id": "ab-testing",
+      "from": "Custom quote"
+    },
+    {
+      "id": "ga4-tag-manager",
+      "from": "Custom quote"
+    },
+    {
+      "id": "conversion-tracking",
+      "from": "Custom quote"
+    },
+    {
+      "id": "ai-automation",
+      "from": "From $750"
+    },
+    {
+      "id": "ai-voice-agents",
+      "from": "From $1,000",
+      "note": "Call minutes billed at cost"
+    },
+    {
+      "id": "ai-agent-audit",
+      "from": "From $750"
+    },
+    {
+      "id": "shopify-audits",
+      "from": "Custom quote"
     }
   ]
 }
