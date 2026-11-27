@@ -1,0 +1,43 @@
+---
+title: How an AI voice receptionist actually works (and where it breaks)
+description: >-
+  A plain-English walkthrough of the workflow behind an AI receptionist: phone
+  number, speech, the AI agent, booking and handoff, plus the five places most
+  setups go wrong.
+date: 2026-11-27
+category: voice-ai
+draft: false
+---
+Most small businesses lose calls in two situations: after hours, and when the person who answers the phone is busy with a customer. An AI voice receptionist fixes the first problem well and the second problem partly. Here is what is happening under the hood, so you can judge any setup, including one you build yourself.
+
+## The five building blocks
+
+1. **A phone number.** Either a new number from a telephony provider such as Twilio, or your existing number forwarding to it after a few rings or outside opening hours.
+2. **Speech to text.** The caller's voice is turned into text in real time. Accents and background noise are where cheaper setups struggle.
+3. **The agent.** A language model with a short, strict prompt: who it works for, what it may answer, what it must never promise, and when to hand off.
+4. **Tools.** The agent can call actions such as *check calendar*, *book slot*, *save lead to sheet or CRM* and *send SMS confirmation*. Platforms like Vapi and Retell, or an n8n workflow behind them, handle this.
+5. **Text to speech.** The reply is spoken back. Latency matters more than voice quality: under a second feels natural, two seconds feels broken.
+
+## A typical call flow
+
+- The agent greets the caller with the business name and asks how it can help.
+- It works out the intent: question, booking, reschedule, complaint or emergency.
+- Routine questions (hours, location, prices from an approved list) are answered directly.
+- Bookings check the calendar, offer two slots and confirm by SMS.
+- Anything sensitive or unclear is captured (name, number, reason) and handed to a human by SMS or email within a minute.
+
+## Where most setups break
+
+1. **The prompt tries to do everything.** A receptionist that "can answer anything" will eventually invent an answer. Give it a short list of approved facts and a clear "I'll get someone to call you back" for the rest.
+2. **No handoff path.** If a caller asks for a person and nothing happens, you have made the experience worse than voicemail.
+3. **Calendar double-bookings.** The agent must check availability at the moment of booking, not from a cached list.
+4. **Nobody reads the transcripts.** The first two weeks of calls show you exactly which questions are missing from the prompt. Review them.
+5. **No measurement.** Track calls answered, leads captured and bookings made. Otherwise you cannot tell if it pays for itself.
+
+## Is it worth it?
+
+If you miss more than a handful of calls a week and each new customer is worth more than a few hundred dollars, usually yes. Running costs are typically per minute of talk time plus the platform fee, so a quiet line costs very little.
+
+The honest limit: an AI receptionist is good at routine, repeatable conversations. It is not a replacement for a person handling complaints, complex quotes or anything regulated.
+
+If you want one built for your business, [send a short note](/contact/?service=ai-voice-agents) with your call volume and what callers usually ask. You will get a fixed price and a timeline.

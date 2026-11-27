@@ -4,7 +4,7 @@ Marketing website for **CROLANE**: conversion rate optimization, experimentation
 analytics implementation, practical AI automation, AI voice agents and Shopify
 shopping experience audits.
 
-- 14 pages: home, services overview, 7 individual service pages, about, contact,
+- Pages: home, services overview, 7 individual service pages, about, contact,
   privacy, terms and a custom 404
 - Interactive, clearly labelled illustrative demos (A/B testing lab, analytics
   dashboard, tracking journey, workflow visual, voice agent, Shopify journey)
@@ -159,6 +159,28 @@ Ranking itself is earned over time: consoles show indexing and queries, and
 fresh, genuinely helpful content plus real mentions of the business elsewhere
 are what move a site up. There is no setting that guarantees position one.
 
+## Admin panel (Keystatic)
+
+Visit `/keystatic` to edit without touching code:
+
+- **BFCM offer page**: packages, prices, regular prices, deadline, slots, add-ons, guarantee, FAQs
+- **Service starting prices** shown on each service page
+- **Site settings**: offer bar, sticky mobile CTA, founder block (photo upload), proof points
+- **Homepage** hero text and buttons
+- **Blog posts** (rich editor, categories, cover image, drafts)
+- **Client reviews**: real reviews only; a review shows on the site only when "Client agreed to be quoted" is ticked
+
+Locally (`npm run dev`) edits are written straight to files. In production every
+save is a commit to GitHub, and Hostinger rebuilds the site from that commit
+(about 1-3 minutes). Production needs the GitHub app env vars from `.env.example`.
+
+## Tracking
+
+GTM loads on every page (`PUBLIC_GTM_ID`). Any element with `data-track="event_name"`
+pushes that event to `dataLayer`. Events in use: `select_package`, `sticky_cta`,
+`header_cta`, `hero_primary`, `offer_bar_click`, `service_hero_cta`, `linkedin_click`,
+and `generate_lead` after a successful contact form submission.
+
 ## Project layout
 
 ```
@@ -175,8 +197,8 @@ scripts/         check-links.mjs, test-mail.mjs, build-og.mjs
 
 ## Content policy
 
-No testimonials, client logos, metrics or results are shown anywhere on this
-site, because none may be invented. Every chart, metric, heatmap and
+Only real client reviews (added in the admin panel with permission) may be shown.
+No testimonials, client logos, metrics or results may be invented. Every chart, metric, heatmap and
 conversation in the demos is labelled illustrative, and the demos run entirely
 in the browser on fictional data. There are exactly seven services; do not add
 more without updating `src/config/services.ts`, the navigation and this file

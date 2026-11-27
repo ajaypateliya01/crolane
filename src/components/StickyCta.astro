@@ -1,0 +1,57 @@
+---
+import site from '../content/settings/site.json';
+const cta = site.stickyCta;
+const path = Astro.url.pathname;
+// Hide on the page the button points to and on contact, where the form is the CTA.
+const show = cta.enabled && path !== cta.href && !path.startsWith('/contact') && !path.startsWith('/keystatic');
+---
+
+{
+  show && (
+    <div class="sticky-cta" data-sticky-cta>
+      <a class="btn btn-primary" href={cta.href} data-track="sticky_cta">
+        {cta.label}
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  )
+}
+
+<style>
+  .sticky-cta {
+    display: none;
+  }
+
+  @media (max-width: 48rem) {
+    .sticky-cta {
+      display: block;
+      position: fixed;
+      left: 0.75rem;
+      right: 0.75rem;
+      bottom: calc(0.75rem + env(safe-area-inset-bottom));
+      z-index: 55;
+      transform: translateY(150%);
+      transition: transform 0.35s var(--ease-out);
+    }
+
+    .sticky-cta.is-visible {
+      transform: none;
+    }
+
+    .sticky-cta .btn {
+      width: 100%;
+      justify-content: center;
+      box-shadow: 0 18px 40px -16px rgb(22 22 27 / 0.55);
+    }
+  }
+</style>
+
+<script>
+  // Show after the visitor scrolls past the first screen.
+  const bar = document.querySelector<HTMLElement>('[data-sticky-cta]');
+  if (bar) {
+    const onScroll = () => bar.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.6);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>

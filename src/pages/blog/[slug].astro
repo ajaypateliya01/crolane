@@ -1,0 +1,197 @@
+---
+export const prerender = true;
+
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Founder from '../../components/Founder.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { getPosts, CATEGORY_LABELS, fmtDate, readMins } from '../../lib/blog';
+import { SITE } from '../../config/site';
+import site from '../../content/settings/site.json';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const url = `${SITE.url}/blog/${post.id}/`;
+
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.date.toISOString(),
+    dateModified: post.data.date.toISOString(),
+    mainEntityOfPage: url,
+    image: post.data.cover ? `${SITE.url}${post.data.cover}` : `${SITE.url}/images/og-default.png`,
+    author: { '@type': 'Person', name: site.founder.name, url: site.founder.linkedin },
+    publisher: { '@id': `${SITE.url}/#organization` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE.url}/blog/` },
+      { '@type': 'ListItem', position: 3, name: post.data.title, item: url },
+    ],
+  },
+];
+---
+
+<Base
+  title={`${post.data.title} | CROLANE`}
+  description={post.data.description}
+  canonicalPath={`/blog/${post.id}/`}
+  ogType="article"
+  ogImage={post.data.cover || undefined}
+  jsonLd={ld}
+>
+  <article class="post">
+    <header class="post-head container-x">
+      <nav class="crumb" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a></nav>
+      <p class="post-meta">
+        {CATEGORY_LABELS[post.data.category] ?? post.data.category} · {fmtDate(post.data.date)} · {readMins(post.body)} min read
+      </p>
+      <h1 class="display-lg">{post.data.title}</h1>
+      {post.data.description && <p class="lede">{post.data.description}</p>}
+      <p class="post-by">By <a href={site.founder.linkedin} target="_blank" rel="noopener">{site.founder.name}</a></p>
+    </header>
+    {post.data.cover && <img class="post-cover container-x" src={post.data.cover} alt="" width="1200" height="630" />}
+    <div class="post-body container-x">
+      <Content />
+    </div>
+  </article>
+  <Founder />
+  <CtaBand
+    eyebrow="Want this built for you?"
+    title="Send your URL. Get a clear quote within 24 hours."
+    copy="AI agents, automations, voice receptionists or conversion fixes: a fixed price and timeline, no sales call needed."
+    primaryLabel="Get a quote"
+    primaryHref="/contact/"
+  />
+</Base>
+
+<style>
+  .post-head {
+    padding-top: clamp(7rem, 14vh, 9rem);
+    padding-bottom: 2rem;
+    max-width: 48rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .crumb {
+    font-size: 0.8rem;
+    color: var(--color-ink-3);
+  }
+
+  .post-meta {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  .post-by a {
+    color: var(--color-indigo);
+  }
+
+  .post-cover {
+    display: block;
+    max-width: 56rem;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+  }
+
+  .post-body {
+    max-width: 44rem;
+    padding-bottom: 4rem;
+    font-size: 1.06rem;
+    line-height: 1.75;
+    color: var(--color-ink-2);
+  }
+
+  .post-body :global(h2) {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1.15;
+    color: var(--color-ink);
+    margin: 2.4rem 0 0.8rem;
+  }
+
+  .post-body :global(h3) {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin: 1.8rem 0 0.6rem;
+  }
+
+  .post-body :global(p),
+  .post-body :global(ul),
+  .post-body :global(ol) {
+    margin-bottom: 1.1rem;
+  }
+
+  .post-body :global(ul),
+  .post-body :global(ol) {
+    padding-left: 1.3rem;
+  }
+
+  .post-body :global(li) {
+    margin-bottom: 0.4rem;
+  }
+
+  .post-body :global(a) {
+    color: var(--color-indigo);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .post-body :global(strong) {
+    color: var(--color-ink);
+  }
+
+  .post-body :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    background: var(--color-paper-3);
+    padding: 0.1rem 0.35rem;
+    border-radius: 6px;
+  }
+
+  .post-body :global(pre) {
+    background: var(--color-dark);
+    color: #e9e9f0;
+    padding: 1.1rem;
+    border-radius: 14px;
+    overflow-x: auto;
+    margin-bottom: 1.2rem;
+  }
+
+  .post-body :global(pre code) {
+    background: none;
+    padding: 0;
+  }
+
+  .post-body :global(blockquote) {
+    border-left: 3px solid var(--color-indigo);
+    padding-left: 1rem;
+    color: var(--color-ink);
+  }
+
+  .post-body :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+</style>

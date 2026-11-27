@@ -1,13 +1,13 @@
 ---
-const chips = [
-  'CRO audits',
-  'A/B testing',
-  'GA4 & GTM',
-  'Behaviour analytics',
-  'AI automation',
-  'Voice agents',
-  'Shopify audits',
-];
+import home from '../content/settings/home.json';
+import site from '../content/settings/site.json';
+
+// Split the headline around the highlighted word so it can be styled.
+const hi = home.highlight?.trim();
+const idx = hi ? home.headline.indexOf(hi) : -1;
+const before = idx >= 0 ? home.headline.slice(0, idx) : home.headline;
+const after = idx >= 0 ? home.headline.slice(idx + hi.length) : '';
+const proof = site.proofPoints.slice(0, 3);
 
 const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
 ---
@@ -22,34 +22,30 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
 
   <div class="container-x hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow" data-reveal="fade">CRO · Experimentation · Measurement · Practical AI</p>
+      <p class="eyebrow" data-reveal="fade">{home.eyebrow}</p>
       <h1 class="display-xl" id="hero-title" data-reveal data-reveal-delay="0.06">
-        Turn more visitors into <span class="display-italic grad-word">customers</span>, with proof
-        at every step.
+        {before}{idx >= 0 && <span class="display-italic grad-word">{hi}</span>}{after}
       </h1>
-      <p class="lede" data-reveal data-reveal-delay="0.14">
-        We find where your customer journey leaks revenue, measure what people really do, test the
-        fixes that matter, and automate the repetitive work around it all.
-      </p>
+      <p class="lede" data-reveal data-reveal-delay="0.14">{home.lede}</p>
       <div class="hero-actions" data-reveal data-reveal-delay="0.22">
-        <a class="btn btn-primary" href="/contact/">
-          Start a conversation
+        <a class="btn btn-primary" href={home.primaryHref} data-track="hero_primary">
+          {home.primaryLabel}
           <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
             <path d="M1 6h11.5M8.5 1.5 13 6l-4.5 4.5" stroke="currentColor" stroke-width="1.6"
               stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
         </a>
-        <a class="btn btn-ghost" href="/services/">Explore services</a>
+        <a class="btn btn-ghost" href={home.secondaryHref} data-track="hero_secondary">{home.secondaryLabel}</a>
       </div>
-      <ul class="hero-chips" data-reveal data-reveal-delay="0.3" aria-label="Services at a glance">
-        {
-          chips.map((c) => (
-            <li>
-              <span class="chip">{c}</span>
-            </li>
-          ))
-        }
+      <ul class="hero-proof" data-reveal data-reveal-delay="0.28">
+        {proof.map((p) => (
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5 6.5 11.5 12.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {p}
+          </li>
+        ))}
       </ul>
+      
     </div>
 
     <div class="dash-wrap" data-reveal="scale" data-reveal-delay="0.18">
@@ -57,8 +53,7 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
         <div class="dash-top">
           <span class="dash-dots" aria-hidden="true"><i></i><i></i><i></i></span>
           <span class="dash-title">Store performance</span>
-          <span class="live-badge"><span class="live-dot"></span>Live</span>
-          <span class="demo-tag">Illustrative demo</span>
+                    <span class="demo-tag">Illustrative demo</span>
         </div>
 
         <div class="kpis">
@@ -240,8 +235,8 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
   }
 
   .hero-copy .display-xl {
-    max-width: 14ch;
-    font-size: clamp(2.5rem, 4.6vw, 3.9rem);
+    max-width: 17ch;
+    font-size: clamp(2.3rem, 4.4vw, 3.7rem);
   }
 
   .grad-word {
@@ -262,6 +257,32 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
     display: flex;
     flex-wrap: wrap;
     gap: 0.85rem;
+  }
+
+  .hero-proof {
+    list-style: none;
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
+    font-size: 0.92rem;
+    color: var(--color-ink-2);
+  }
+
+  .hero-proof li {
+    display: flex;
+    gap: 0.55rem;
+    align-items: flex-start;
+    line-height: 1.45;
+  }
+
+  .hero-proof svg {
+    flex: none;
+    margin-top: 0.18rem;
+    color: var(--color-emerald);
+  }
+
+  @media (max-width: 60rem) {
+    .dash-wrap { display: none; }
   }
 
   .hero-chips {

@@ -2,6 +2,9 @@
 import Logo from './Logo.astro';
 import { SERVICES } from '../config/services';
 import { SITE } from '../config/site';
+import site from '../content/settings/site.json';
+
+const offer = site.offerBar;
 
 const path = Astro.url.pathname;
 const isActive = (href: string) =>
@@ -12,6 +15,13 @@ const isActiveService = path.startsWith('/services/');
 
 <>
 <header class="site-header" data-header>
+  {offer.enabled && (
+    <a class="offer-bar" href={offer.href} data-track="offer_bar_click">
+      <span class="offer-dot" aria-hidden="true"></span>
+      <span class="offer-text">{offer.text}</span>
+      <span class="offer-link">{offer.linkLabel} →</span>
+    </a>
+  )}
   <div class="container-x header-row">
     <a class="brand" href="/" aria-label="CROLANE home">
       <Logo />
@@ -82,6 +92,16 @@ const isActiveService = path.startsWith('/services/');
           </div>
         </li>
         <li>
+          <a class="nav-link" href="/bfcm/" data-active={isActive('/bfcm/') ? 'true' : undefined}
+            >Pricing</a
+          >
+        </li>
+        <li>
+          <a class="nav-link" href="/blog/" data-active={isActive('/blog/') ? 'true' : undefined}
+            >Blog</a
+          >
+        </li>
+        <li>
           <a class="nav-link" href="/about/" data-active={isActive('/about/') ? 'true' : undefined}
             >About</a
           >
@@ -97,7 +117,7 @@ const isActiveService = path.startsWith('/services/');
     </nav>
 
     <div class="header-actions">
-      <a class="btn btn-primary btn-sm header-cta" href="/contact/">Start a project</a>
+      <a class="btn btn-primary btn-sm header-cta" href="/bfcm/" data-track="header_cta">See packages</a>
       <button
         class="menu-toggle"
         type="button"
@@ -125,6 +145,8 @@ const isActiveService = path.startsWith('/services/');
             >Services</a
           >
         </li>
+        <li><a href="/bfcm/" data-active={isActive('/bfcm/') ? 'true' : undefined}>Pricing · BFCM</a></li>
+        <li><a href="/blog/" data-active={isActive('/blog/') ? 'true' : undefined}>Blog</a></li>
         <li><a href="/about/" data-active={isActive('/about/') ? 'true' : undefined}>About</a></li>
         <li>
           <a href="/contact/" data-active={isActive('/contact/') ? 'true' : undefined}>Contact</a>
@@ -143,7 +165,7 @@ const isActiveService = path.startsWith('/services/');
         }
       </ul>
       <div class="mobile-foot">
-        <a class="btn btn-primary" href="/contact/">Start a project</a>
+        <a class="btn btn-primary" href="/bfcm/" data-track="header_cta">See BFCM packages</a>
         <a class="mobile-email" href={`mailto:${SITE.email}`}>{SITE.email}</a>
       </div>
     </nav>
@@ -151,6 +173,44 @@ const isActiveService = path.startsWith('/services/');
 </>
 
 <style>
+  .offer-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 2.25rem;
+    padding: 0.4rem 1rem;
+    background: var(--color-ink);
+    color: #fff;
+    font-size: 0.8rem;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .offer-bar:hover .offer-link {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .offer-dot {
+    width: 7px;
+    height: 7px;
+    flex: none;
+    border-radius: 50%;
+    background: #ffb547;
+    box-shadow: 0 0 0 4px rgb(255 181 71 / 0.2);
+  }
+
+  .offer-link {
+    font-weight: 600;
+    color: #ffcf85;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 40rem) {
+    .offer-bar { font-size: 0.72rem; justify-content: flex-start; text-align: left; }
+  }
+
   .site-header {
     position: fixed;
     top: 0;

@@ -57,7 +57,7 @@ function validate(body: Record<string, unknown>, mode: 'json' | 'form' = 'json')
   if (name.length < 2) errors.name = 'Please enter your full name.';
 
   const email = clean(body.email, 200).trim();
-  if (!EMAIL_RE.test(email)) errors.email = 'Please enter a valid business email.';
+  if (!EMAIL_RE.test(email)) errors.email = 'Please enter a valid email address.';
 
   const company = clean(body.company, 140).trim();
   const website = clean(body.website, 300).trim();

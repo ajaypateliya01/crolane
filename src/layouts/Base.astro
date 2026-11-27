@@ -8,9 +8,14 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE } from '../config/site';
 import { SERVICES } from '../config/services';
+import StickyCta from '../components/StickyCta.astro';
+import siteSettings from '../content/settings/site.json';
 
 const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION as string | undefined;
 const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION as string | undefined;
+// GTM container. Env var wins; fallback keeps tracking on even if Hostinger env is not set.
+const gtmId = (import.meta.env.PUBLIC_GTM_ID as string | undefined)?.trim() || 'GTM-NF276TGW';
+const hasOffer = siteSettings.offerBar.enabled;
 
 interface Props {
   title: string;
@@ -21,6 +26,8 @@ interface Props {
   ogType?: string;
   /** Extra JSON-LD blocks for this page. */
   jsonLd?: Record<string, unknown>[];
+  /** Extra class on <body>, e.g. 'dark-top' for pages with a dark hero. */
+  bodyClass?: string;
 }
 
 const {
@@ -30,6 +37,7 @@ const {
   ogImage = '/images/og-default.png',
   ogType = 'website',
   jsonLd = [],
+  bodyClass,
 } = Astro.props;
 
 const canonicalURL = new URL(canonicalPath, SITE.url);
@@ -46,6 +54,14 @@ const organizationLd = {
   description: SITE.description,
   logo: `${SITE.url}/images/og-default.png`,
   knowsAbout: SERVICES.map((service) => service.title),
+  founder: {
+    '@type': 'Person',
+    name: siteSettings.founder.name,
+    jobTitle: siteSettings.founder.role,
+    sameAs: [siteSettings.founder.linkedin],
+  },
+  sameAs: [siteSettings.founder.linkedin],
+  areaServed: ['US', 'GB', 'AU', 'CA', 'IN'],
 };
 
 const websiteLd = {
@@ -66,6 +82,13 @@ const ldBlocks = [organizationLd, websiteLd, ...jsonLd];
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    {
+      gtmId && (
+        <script is:inline define:vars={{ gtmId }}>
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',gtmId);
+        </script>
+      )
+    }
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -79,10 +102,8 @@ const ldBlocks = [organizationLd, websiteLd, ...jsonLd];
     <meta name="theme-color" content="#fbfaf7" />
     <meta name="generator" content={Astro.generator} />
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <!-- Open Graph -->
-    <meta property="og:locale" content="en_IN" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
@@ -111,7 +132,14 @@ const ldBlocks = [organizationLd, websiteLd, ...jsonLd];
       }
     </script>
   </head>
-  <body>
+  <body class:list={[{ 'has-offer': hasOffer }, bodyClass]}>
+    {
+      gtmId && (
+        <noscript>
+          <iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden" />
+        </noscript>
+      )
+    }
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"></div>
     <div class="ambient" aria-hidden="true"><span class="amb-a"></span><span class="amb-b"></span></div>
@@ -121,6 +149,7 @@ const ldBlocks = [organizationLd, websiteLd, ...jsonLd];
       <slot />
     </main>
     <Footer />
+    <StickyCta />
     <script>
       import '../scripts/app';
     </script>

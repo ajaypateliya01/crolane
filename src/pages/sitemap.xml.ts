@@ -1,12 +1,15 @@
 import type { APIRoute } from 'astro';
 import { SITE } from '../config/site';
 import { SERVICES } from '../config/services';
+import { getPosts } from '../lib/blog';
 
 export const prerender = true;
 
 const STATIC_ROUTES: Array<{ path: string; priority: string; changefreq: string }> = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
+  { path: '/bfcm/', priority: '0.9', changefreq: 'daily' },
   { path: '/services/', priority: '0.9', changefreq: 'weekly' },
+  { path: '/blog/', priority: '0.8', changefreq: 'daily' },
   { path: '/about/', priority: '0.6', changefreq: 'monthly' },
   { path: '/contact/', priority: '0.6', changefreq: 'monthly' },
   { path: '/privacy/', priority: '0.3', changefreq: 'yearly' },
@@ -14,15 +17,22 @@ const STATIC_ROUTES: Array<{ path: string; priority: string; changefreq: string 
 ];
 const lastmod = new Date().toISOString().slice(0, 10);
 
-export const GET: APIRoute = () => {
-  const routes = [
+export const GET: APIRoute = async () => {
+  const posts = await getPosts();
+  const routes: Array<{ path: string; priority: string; changefreq: string; lastmod?: string }> = [
     ...STATIC_ROUTES,
     ...SERVICES.map((s) => ({ path: s.path, priority: '0.8', changefreq: 'monthly' })),
+    ...posts.map((p) => ({
+      path: `/blog/${p.id}/`,
+      priority: '0.7',
+      changefreq: 'monthly',
+      lastmod: p.data.date.toISOString().slice(0, 10),
+    })),
   ];
   const urls = routes.map(
     (route) => `  <url>
     <loc>${SITE.url}${route.path}</loc>
-    <lastmod>${lastmod}</lastmod>
+    <lastmod>${route.lastmod ?? lastmod}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
   </url>`

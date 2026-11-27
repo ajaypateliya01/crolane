@@ -55,7 +55,7 @@ import { SITE } from '../config/site';
         <p class="field-error" id="cf-name-err" data-err-for="name"></p>
       </div>
       <div class="field">
-        <label for="cf-email">Business email <span class="req" aria-hidden="true">*</span></label>
+        <label for="cf-email">Email <span class="req" aria-hidden="true">*</span></label>
         <input
           id="cf-email"
           name="email"
@@ -96,9 +96,9 @@ import { SITE } from '../config/site';
     </div>
 
     <div class="field">
-      <label for="cf-service">Service interest <span class="req" aria-hidden="true">*</span></label>
+      <label for="cf-service">What do you need? <span class="req" aria-hidden="true">*</span></label>
       <select id="cf-service" name="service" required aria-describedby="cf-service-err">
-        <option value="" disabled selected>Choose a service</option>
+        <option value="" disabled selected>Choose a package or service</option>
         {
           SERVICE_OPTIONS.map((o) => <option value={o.value}>{o.label}</option>)
         }
@@ -107,7 +107,7 @@ import { SITE } from '../config/site';
     </div>
 
     <div class="field">
-      <label for="cf-details">Project details <span class="req" aria-hidden="true">*</span></label>
+      <label for="cf-details">Your store URL + anything I should know <span class="req" aria-hidden="true">*</span></label>
       <textarea
         id="cf-details"
         name="details"
@@ -115,7 +115,7 @@ import { SITE } from '../config/site';
         minlength="10"
         maxlength="4000"
         aria-describedby="cf-details-err cf-details-hint"
-        placeholder="What is the business problem? What have you tried? What would a good outcome look like?"
+        placeholder="e.g. mystore.com. Mobile conversion dropped after our theme update and we run Meta ads for Black Friday."
       ></textarea>
       <p class="cf-hint" id="cf-details-hint">A few sentences are plenty to start.</p>
       <p class="field-error" id="cf-details-err" data-err-for="details"></p>

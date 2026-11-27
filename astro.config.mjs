@@ -1,6 +1,9 @@
 import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
 import tailwindcss from '@tailwindcss/vite';
+import react from '@astrojs/react';
+import markdoc from '@astrojs/markdoc';
+import keystatic from '@keystatic/astro';
 
 // CROLANE site configuration.
 // `site` is used for canonical URLs, the sitemap and social metadata.
@@ -10,6 +13,7 @@ const site = process.env.SITE_URL?.trim() || 'https://crolane.in';
 export default defineConfig({
   site,
   output: 'server',
+  integrations: [react(), markdoc(), keystatic()],
   adapter: node({ mode: 'standalone' }),
   security: {
     // Astro validates the Host / X-Forwarded-Host header against this list.

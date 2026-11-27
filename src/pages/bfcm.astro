@@ -1,0 +1,450 @@
+---
+export const prerender = true;
+
+import Base from '../layouts/Base.astro';
+import PricingCards from '../components/PricingCards.astro';
+import Founder from '../components/Founder.astro';
+import Reviews from '../components/Reviews.astro';
+import FaqList from '../components/FaqList.astro';
+import CtaBand from '../components/CtaBand.astro';
+import bfcm from '../content/settings/bfcm.json';
+import { SITE } from '../config/site';
+
+const title = 'Black Friday & Cyber Monday Shopify CRO Sprints from $599 | CROLANE';
+const description =
+  'Fixed-price Shopify conversion sprints for BFCM: audit plus done-for-you fixes on product page, cart and mobile, live before Cyber Monday. From $599.';
+
+const leaks = [
+  { t: 'Add to cart buried', d: 'On mobile the button sits below two screens of images and text.' },
+  { t: 'Offer not visible', d: 'The BFCM discount is on the homepage banner but missing on the product page.' },
+  { t: 'Surprise costs', d: 'Shipping and delivery dates appear only at checkout, so carts get abandoned.' },
+  { t: 'Broken tracking', d: 'Purchase events fire twice or not at all, so you cannot tell what worked.' },
+];
+
+const steps = [
+  { n: '01', t: 'Claim a package', d: 'Pick a package and send your store URL. You get a reply and invoice, usually within a couple of hours.' },
+  { n: '02', t: 'Share collaborator access', d: 'No passwords. Work happens on a duplicate theme, never your live one.' },
+  { n: '03', t: 'Approve and go live', d: 'You preview every fix, then it is published. Done in 24 to 48 hours.' },
+];
+
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Shopify Black Friday Cyber Monday conversion sprint',
+    provider: { '@id': `${SITE.url}/#organization` },
+    areaServed: ['US', 'GB', 'AU', 'CA'],
+    offers: bfcm.packages.map((p) => ({
+      '@type': 'Offer',
+      name: p.name,
+      price: p.price,
+      priceCurrency: 'USD',
+      description: p.summary,
+      url: `${SITE.url}/bfcm/#packages`,
+      availability: 'https://schema.org/LimitedAvailability',
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: bfcm.faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+---
+
+<Base title={title} description={description} canonicalPath="/bfcm/" jsonLd={ld} bodyClass="dark-top">
+  <section class="bf-hero" aria-labelledby="bf-title">
+    <div class="bf-glow" aria-hidden="true"></div>
+    <div class="container-x bf-hero-inner">
+      <p class="eyebrow" data-reveal="fade">{bfcm.eyebrow}</p>
+      <h1 class="display-xl" id="bf-title" data-reveal>{bfcm.headline}</h1>
+      <p class="lede" data-reveal data-reveal-delay="0.06">{bfcm.lede}</p>
+
+      <div class="bf-urgency" data-reveal data-reveal-delay="0.12">
+        <div class="bf-count" data-countdown={bfcm.deadline} aria-live="polite">
+          <span><b data-cd="d">00</b>days</span>
+          <span><b data-cd="h">00</b>hrs</span>
+          <span><b data-cd="m">00</b>min</span>
+          <span><b data-cd="s">00</b>sec</span>
+        </div>
+        <p class="bf-deadline">
+          {bfcm.deadlineLabel} <strong>{bfcm.slots} store slots this weekend.</strong>
+        </p>
+      </div>
+
+      <div class="bf-actions" data-reveal data-reveal-delay="0.18">
+        <a class="btn btn-primary" href="#packages" data-track="bfcm_hero_cta">See the 3 packages</a>
+        <a class="btn btn-ghost" href="/contact/?service=shopify-audits" data-track="bfcm_question">Ask a question first</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm bf-leaks tone-white" aria-labelledby="leaks-title">
+    <div class="container-x">
+      <p class="eyebrow" data-reveal="fade">What usually leaks in BFCM week</p>
+      <h2 class="display-md" id="leaks-title" data-reveal>
+        Paid traffic is at its most expensive. <span class="display-italic">Don't let it bounce.</span>
+      </h2>
+      <ul class="leak-grid" data-reveal-group>
+        {
+          leaks.map((l) => (
+            <li class="leak">
+              <h3>{l.t}</h3>
+              <p>{l.d}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section bf-packages" id="packages" aria-labelledby="packages-title">
+    <div class="container-x">
+      <div class="bf-head">
+        <p class="eyebrow" data-reveal="fade">Fixed price · no calls needed</p>
+        <h2 class="display-lg" id="packages-title" data-reveal>Pick your sprint.</h2>
+        <p class="lede" data-reveal>Every package is built on a duplicate theme and shipped only after your approval.</p>
+      </div>
+      <PricingCards />
+
+      <div class="bf-extras">
+        <div class="bf-addons" data-reveal>
+          <p class="label-mono">Add-ons</p>
+          <ul>
+            {
+              bfcm.addons.map((a) => (
+                <li>
+                  <span>{a.name}</span>
+                  <b>{a.price}</b>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="bf-guarantee" data-reveal data-reveal-delay="0.06">
+          <p class="label-mono">The honest guarantee</p>
+          <p>{bfcm.guarantee}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm bf-steps tone-white" aria-labelledby="steps-title">
+    <div class="container-x">
+      <p class="eyebrow" data-reveal="fade">How it works</p>
+      <h2 class="display-md" id="steps-title" data-reveal>Three steps, no meetings.</h2>
+      <ol class="step-grid" data-reveal-group>
+        {
+          steps.map((s) => (
+            <li class="step">
+              <span>{s.n}</span>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <Founder />
+  <Reviews />
+
+  <section class="section faq-wrap" aria-labelledby="bf-faq-title">
+    <div class="container-x bf-faq">
+      <div>
+        <p class="eyebrow" data-reveal="fade">FAQs</p>
+        <h2 class="display-md" id="bf-faq-title" data-reveal>Before you claim a slot.</h2>
+      </div>
+      <FaqList items={bfcm.faqs} idPrefix="bfcm-faq" />
+    </div>
+  </section>
+
+  <CtaBand
+    eyebrow="Slots are limited"
+    title="Get the fixes live before Cyber Monday."
+    copy="Claim a package and send your store URL. You will get a reply with the next steps and an invoice, usually within a couple of hours."
+    primaryLabel="Claim the Cyber Monday Sprint"
+    primaryHref="/contact/?package=sprint"
+  />
+</Base>
+
+<script>
+  // Countdown to the offer deadline. Hides itself once the deadline passes.
+  const el = document.querySelector<HTMLElement>('[data-countdown]');
+  if (el) {
+    const end = new Date(el.dataset.countdown || '').getTime();
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const set = (k: string, v: number) => {
+      const b = el.querySelector(`[data-cd="${k}"]`);
+      if (b) b.textContent = pad(v);
+    };
+    const tick = () => {
+      const left = end - Date.now();
+      if (!end || left <= 0) {
+        el.style.display = 'none';
+        return;
+      }
+      set('d', Math.floor(left / 864e5));
+      set('h', Math.floor((left / 36e5) % 24));
+      set('m', Math.floor((left / 6e4) % 60));
+      set('s', Math.floor((left / 1e3) % 60));
+      setTimeout(tick, 1000);
+    };
+    tick();
+  }
+</script>
+
+<style>
+  .bf-hero {
+    position: relative;
+    overflow: clip;
+    padding: clamp(7rem, 14vh, 9rem) 0 clamp(3rem, 6vh, 4.5rem);
+    background: var(--color-dark);
+    color: #fff;
+  }
+
+  .bf-glow {
+    position: absolute;
+    inset: -20% -10% auto auto;
+    width: 60rem;
+    height: 40rem;
+    background:
+      radial-gradient(circle at 30% 40%, rgb(62 78 245 / 0.45), transparent 60%),
+      radial-gradient(circle at 70% 60%, rgb(199 116 21 / 0.35), transparent 60%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+
+  .bf-hero-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+    max-width: 52rem;
+  }
+
+  .bf-hero .eyebrow {
+    color: #ffcf85;
+  }
+
+  .bf-hero .display-xl {
+    font-size: clamp(2.5rem, 5.4vw, 4.6rem);
+    color: #fff;
+  }
+
+  .bf-hero .lede {
+    color: rgb(255 255 255 / 0.78);
+    max-width: 40rem;
+  }
+
+  .bf-urgency {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    align-items: center;
+  }
+
+  .bf-count {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .bf-count span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 3.6rem;
+    padding: 0.55rem 0.4rem;
+    border-radius: 14px;
+    background: rgb(255 255 255 / 0.08);
+    border: 1px solid rgb(255 255 255 / 0.14);
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.6);
+  }
+
+  .bf-count b {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.8rem;
+    letter-spacing: 0;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bf-deadline {
+    font-size: 0.9rem;
+    color: rgb(255 255 255 / 0.75);
+    max-width: 26rem;
+    line-height: 1.5;
+  }
+
+  .bf-deadline strong {
+    color: #ffcf85;
+  }
+
+  .bf-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  .bf-hero .btn-primary {
+    background: #fff;
+    color: var(--color-ink);
+  }
+
+  .bf-hero .btn-ghost {
+    color: #fff;
+    border-color: rgb(255 255 255 / 0.3);
+  }
+
+  .leak-grid {
+    list-style: none;
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .leak {
+    padding: 1.3rem;
+    border-radius: 18px;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+    background: var(--color-paper);
+  }
+
+  .leak h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+
+  .leak p {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--color-ink-2);
+  }
+
+  .bf-packages {
+    background: var(--color-paper-3);
+    scroll-margin-top: 6rem;
+  }
+
+  .bf-head {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 3rem;
+  }
+
+  .bf-extras {
+    margin-top: 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .bf-addons,
+  .bf-guarantee {
+    padding: 1.5rem;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+  }
+
+  .bf-addons ul {
+    list-style: none;
+    margin-top: 0.8rem;
+    display: grid;
+    gap: 0.6rem;
+    font-size: 0.92rem;
+  }
+
+  .bf-addons li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .bf-guarantee p:last-child {
+    margin-top: 0.8rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-ink-2);
+  }
+
+  .step-grid {
+    list-style: none;
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .step {
+    padding: 1.5rem;
+    border-radius: 18px;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
+  }
+
+  .step span {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-indigo);
+  }
+
+  .step h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.5rem;
+    margin: 0.4rem 0;
+  }
+
+  .step p {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--color-ink-2);
+  }
+
+  .faq-wrap {
+    background: var(--color-paper);
+  }
+
+  .bf-faq {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  @media (max-width: 60rem) {
+    .leak-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .bf-extras,
+    .step-grid,
+    .bf-faq {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .leak-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .bf-count span {
+      min-width: 3.1rem;
+    }
+  }
+</style>
