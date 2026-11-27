@@ -541,3 +541,6 @@ main:focus{outline:none}
 html,body{overflow-x:clip}
 .iso-wrap{overflow:hidden}
 @media (max-width:360px){.logo{gap:8px;font-size:1rem}.nav-cta .btn{padding:0 12px;font-size:.84rem}.nav{gap:10px}}
+
+/* Offer bar sits inside the sticky header, so it stays visible on every page while scrolling */
+@media (max-width:600px){.offer{display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;font-size:.82rem;padding:8px 12px}.offer .offer-text{overflow:hidden;text-overflow:ellipsis;min-width:0}.offer a{flex:none}}
