@@ -47,7 +47,7 @@ export const SERVICES: Service[] = [
       'Plan and run experiments that compare two experiences, measure real behaviour and replace opinion with evidence.',
     metaTitle: 'Experimentation & A/B Testing Services for E-commerce | CROLANE',
     metaDescription:
-      'Experimentation services from a developer who builds A/B tests daily: single tests from $999 or a continuous testing program in VWO, Convert or Shoplift, with honest read-outs.',
+      'Experimentation services from a developer who builds A/B tests daily: $299 for a single test or $999/month for four, built in VWO, Convert or Shoplift with honest read-outs.',
     accent: 'var(--color-indigo)',
     accentSoft: '#f8e9e1',
     art: '/images/art-ab-testing.jpg',
@@ -111,7 +111,7 @@ export const SERVICES: Service[] = [
       'A voice agent that answers routine questions from approved information and captures enquiries, including outside working hours.',
     metaTitle: 'AI Voice Receptionist & Voice Agents for Businesses | CROLANE',
     metaDescription:
-      'An AI receptionist that answers calls 24/7, handles routine questions, captures leads and books appointments. Built on Vapi or Retell. Setup from $499.',
+      'An AI receptionist that answers calls 24/7, handles routine questions, captures leads and books appointments. Built on Vapi or Retell. $499 setup plus $99/month.',
     accent: 'var(--color-violet)',
     accentSoft: '#f6ece4',
     art: '/images/art-voice.jpg',
