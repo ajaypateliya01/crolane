@@ -18,6 +18,10 @@ const faqs = [
     a: 'Not unless you explicitly decide it should. Most builds keep a human checkpoint on anything customer facing or financially meaningful, and automate the reading, sorting and drafting around it.',
   },
   {
+    q: 'Which tools do you build with?',
+    a: 'Mostly n8n (self-hosted or cloud), plus Make or Zapier when that is what you already use, connected to OpenAI, Anthropic or Gemini models, Google Workspace, Slack, CRMs and webhooks. The tool is chosen for your stack, not the other way round.',
+  },
+  {
     q: 'Do we need a specific CRM or platform?',
     a: 'No single stack is assumed. Feasibility depends on the tools you use, the access they allow and the cost of connecting them. That check happens during scoping, before you pay for a build that cannot connect.',
   },
@@ -61,7 +65,7 @@ const pageLd = [
 <Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path} jsonLd={pageLd}>
   <ServiceLayout
     service={service}
-    lede="Practical, reviewable automation for the repetitive layer of your operations: classification, extraction, drafting and routing, with human checkpoints where decisions actually matter."
+    lede="Custom AI agent workflows, built in n8n and the tools you already use, that read, sort, draft and route the repetitive work, with human checkpoints where decisions actually matter."
     artAlt="White ceramic sorting tracks on a warm table with small spheres rolling through junctions"
     faqs={faqs}
     visualTone="tone-lavender"

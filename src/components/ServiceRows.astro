@@ -132,39 +132,20 @@ const LIVE: Record<string, string[]> = {
     gap: clamp(1rem, 2.2vw, 1.75rem);
   }
 
+  /* Compact grid: 1 column on phones, 2 on tablets, 4 on desktop (8 services = 2 rows). */
   .si-cell {
     grid-column: span 12;
   }
 
-  @media (min-width: 48rem) {
+  @media (min-width: 40rem) {
     .si-cell {
       grid-column: span 6;
-    }
-    .si-cell:nth-child(1) {
-      grid-column: span 7;
-    }
-    .si-cell:nth-child(2) {
-      grid-column: span 5;
-    }
-    .si-cell:nth-child(6) {
-      grid-column: span 5;
-    }
-    .si-cell:nth-child(7) {
-      grid-column: span 7;
     }
   }
 
   @media (min-width: 75rem) {
-    .si-cell:nth-child(3),
-    .si-cell:nth-child(4),
-    .si-cell:nth-child(5) {
-      grid-column: span 4;
-    }
-    .si-cell:nth-child(3) {
-      transform: translateY(1.75rem);
-    }
-    .si-cell:nth-child(5) {
-      transform: translateY(1.75rem);
+    .si-cell {
+      grid-column: span 3;
     }
   }
 
@@ -173,10 +154,10 @@ const LIVE: Record<string, string[]> = {
     display: flex;
     flex-direction: column;
     height: 100%;
-    border-radius: 24px;
-    background: rgb(255 255 255 / 0.85);
+    border-radius: 18px;
+    background: #fff;
     border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
-    box-shadow: 0 2px 6px rgb(22 22 27 / 0.05), 0 18px 38px -18px rgb(22 22 27 / 0.18);
+    box-shadow: var(--shadow-soft);
     overflow: hidden;
     text-decoration: none;
     color: inherit;
@@ -189,9 +170,7 @@ const LIVE: Record<string, string[]> = {
   .si-card:hover,
   .si-card:focus-visible {
     border-color: color-mix(in srgb, var(--accent) 45%, transparent);
-    box-shadow:
-      0 4px 10px rgb(22 22 27 / 0.06),
-      0 34px 60px -22px color-mix(in srgb, var(--accent) 55%, transparent);
+    box-shadow: var(--shadow-lift);
     animation-play-state: paused;
   }
 
@@ -207,7 +186,7 @@ const LIVE: Record<string, string[]> = {
   .si-media {
     position: relative;
     display: block;
-    aspect-ratio: 16 / 8.2;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
     background: var(--soft);
   }
@@ -266,7 +245,6 @@ const LIVE: Record<string, string[]> = {
     background: rgb(19 19 24 / 0.34);
     border: 1px solid rgb(255 255 255 / 0.18);
     border-radius: 10px;
-    backdrop-filter: blur(3px);
     opacity: 0.78;
   }
 
@@ -302,7 +280,6 @@ const LIVE: Record<string, string[]> = {
     outline: 1px solid rgb(22 22 27 / 0.08);
     border-radius: 999px;
     box-shadow: 0 14px 28px -16px rgb(22 22 27 / 0.45);
-    backdrop-filter: blur(10px) saturate(1.15);
     color: var(--color-ink);
     font-size: 0.67rem;
     font-weight: 650;
@@ -413,7 +390,7 @@ const LIVE: Record<string, string[]> = {
     display: flex;
     flex-direction: column;
     gap: 0.55rem;
-    padding: 1.35rem 1.5rem 1.5rem;
+    padding: 1.1rem 1.2rem 1.2rem;
     flex: 1;
   }
 
@@ -430,9 +407,13 @@ const LIVE: Record<string, string[]> = {
   }
 
   .si-desc {
-    font-size: 0.93rem;
-    line-height: 1.62;
+    font-size: 0.9rem;
+    line-height: 1.55;
     color: var(--color-ink-2);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .si-cta {
@@ -478,6 +459,12 @@ const LIVE: Record<string, string[]> = {
 
   .si-card:hover .si-glow {
     opacity: 1;
+  }
+
+  @media (max-width: 40rem) {
+    .si-media {
+      aspect-ratio: 16 / 6;
+    }
   }
 
   @media (max-width: 64rem) {

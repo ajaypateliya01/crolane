@@ -37,6 +37,10 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
         </a>
         <a class="btn btn-ghost" href={home.secondaryHref} data-track="hero_secondary">{home.secondaryLabel}</a>
       </div>
+      <a class="hero-founder" href="/about/" data-track="hero_founder">
+        {site.founder.photo && <img src={site.founder.photo} alt="" width="40" height="40" />}
+        <span><strong>Work directly with {site.founder.name.split(' ')[0]}</strong> · replies within a few hours</span>
+      </a>
       <ul class="hero-proof" data-reveal data-reveal-delay="0.28">
         {proof.map((p) => (
           <li>
@@ -86,8 +90,8 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
           <svg class="chart" viewBox="0 0 560 190" preserveAspectRatio="none" aria-hidden="true">
             <defs>
               <linearGradient id="dash-fill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#3e4ef5" stop-opacity="0.28"></stop>
-                <stop offset="1" stop-color="#3e4ef5" stop-opacity="0"></stop>
+                <stop offset="0" stop-color="#d4420c" stop-opacity="0.28"></stop>
+                <stop offset="1" stop-color="#d4420c" stop-opacity="0"></stop>
               </linearGradient>
             </defs>
             <g class="grid-lines" stroke="#16161b" stroke-opacity="0.06">
@@ -96,7 +100,7 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
               <line x1="0" y1="142" x2="560" y2="142"></line>
             </g>
             <path data-chart-area fill="url(#dash-fill)"></path>
-            <path data-chart-a fill="none" stroke="#3e4ef5" stroke-width="2.6" stroke-linecap="round"></path>
+            <path data-chart-a fill="none" stroke="#d4420c" stroke-width="2.6" stroke-linecap="round"></path>
             <path
               data-chart-b
               fill="none"
@@ -105,7 +109,7 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
               stroke-linecap="round"
               stroke-dasharray="1 7"
               stroke-linejoin="round"></path>
-            <circle data-chart-dot r="4.5" fill="#3e4ef5" stroke="#fff" stroke-width="2"></circle>
+            <circle data-chart-dot r="4.5" fill="#d4420c" stroke="#fff" stroke-width="2"></circle>
           </svg>
           <div class="chart-legend" aria-hidden="true">
             <span><i class="lg lg-a"></i>Variant A</span>
@@ -181,7 +185,7 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
     position: absolute;
     border-radius: 50%;
     filter: blur(70px);
-    opacity: 0.55;
+    opacity: 0;
   }
 
   .orb-indigo {
@@ -189,7 +193,7 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
     height: 34rem;
     right: -8rem;
     top: -6rem;
-    background: radial-gradient(circle, rgb(62 78 245 / 0.18), transparent 65%);
+    background: radial-gradient(circle, rgb(242 84 27 / 0.18), transparent 65%);
   }
 
   .orb-amber {
@@ -240,12 +244,7 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
   }
 
   .grad-word {
-    background: linear-gradient(100deg, var(--color-indigo), var(--color-violet, #7c4dff), var(--color-amber), var(--color-indigo));
-    background-size: 220% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: grad-pan 7s ease-in-out infinite alternate;
+    color: var(--color-signal);
   }
 
   @keyframes grad-pan {
@@ -257,6 +256,30 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
     display: flex;
     flex-wrap: wrap;
     gap: 0.85rem;
+  }
+
+  .hero-founder {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.35rem 0.9rem 0.35rem 0.35rem;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
+    border-radius: 999px;
+    background: #fff;
+    font-size: 0.88rem;
+    color: var(--color-ink-2);
+  }
+
+  .hero-founder img {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .hero-founder strong {
+    color: var(--color-ink);
+    font-weight: 600;
   }
 
   .hero-proof {
@@ -301,13 +324,11 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
   .dash {
     position: relative;
     border-radius: 26px;
-    background: rgb(255 255 255 / 0.88);
-    backdrop-filter: blur(14px);
+    background: #fff;
     border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
     box-shadow:
-      0 2px 6px rgb(22 22 27 / 0.05),
-      0 40px 80px -32px rgb(62 78 245 / 0.35),
-      0 24px 48px -24px rgb(22 22 27 / 0.22);
+      0 1px 2px rgb(11 11 15 / 0.06),
+      0 12px 24px -16px rgb(11 11 15 / 0.22);
     padding: 1.15rem 1.25rem 1.25rem;
     overflow: hidden;
   }
@@ -317,7 +338,7 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
     position: absolute;
     inset: 0 0 auto 0;
     height: 3px;
-    background: linear-gradient(90deg, var(--color-indigo), var(--color-violet, #7c4dff), var(--color-amber), var(--color-indigo));
+    background: linear-gradient(90deg, var(--color-indigo), var(--color-violet, #f2541b), var(--color-amber), var(--color-indigo));
     background-size: 200% 100%;
     animation: grad-pan 6s linear infinite alternate;
   }
@@ -648,7 +669,7 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
     text-transform: uppercase;
     color: var(--color-ink);
     background: rgb(255 255 255 / 0.82);
-    backdrop-filter: blur(10px);
+    
     border: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
     border-radius: 999px;
     padding: 0.45rem 0.8rem;
@@ -666,7 +687,7 @@ const bars = [42, 58, 47, 66, 54, 72, 61, 78, 69, 84, 76, 92];
     flex: none;
   }
 
-  .hc-indigo { background: var(--color-indigo); box-shadow: 0 0 0 3px rgb(62 78 245 / 0.18); }
+  .hc-indigo { background: var(--color-indigo); box-shadow: 0 0 0 3px rgb(242 84 27 / 0.18); }
   .hc-emerald { background: var(--color-emerald); box-shadow: 0 0 0 3px rgb(23 131 91 / 0.18); }
 
   @keyframes cap-pulse {

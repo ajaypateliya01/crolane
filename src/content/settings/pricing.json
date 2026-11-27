@@ -6,6 +6,7 @@
     { "id": "conversion-tracking", "from": "From $349", "note": "Events, pixels, heatmaps" },
     { "id": "ai-automation", "from": "From $499", "note": "Per workflow" },
     { "id": "ai-voice-agents", "from": "From $499 setup", "note": "+ monthly usage" },
+    { "id": "ai-agent-audit", "from": "From $499", "note": "Cost, reliability + security review" },
     { "id": "shopify-audits", "from": "From $599", "note": "PDP, cart, mobile" }
   ]
 }

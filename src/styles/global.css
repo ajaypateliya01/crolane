@@ -7,23 +7,24 @@
    ========================================================================== */
 
 @theme {
-  --color-paper: #fbfaf7;
-  --color-paper-2: #f4f1ea;
-  --color-paper-3: #eef1f7;
-  --color-paper-4: #efeff9;
-  --color-ink: #16161b;
-  --color-ink-2: #4b4b57;
-  --color-ink-3: #7a7a85;
+  --color-paper: #fafaf7;
+  --color-paper-2: #f3f2ee;
+  --color-paper-3: #f2f1ec;
+  --color-paper-4: #f5f3ee;
+  --color-ink: #0b0b0f;
+  --color-ink-2: #46454d;
+  --color-ink-3: #6e6d75;
   --color-line: #e4e1da;
-  --color-indigo: #3e4ef5;
-  --color-indigo-deep: #2c39c7;
+  --color-indigo: #d4420c; /* accent (text-safe signal orange) */
+  --color-signal: #f2541b; /* accent fill */
+  --color-indigo-deep: #b5370a;
   --color-amber: #c77415;
-  --color-azure: #2563d9;
+  --color-azure: #3b47f5;
   --color-coral: #d9552f;
   --color-emerald: #17835b;
-  --color-violet: #7c4dff;
+  --color-violet: #f2541b;
   --color-rose: #c8385f;
-  --color-dark: #131318;
+  --color-dark: #0e0e12;
 
   --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
   --font-sans: "Instrument Sans Variable", "Instrument Sans", ui-sans-serif,
@@ -31,9 +32,9 @@
   --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace,
     "SF Mono", Menlo, monospace;
 
-  --shadow-soft: 0 1px 2px rgb(22 22 27 / 0.04), 0 12px 32px -12px rgb(22 22 27 / 0.12);
-  --shadow-lift: 0 2px 4px rgb(22 22 27 / 0.05), 0 24px 56px -20px rgb(22 22 27 / 0.22);
-  --shadow-panel: 0 1px 0 rgb(255 255 255 / 0.7) inset, 0 18px 44px -18px rgb(22 22 27 / 0.2);
+  --shadow-soft: 0 1px 2px rgb(11 11 15 / 0.05);
+  --shadow-lift: 0 1px 2px rgb(11 11 15 / 0.06), 0 8px 18px -10px rgb(11 11 15 / 0.18);
+  --shadow-panel: 0 1px 2px rgb(11 11 15 / 0.06);
 }
 
 /* --------------------------------------------------------------------------
@@ -297,12 +298,12 @@
   .btn-primary {
     background: var(--color-ink);
     color: #fff;
-    box-shadow: 0 10px 26px -12px rgb(22 22 27 / 0.55);
+    box-shadow: 0 1px 2px rgb(11 11 15 / 0.2);
   }
 
   .btn-primary:hover {
     background: var(--color-indigo);
-    box-shadow: 0 14px 30px -12px rgb(62 78 245 / 0.55);
+    box-shadow: 0 14px 30px -12px rgb(242 84 27 / 0.55);
   }
 
   .btn-ghost {
@@ -362,7 +363,6 @@
     border: 1px solid color-mix(in srgb, var(--color-ink) 9%, transparent);
     border-radius: 20px;
     box-shadow: var(--shadow-panel);
-    backdrop-filter: blur(6px);
   }
 
   .panel-solid {
@@ -1016,7 +1016,7 @@ html.js [data-reveal="scale"] {
   height: 520px;
   margin: -260px 0 0 -260px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(62 78 245 / 0.09), rgb(199 116 21 / 0.04) 45%, transparent 65%);
+  background: radial-gradient(circle, rgb(242 84 27 / 0.09), rgb(199 116 21 / 0.04) 45%, transparent 65%);
   z-index: 1;
   pointer-events: none;
   opacity: 0;
@@ -1118,4 +1118,14 @@ body.dark-top .site-header {
   .ab-section {
     display: none;
   }
+}
+
+/* ---- Premium theme layer: crisp surfaces, no soft blur ---- */
+.ambient,
+.cursor-glow {
+  display: none;
+}
+
+.grain::after {
+  opacity: 0.35;
 }
