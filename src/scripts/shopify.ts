@@ -78,7 +78,7 @@ function initShop(root: HTMLElement) {
 
   function renderBag() {
     root.querySelectorAll<HTMLElement>('[data-bag-variant]').forEach((el) => {
-      el.textContent = `${COLOUR_LABEL[colour]} · ${bundle === 'pair' ? '2-pack' : 'Single'} · Qty ${qty}`;
+      el.textContent = `${COLOUR_LABEL[colour]} / ${bundle === 'pair' ? '2-pack' : 'Single'} / Qty ${qty}`;
     });
     root.querySelectorAll<HTMLElement>('[data-bag-price], [data-bag-total], [data-co-price], [data-co-total]')
       .forEach((el) => {

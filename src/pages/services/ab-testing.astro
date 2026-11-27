@@ -10,6 +10,18 @@ import { SITE } from '../../config/site';
 const service = serviceBySlug('ab-testing')!;
 const faqs = [
   {
+    q: 'Do you run continuous experimentation programs?',
+    a: 'Yes. Besides single tests, CROLANE runs ongoing A/B test programs: a prioritised backlog of hypotheses, one or more tests live at a time, documented read-outs and a monthly summary of what was learned. Pace depends on your traffic, so the program is scoped after a first test or audit.',
+  },
+  {
+    q: 'What is the difference between an A/B testing agency and experimentation services?',
+    a: 'They are mostly the same thing. "Experimentation" usually means a repeatable program rather than one-off tests: research feeds hypotheses, tests are run to a plan, and results, wins and losses alike, inform what is tested next.',
+  },
+  {
+    q: 'Which A/B testing tools do you work with?',
+    a: 'VWO, Convert and Shoplift most often, and other client-side tools a client already pays for after a quick check. Variations are built in JavaScript and CSS and QA-tested across devices before launch.',
+  },
+  {
     q: 'How do you decide what to test first?',
     a: 'By how much the change could matter, how likely it is to change behaviour, and how cheap it is to ship. We write the hypothesis, the metric and the decision rule before anything is built.',
   },
@@ -61,7 +73,7 @@ const pageLd = [
 <Base title={service.metaTitle} description={service.metaDescription} canonicalPath={service.path} jsonLd={pageLd}>
   <ServiceLayout
     service={service}
-    lede="Plan and run experiments that compare two experiences, measure real behaviour and replace opinion with evidence. No rigged demos, no invented win rates, just a fair question and a readable answer."
+    lede="Experimentation services for e-commerce brands: single A/B tests or a continuous testing program, designed, built and read out by a developer who builds tests every week. No invented win rates, just a fair question and a readable answer."
     artAlt="Two frosted glass slabs side by side split by a thin seam of light, amber and indigo tones"
     faqs={faqs}
     visualTone="tone-cool"
@@ -164,31 +176,31 @@ const pageLd = [
           </header>
           <div class="hyp-cards">
             <article class="hyp-card" data-reveal>
-              <p class="hyp-tag">H1 · Hierarchy</p>
+              <p class="hyp-tag">H1 / Hierarchy</p>
               <p class="hyp-body">
                 Because visitors cannot find the primary action, <strong>promoting the main CTA
                 above supporting content</strong> will increase checkout starts, measured as
                 begin_checkout sessions per product view.
               </p>
-              <p class="hyp-meta">Primary metric: checkout start rate · Guardrail: bounce rate</p>
+              <p class="hyp-meta">Primary metric: checkout start rate / Guardrail: bounce rate</p>
             </article>
             <article class="hyp-card" data-reveal data-reveal-delay="0.07">
-              <p class="hyp-tag">H2 · Reassurance</p>
+              <p class="hyp-tag">H2 / Reassurance</p>
               <p class="hyp-body">
                 Because delivery cost appears too late, <strong>showing delivery timing and
                 returns policy before the add-to-cart action</strong> will reduce abandonment on
                 product pages, measured as add-to-cart rate.
               </p>
-              <p class="hyp-meta">Primary metric: add-to-cart rate · Guardrail: revenue per visitor</p>
+              <p class="hyp-meta">Primary metric: add-to-cart rate / Guardrail: revenue per visitor</p>
             </article>
             <article class="hyp-card" data-reveal data-reveal-delay="0.14">
-              <p class="hyp-tag">H3 · Forms</p>
+              <p class="hyp-tag">H3 / Forms</p>
               <p class="hyp-body">
                 Because the enquiry form asks for unnecessary detail, <strong>removing two
                 optional fields</strong> will increase completed submissions, measured as form
                 completions per form view.
               </p>
-              <p class="hyp-meta">Primary metric: form completion rate · Guardrail: qualified lead rate</p>
+              <p class="hyp-meta">Primary metric: form completion rate / Guardrail: qualified lead rate</p>
             </article>
           </div>
         </div>

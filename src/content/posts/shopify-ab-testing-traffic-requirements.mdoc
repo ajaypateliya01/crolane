@@ -1,0 +1,60 @@
+---
+title: How Much Traffic Do You Need to A/B Test a Shopify Store?
+description: >-
+  A plain answer to how much traffic and how many orders a Shopify A/B test
+  needs, with worked numbers, and what to do instead if your store is not
+  ready to test yet.
+date: 2026-11-27
+category: cro
+draft: false
+---
+"Should we A/B test this?" is one of the most common questions store owners ask. The honest answer depends less on your total traffic and more on how many orders a single test can see.
+
+## Orders matter more than visitors
+
+An A/B test compares the conversion rate of two versions. Conversion rate is orders divided by visitors, so the thing you are really counting is orders. Shopify's own partner blog puts it well: purchases are your sample size, and [sometimes 250 purchases per variation is enough, but more often you will need 500 or more](https://shopify.in/partners/blog/thinking-about-a-b-testing-for-your-client-read-this-first).
+
+## The numbers, worked out
+
+Here is the standard calculation for a test with a 95% confidence level and 80% power, the settings most testing tools use by default. "Lift" is the relative improvement you want to be able to detect.
+
+**Store converting at 1.5%** (close to the typical Shopify store):
+
+- To detect a 10% lift: about 108,000 visitors per variation, roughly 1,600 orders each
+- To detect a 20% lift: about 28,000 visitors per variation, roughly 425 orders each
+- To detect a 30% lift: about 13,000 visitors per variation, roughly 200 orders each
+
+**Store converting at 2.5%:**
+
+- 10% lift: about 64,000 visitors per variation
+- 20% lift: about 17,000 visitors per variation
+- 30% lift: about 7,800 visitors per variation
+
+Two things jump out. Small improvements need a lot of traffic. And a test with two variations needs double these numbers in total, because each version gets half your visitors.
+
+## A quick way to check your store
+
+1. Pick the page you want to test, for example product pages.
+2. Look up how many visitors that page type gets per week in GA4 or Shopify analytics.
+3. Divide the visitors-per-variation number above by half your weekly traffic. That is how many weeks the test needs.
+4. If the answer is more than six to eight weeks, that test is not practical on that page.
+
+Always run tests for full weeks, at least two, even if you hit the numbers sooner. Shoppers behave differently on a Monday than on a Saturday.
+
+## What to test when traffic is limited
+
+- **Test big changes, not small tweaks.** A new product page layout can move conversion by 20% or more. A button colour will not, and you will never be able to measure it.
+- **Test where traffic is highest.** Product page templates, cart and checkout see far more visitors than a single landing page.
+- **Test across a template.** Apply the change to every product page at once instead of one product, so the test pools all that traffic.
+- **Use a closer goal.** If purchases are too few, use add to cart or checkout start as the primary metric and purchases as a guardrail.
+- **Keep to two versions.** Every extra variation splits your traffic further.
+
+## When not to A/B test at all
+
+If your store gets a few thousand visitors a month, a properly sized test may take a year. That does not mean you should stop improving. It means you should fix the obvious problems directly: a buried add to cart button on mobile, missing delivery dates, a slow page, broken tracking. You do not need a test to know those are hurting you. Save testing for decisions where the right answer genuinely is not obvious.
+
+## Getting started
+
+If you have the traffic, start with the highest-traffic template and the biggest problem you can see. If you do not, start with fixes and good tracking, and test later.
+
+Either way, it helps to have someone who builds tests every week. CROLANE runs [single A/B tests and ongoing experimentation programs](/services/ab-testing/), and a [CRO audit](/services/cro-audit/) can tell you which of the two your store needs right now.

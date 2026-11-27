@@ -94,10 +94,10 @@ export function initHeroDash(root: HTMLElement) {
   }
 
   const toasts = [
-    'Purchase · $120 · just now',
-    'Add to cart · $48 · now',
-    'Checkout started · $214 · now',
-    'Purchase · $156 · just now',
+    'Purchase / $120 / just now',
+    'Add to cart / $48 / now',
+    'Checkout started / $214 / now',
+    'Purchase / $156 / just now',
   ];
   let toastIdx = 0;
 

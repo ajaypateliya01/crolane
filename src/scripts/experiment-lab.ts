@@ -28,7 +28,7 @@ const SCENARIOS: Record<string, Scenario> = {
     decision:
       'Consider shipping only if the variant improves add-to-bag rate without hurting checkout starts.',
     controlCta: 'Add to bag',
-    variantCta: 'Add to bag · $24',
+    variantCta: 'Add to bag / $24',
     controlNote: 'The action sits quietly lower on the page.',
     variantNote: 'Price joins the action, so the next step is obvious.',
     controlVisitors: 2400,
@@ -240,7 +240,7 @@ function initExperimentLab(root: HTMLElement) {
           ? 'Observed so far. It is not a conclusion yet.'
           : 'Observed across this fixed demo run.';
     } else {
-      els.difference.textContent = '—';
+      els.difference.textContent = '-';
       els.differenceText.textContent = 'The gap appears only after visitors arrive.';
     }
   }

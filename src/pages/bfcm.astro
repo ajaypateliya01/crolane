@@ -7,6 +7,7 @@ import Founder from '../components/Founder.astro';
 import Reviews from '../components/Reviews.astro';
 import FaqList from '../components/FaqList.astro';
 import CtaBand from '../components/CtaBand.astro';
+import MiniAudit from '../components/MiniAudit.astro';
 import bfcm from '../content/settings/bfcm.json';
 import { SITE } from '../config/site';
 
@@ -105,7 +106,7 @@ const ld = [
   <section class="section bf-packages" id="packages" aria-labelledby="packages-title">
     <div class="container-x">
       <div class="bf-head">
-        <p class="eyebrow" data-reveal="fade">Fixed price · no calls needed</p>
+        <p class="eyebrow" data-reveal="fade">Fixed price, no calls needed</p>
         <h2 class="display-lg" id="packages-title" data-reveal>Pick your sprint.</h2>
         <p class="lede" data-reveal>Every package is built on a duplicate theme and shipped only after your approval.</p>
       </div>
@@ -151,6 +152,7 @@ const ld = [
     </div>
   </section>
 
+  <MiniAudit title="Not sure which package? Start free." />
   <Founder />
   <Reviews />
 

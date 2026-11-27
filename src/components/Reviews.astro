@@ -23,7 +23,7 @@ const sourceLabel: Record<string, string> = {
         <div class="rv-grid" data-reveal-group>
           {reviews.map((r) => (
             <figure class="rv-card">
-              <blockquote>“{r.data.quote}”</blockquote>
+              <blockquote>"{r.data.quote}"</blockquote>
               <figcaption>
                 <strong>{r.data.name}</strong>
                 <span>{[r.data.role, r.data.company].filter(Boolean).join(', ')}</span>

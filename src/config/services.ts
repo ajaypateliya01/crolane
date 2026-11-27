@@ -41,13 +41,13 @@ export const SERVICES: Service[] = [
     num: '02',
     slug: 'ab-testing',
     path: '/services/ab-testing/',
-    title: 'A/B Testing and Experimentation',
+    title: 'A/B Testing and Experimentation Services',
     navTitle: 'A/B Testing & Experimentation',
     short:
       'Plan and run experiments that compare two experiences, measure real behaviour and replace opinion with evidence.',
-    metaTitle: 'A/B Testing Services for Shopify & E-commerce (VWO, Convert) | CROLANE',
+    metaTitle: 'Experimentation & A/B Testing Services for E-commerce | CROLANE',
     metaDescription:
-      'A/B tests designed, built and read out properly by a developer who builds them daily. VWO, Convert and Shoplift. Clear keep or drop calls. From $999 per test.',
+      'Experimentation services from a developer who builds A/B tests daily: single tests from $999 or a continuous testing program in VWO, Convert or Shoplift, with honest read-outs.',
     accent: 'var(--color-indigo)',
     accentSoft: '#f8e9e1',
     art: '/images/art-ab-testing.jpg',
@@ -155,6 +155,7 @@ export const serviceBySlug = (slug: string): Service | undefined =>
 
 /** Service selector options for the contact form (the approved service areas). */
 export const SERVICE_OPTIONS = [
+  { value: 'free-mini-audit', label: 'Free 3-leak video audit' },
   ...bfcm.packages.map((p) => ({
     value: `bfcm-${p.id}`,
     label: `BFCM: ${p.name} ($${p.price})`,

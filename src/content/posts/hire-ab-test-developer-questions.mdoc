@@ -1,0 +1,66 @@
+---
+title: Hiring an A/B Test Developer? 10 Questions to Ask First
+description: >-
+  Before you hand a VWO, Convert or Shoplift account to an A/B test developer,
+  ask these ten questions. They separate people who ship clean, trustworthy
+  tests from people who break your store.
+date: 2026-11-27
+category: cro
+draft: false
+---
+A/B test development looks simple from the outside. Someone writes a bit of JavaScript and CSS, pastes it into VWO or Convert, and the test goes live. In practice, a badly built test can flicker, break checkout on one browser, track the wrong goal, or quietly send all your traffic to one version. You will not know until the results make no sense.
+
+I build test variations for e-commerce brands every week. These are the questions I would ask anyone before giving them access to a live store.
+
+## 1. Which testing tools have you built tests in?
+
+VWO, Convert, Optimizely, AB Tasty, Shoplift and others all behave a little differently. Experience in your tool means fewer surprises. Ask for the tools, not just "all of them".
+
+## 2. How do you prevent flicker?
+
+Flicker is when visitors briefly see the original page before the variation loads. It biases results and looks broken. A good developer can explain how they handle it: tool anti-flicker settings, hiding only the changed area, and building changes that apply fast.
+
+## 3. How do you handle content that loads late?
+
+Product pages often load reviews, prices or cart drawers after the page appears. Ask how they make sure the variation still applies when an element appears later or re-renders. The answer should mention waiting for elements or observing changes, not just "setTimeout".
+
+## 4. What is your QA process?
+
+You want a clear list: which browsers and devices, logged in and logged out, different product types, the cart and checkout path, and checking that tracking goals fire. Ask to see an example QA checklist.
+
+## 5. How do you test without affecting real customers?
+
+Preview links, QA cookies or audience conditions that only show the variation to the team. Nothing should reach real visitors until QA passes.
+
+## 6. How do you check goals and tracking?
+
+The variation can look perfect and still report nonsense if the goals are wrong. A good developer checks that each goal fires once, on the right action, in both versions, and that GA4 receives the test data if you use it.
+
+## 7. Will the code touch checkout or payment?
+
+On Shopify, checkout is locked down, and anything near payment carries real risk. A careful developer will tell you plainly what they can change, what they cannot, and what they will not touch.
+
+## 8. How do you write and hand over the code?
+
+Readable, commented code that someone else can understand matters when a winning variation needs to be built permanently into the theme. Ask whether they hand over the source and a short note of what changed.
+
+## 9. How fast can you turn a design into a live test?
+
+For a typical product page change, a few days from approved design to QA'd test is reasonable. Weeks for every small test slows your whole program down.
+
+## 10. Can you work white-label with our agency?
+
+If you are an agency, you may want tests built under your name, inside your process and your project tool. Ask directly. Many good developers work this way.
+
+## Red flags
+
+- Promising a specific conversion lift before seeing your data
+- No QA process beyond "I checked it on my laptop"
+- Wanting full admin access when collaborator or tool access is enough
+- No answer on flicker
+
+## What good looks like
+
+Clean variations that load without flicker, a written QA record, goals that fire correctly, and code you could hand to your theme developer when a test wins.
+
+CROLANE builds [A/B tests and experimentation programs](/services/ab-testing/) in VWO, Convert and Shoplift for brands and agencies, including white-label test development. If you need a developer for your next test, [send the brief](/contact/?service=ab-testing).

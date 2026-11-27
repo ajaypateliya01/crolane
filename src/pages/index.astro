@@ -15,6 +15,7 @@ import Founder from '../components/Founder.astro';
 import Reviews from '../components/Reviews.astro';
 import Leaks from '../components/Leaks.astro';
 import Compare from '../components/Compare.astro';
+import MiniAudit from '../components/MiniAudit.astro';
 import bfcm from '../content/settings/bfcm.json';
 
 const title = 'Shopify CRO, A/B Testing, GA4 & AI Voice Agents | CROLANE';
@@ -93,6 +94,7 @@ const homeLd = [
   <Hero />
   <Ticker />
   <Leaks />
+  <MiniAudit dark />
   {
     bfcm.enabled && (
       <section class="section home-offer" aria-labelledby="home-offer-title">
@@ -106,7 +108,7 @@ const homeLd = [
           </div>
           <PricingCards compact />
           <p class="ho-more" data-reveal>
-            <a class="link-arrow" href="/bfcm/" data-track="home_offer_details">See everything included, FAQs and the guarantee →</a>
+            <a class="link-arrow" href="/bfcm/" data-track="home_offer_details">See everything included, FAQs and the guarantee</a>
           </p>
         </div>
       </section>

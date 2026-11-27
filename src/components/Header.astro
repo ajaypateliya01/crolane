@@ -3,6 +3,16 @@ import Logo from './Logo.astro';
 import { SERVICES } from '../config/services';
 import { SITE } from '../config/site';
 import site from '../content/settings/site.json';
+import pricing from '../content/settings/pricing.json';
+import bfcm from '../content/settings/bfcm.json';
+
+// Services menu: two groups, each item shows its starting price.
+const AI_IDS = ['ai-automation', 'ai-voice-agents', 'ai-agent-audit'];
+const priceOf = (id: string) => pricing.services.find((p) => p.id === id)?.from ?? '';
+const MENU_GROUPS = [
+  { label: 'CRO & analytics', items: SERVICES.filter((s) => !AI_IDS.includes(s.id)) },
+  { label: 'AI services', items: SERVICES.filter((s) => AI_IDS.includes(s.id)) },
+];
 
 const offer = site.offerBar;
 
@@ -19,7 +29,7 @@ const isActiveService = path.startsWith('/services/');
     <a class="offer-bar" href={offer.href} data-track="offer_bar_click">
       <span class="offer-dot" aria-hidden="true"></span>
       <span class="offer-text">{offer.text}</span>
-      <span class="offer-link">{offer.linkLabel} →</span>
+      <span class="offer-link">{offer.linkLabel}</span>
     </a>
   )}
   <div class="container-x header-row">
@@ -53,8 +63,16 @@ const isActiveService = path.startsWith('/services/');
               <div class="menu-intro">
                 <p class="label-mono">All services</p>
                 <p class="menu-intro-copy">
-                  Audits, experimentation, analytics and practical AI, shaped around how your customers actually buy.
+                  Fixed prices, developer-led, shipped live.
                 </p>
+                {bfcm.enabled && (
+                  <a class="menu-offer" href="/bfcm/" data-track="menu_offer">
+                    <span class="label-mono">BFCM sprints</span>
+                    <strong>From ${Math.min(...bfcm.packages.map((p) => p.price))}</strong>
+                    <span>Live before Cyber Monday</span>
+                  </a>
+                )}
+                <a class="menu-free" href="/#mini-audit" data-track="menu_free_audit">Free 3-leak video audit</a>
                 <a class="link-arrow" href="/services/">
                   View overview
                   <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
@@ -67,27 +85,28 @@ const isActiveService = path.startsWith('/services/');
                   </svg>
                 </a>
               </div>
-              <ul class="menu-grid">
+              <div class="menu-groups">
                 {
-                  SERVICES.map((s) => (
-                    <li>
-                      <a href={s.path} class="menu-item" data-active={isActive(s.path) ? 'true' : undefined}>
-                        <span class="menu-copy">
-                          <span class="menu-title">{s.navTitle}</span>
-                          <span class="menu-desc">{s.short}</span>
-                        </span>
-                      </a>
-                    </li>
+                  MENU_GROUPS.map((g) => (
+                    <div class="menu-group">
+                      <p class="label-mono menu-group-label">{g.label}</p>
+                      <ul class="menu-list">
+                        {g.items.map((s) => (
+                          <li>
+                            <a href={s.path} class="menu-item" data-active={isActive(s.path) ? 'true' : undefined}>
+                              <span class="menu-copy">
+                                <span class="menu-title">{s.navTitle}</span>
+                                <span class="menu-desc">{s.short}</span>
+                              </span>
+                              {priceOf(s.id) && <span class="menu-price">{priceOf(s.id)}</span>}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   ))
                 }
-                <li>
-                  <a href="/contact/" class="menu-item">
-                    <span class="menu-copy">
-                      <span class="menu-title">Not sure where to start?</span>
-                    </span>
-                  </a>
-                </li>
-              </ul>
+              </div>
             </div>
           </div>
         </li>
@@ -145,7 +164,7 @@ const isActiveService = path.startsWith('/services/');
             >Services</a
           >
         </li>
-        <li><a href="/bfcm/" data-active={isActive('/bfcm/') ? 'true' : undefined}>Pricing · BFCM</a></li>
+        <li><a href="/bfcm/" data-active={isActive('/bfcm/') ? 'true' : undefined}>Pricing / BFCM</a></li>
         <li><a href="/blog/" data-active={isActive('/blog/') ? 'true' : undefined}>Blog</a></li>
         <li><a href="/about/" data-active={isActive('/about/') ? 'true' : undefined}>About</a></li>
         <li>
@@ -233,11 +252,10 @@ const isActiveService = path.startsWith('/services/');
     transition: opacity 0.4s var(--ease-out);
   }
 
+  /* Solid bar on scroll so page content never shows through. */
   .site-header.scrolled,
   .site-header.menu-open {
-    background: color-mix(in srgb, var(--color-paper) 82%, transparent);
-    backdrop-filter: blur(14px) saturate(1.4);
-    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    background: var(--color-paper);
   }
 
   .site-header.scrolled::after,
@@ -331,11 +349,9 @@ const isActiveService = path.startsWith('/services/');
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-gutter: stable;
-    background: color-mix(in srgb, var(--color-paper) 94%, transparent);
-    backdrop-filter: blur(18px) saturate(1.3);
-    -webkit-backdrop-filter: blur(18px) saturate(1.3);
-    border: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
-    border-radius: 22px;
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
+    border-radius: 18px;
     box-shadow: var(--shadow-lift);
     opacity: 0;
     visibility: hidden;
@@ -388,14 +404,57 @@ const isActiveService = path.startsWith('/services/');
     color: var(--color-ink-2);
   }
 
-  .menu-grid {
+  .menu-groups {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: 1fr;
-    gap: 0.6rem;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+
+  .menu-group-label {
+    padding: 0 0.9rem 0.4rem;
+  }
+
+  .nav-desktop .menu-list {
     list-style: none;
+    display: grid;
     align-items: stretch;
-    padding: 0.1rem 0.6rem 0.5rem 0.1rem;
+    gap: 0.2rem;
+  }
+
+  .menu-price {
+    margin-left: auto;
+    flex: none;
+    align-self: flex-start;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--color-indigo);
+  }
+
+  .menu-offer {
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.9rem;
+    border-radius: 12px;
+    background: var(--color-ink);
+    color: #fff;
+    font-size: 0.82rem;
+  }
+
+  .menu-offer .label-mono {
+    color: #ffb48f;
+  }
+
+  .menu-offer strong {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.6rem;
+  }
+
+  .menu-free {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-indigo);
   }
 
 
@@ -415,8 +474,7 @@ const isActiveService = path.startsWith('/services/');
   .menu-item[data-active='true'] {
     background: #fff;
     border-color: color-mix(in srgb, var(--color-ink) 8%, transparent);
-    box-shadow: 0 8px 20px -12px rgb(22 22 27 / 0.25);
-    transform: translateX(3px);
+    box-shadow: var(--shadow-soft);
   }
 
   .menu-copy {
@@ -436,7 +494,7 @@ const isActiveService = path.startsWith('/services/');
     line-height: 1.45;
     color: var(--color-ink-3);
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -449,7 +507,7 @@ const isActiveService = path.startsWith('/services/');
     }
 
     .menu-desc {
-      -webkit-line-clamp: 2;
+      display: none;
     }
   }
 

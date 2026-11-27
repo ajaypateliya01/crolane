@@ -1,0 +1,61 @@
+---
+title: Shopify GA4 Purchase Event Firing Twice? How to Find and Fix It
+description: >-
+  GA4 showing more purchases or revenue than Shopify? Here are the five common
+  causes of duplicate purchase events on Shopify and a step-by-step way to find
+  and fix yours.
+date: 2026-11-27
+category: analytics
+draft: false
+---
+You open GA4, check last week's revenue, and it is higher than Shopify says. Or the number of purchases is higher than the number of orders. The cause is almost always the same: the purchase event is being sent more than once for the same order.
+
+It is one of the most common questions on the [Shopify community](https://community.shopify.com/t/why-is-the-ga4-purchase-event-firing-twice-in-my-gtm-embedded-store/148983), and the answers there are scattered. This guide puts the causes and the fix in one place.
+
+## Why duplicates are worse than they look
+
+Duplicate purchases do not just inflate a number in a report. They break the decisions built on it. Your conversion rate looks better than it is, ROAS in Google Ads looks better than it is, and any A/B test that uses purchases as its goal can pick the wrong winner. If you are spending money on ads, this is worth fixing this week.
+
+## The 5 usual causes
+
+### 1. Two installations sending the same event
+
+The most common cause by far. The store has the Google & YouTube app connected, and someone also added GA4 through Google Tag Manager, a theme snippet or another app. Both send a purchase. On the Shopify forums, many store owners only [fixed it by keeping one setup and removing the other](https://community.shopify.com/t/why-is-ga4-tracking-showing-duplicate-purchases-on-my-website/197089).
+
+### 2. Different transaction IDs for the same order
+
+GA4 uses the transaction ID to recognise repeat purchase events. If one tag sends the order number and another sends the checkout token, GA4 sees two different purchases. You can spot this when the duplicates have [two different transaction IDs for one order](https://community.shopify.com/t/ga4-duplicate-transactions-with-different-transaction-ids/201489).
+
+### 3. Old scripts still running next to new ones
+
+Stores that moved to Shopify's newer Thank you page often left the old tracking code in place, or added a custom pixel without removing the old one. Shopify's own migration guide warns to [remove the old pixel before connecting the new one](https://help.shopify.com/manual/promoting-marketing/pixels/pixel-migration) to avoid duplicate events.
+
+### 4. Apps that send their own purchase event
+
+Review apps, upsell apps, affiliate tools and analytics apps sometimes push a purchase into the dataLayer. If your GTM trigger listens for any "purchase" event, it fires for theirs too.
+
+### 5. Missing transaction ID
+
+If the purchase event is sent with no transaction ID at all, GA4 has nothing to deduplicate with, and a page reload or a second tag becomes a second purchase.
+
+## How to find your cause in 15 minutes
+
+1. **Place a test order** (a 100% discount code works) with GA4 DebugView open, or Tag Assistant connected.
+2. **Count the purchase events.** If you see two, click each one and compare the transaction_id and the event source.
+3. **List every place that can send GA4 data.** Check the Google & YouTube app, Settings then Customer events (custom pixels and app pixels), your GTM container, and theme code for any gtag or G- measurement ID.
+4. **Check GTM triggers.** A trigger set to "event equals purchase" will catch purchase pushes from any app, not just yours.
+5. **Compare a week of data.** In GA4, export purchases by transaction ID and compare with the Shopify orders export. Any transaction ID that appears twice is a duplicate.
+
+## The fix
+
+- **Pick one source of truth.** For most stores that is the Google & YouTube app, which is Shopify's supported route. If you need GTM for other tags, keep GTM but remove its GA4 purchase tag, or the other way round. Never both.
+- **Make the transaction ID consistent.** Whatever sends the purchase should always use the Shopify order ID or order number, never a checkout token.
+- **Tighten GTM triggers.** Fire your purchase tag only on your own dataLayer event name, and add a condition that transaction_id is not empty.
+- **Remove old code.** Search the theme and old checkout settings for leftover gtag snippets and delete them.
+- **Test again.** One order should now produce exactly one purchase event.
+
+## Keep it fixed
+
+Add a monthly check to your calendar: compare GA4 purchases with Shopify orders for the same period. A small gap is normal (ad blockers, consent choices). A gap above roughly 10 to 15% in either direction means something changed, usually a new app.
+
+If you would rather hand this over, a [GA4 and Tag Manager fix](/services/ga4-tag-manager/) covers the audit, the clean-up and a written record of what sends what, so the next app install does not break it again.

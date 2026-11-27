@@ -42,11 +42,11 @@ const ld = [
                 <a class="bl-card" href={`/blog/${p.id}/`}>
                   {p.data.cover && <img src={p.data.cover} alt="" width="640" height="360" loading="lazy" decoding="async" />}
                   <span class="bl-meta">
-                    {CATEGORY_LABELS[p.data.category] ?? p.data.category} · {fmtDate(p.data.date)} · {readMins(p.body)} min read
+                    {CATEGORY_LABELS[p.data.category] ?? p.data.category} / {fmtDate(p.data.date)} / {readMins(p.body)} min read
                   </span>
                   <h2>{p.data.title}</h2>
                   <p>{p.data.description}</p>
-                  <span class="bl-read">Read →</span>
+                  <span class="bl-read">Read</span>
                 </a>
               </li>
             ))}

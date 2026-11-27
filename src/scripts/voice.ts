@@ -213,7 +213,7 @@ function initVoice(root: HTMLElement) {
     summary?.setAttribute('hidden', '');
     turnsEl!.innerHTML = '';
     applyCapture();
-    playBtn!.innerHTML = playBtnHTML('Playing…');
+    playBtn!.innerHTML = playBtnHTML('Playing...');
 
     if (reduced) {
       // Show the full exchange immediately, no choreography.
@@ -225,7 +225,7 @@ function initVoice(root: HTMLElement) {
       return;
     }
 
-    setState('ringing', 'Ringing…');
+    setState('ringing', 'Ringing...');
     setWave('speaking-caller');
 
     const ringEnd = window.setTimeout(() => {

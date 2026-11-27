@@ -1,0 +1,191 @@
+---
+// Two-field lead form: email + store URL. Posts to the existing /api/contact
+// endpoint as a "Free mini audit" enquiry, so no new backend is needed.
+interface Props {
+  title?: string;
+  copy?: string;
+  dark?: boolean;
+}
+const {
+  title = 'Get a free 3-leak video audit',
+  copy = 'Send your store URL. Within 24 hours you get a short video showing 3 things on your product page or cart that are likely costing you sales. No call, no obligation.',
+  dark = false,
+} = Astro.props;
+---
+
+<section id="mini-audit" class:list={['mini-audit', { 'ma-dark': dark }]} aria-labelledby="ma-title">
+  <div class="container-x ma-grid">
+    <div class="ma-copy">
+      <p class="eyebrow" data-reveal="fade">Free, delivered in 24 hours</p>
+      <h2 class="display-md" id="ma-title" data-reveal>{title}</h2>
+      <p class="ma-lede" data-reveal data-reveal-delay="0.06">{copy}</p>
+    </div>
+    <form class="ma-form" data-mini-audit novalidate data-reveal data-reveal-delay="0.1">
+      <label class="ma-field">
+        <span>Store URL</span>
+        <input name="website" type="url" inputmode="url" placeholder="https://yourstore.com" required autocomplete="url" />
+      </label>
+      <label class="ma-field">
+        <span>Email</span>
+        <input name="email" type="email" placeholder="you@yourstore.com" required autocomplete="email" />
+      </label>
+      <input class="ma-trap" name="company_notes" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <button class="btn btn-primary ma-btn" type="submit">Send my free audit</button>
+      <p class="ma-status" data-ma-status role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  import { sendEvent } from '../scripts/track';
+
+  const helpers = {
+    // Build the payload the contact API expects from the two visible fields.
+    payload(form: HTMLFormElement, startedAt: number) {
+      const data = new FormData(form);
+      const email = String(data.get('email') || '').trim();
+      let website = String(data.get('website') || '').trim();
+      if (website && !/^https?:\/\//i.test(website)) website = `https://${website}`;
+      return {
+        name: email.split('@')[0] || 'Store owner',
+        email,
+        website,
+        service: 'free-mini-audit',
+        details: `Free 3-leak video audit request for ${website}`,
+        company_notes: String(data.get('company_notes') || ''),
+        elapsed: String(Date.now() - startedAt),
+      };
+    },
+  };
+
+  document.querySelectorAll<HTMLFormElement>('[data-mini-audit]').forEach((form) => {
+    const startedAt = Date.now();
+    const status = form.querySelector<HTMLElement>('[data-ma-status]');
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        if (status) status.textContent = 'Please add your store URL and a valid email.';
+        return;
+      }
+      if (button) button.disabled = true;
+      if (status) status.textContent = 'Sending...';
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(helpers.payload(form, startedAt)),
+        });
+        const data = (await res.json().catch(() => ({}))) as { ok?: boolean };
+        if (res.ok && data.ok) {
+          form.reset();
+          if (status) status.textContent = 'Got it. Your video audit arrives within 24 hours.';
+          sendEvent('generate_lead', { lead_type: 'free-mini-audit' });
+        } else if (status) {
+          status.textContent = 'Something went wrong. Email admin@crolane.in with your URL instead.';
+        }
+      } catch {
+        if (status) status.textContent = 'Network error. Email admin@crolane.in with your URL instead.';
+      } finally {
+        if (button) button.disabled = false;
+      }
+    });
+  });
+</script>
+
+<style>
+  .mini-audit {
+    padding-block: clamp(3rem, 7vw, 5rem);
+    background: #fff;
+    border-block: 1px solid var(--color-line);
+  }
+
+  .ma-dark {
+    background: var(--color-dark);
+    color: #fff;
+    border: 0;
+  }
+
+  .ma-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  .ma-lede {
+    margin-top: 0.8rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-ink-2);
+    max-width: 34rem;
+  }
+
+  .ma-dark .ma-lede {
+    color: rgb(255 255 255 / 0.75);
+  }
+
+  .ma-dark .eyebrow {
+    color: #ffb48f;
+  }
+
+  .ma-form {
+    display: grid;
+    gap: 0.9rem;
+    padding: 1.4rem;
+    border: 1.5px solid var(--color-ink);
+    border-radius: 18px;
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  .ma-field {
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .ma-field input {
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 0.8rem 0.9rem;
+    min-height: 3rem;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 22%, transparent);
+    border-radius: 10px;
+    background: #fff;
+  }
+
+  .ma-field input:focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 1px;
+  }
+
+  .ma-trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+  }
+
+  .ma-btn {
+    width: 100%;
+    justify-content: center;
+    background: var(--color-signal);
+    color: var(--color-ink);
+  }
+
+  .ma-status {
+    min-height: 1.2em;
+    font-size: 0.88rem;
+    color: var(--color-ink-2);
+  }
+
+  @media (max-width: 52rem) {
+    .ma-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

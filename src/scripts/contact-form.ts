@@ -136,7 +136,7 @@ function initForm(root: HTMLElement) {
   function setBusy(busy: boolean) {
     form!.classList.toggle('busy', busy);
     if (submitBtn) submitBtn.disabled = busy;
-    if (submitLabel) submitLabel.textContent = busy ? 'Sending…' : 'Send enquiry';
+    if (submitLabel) submitLabel.textContent = busy ? 'Sending...' : 'Send enquiry';
   }
 
   form.addEventListener('submit', async (e) => {
