@@ -252,11 +252,10 @@ const isActiveService = path.startsWith('/services/');
     transition: opacity 0.4s var(--ease-out);
   }
 
+  /* Solid bar on scroll so page content never shows through. */
   .site-header.scrolled,
   .site-header.menu-open {
-    background: color-mix(in srgb, var(--color-paper) 82%, transparent);
-    backdrop-filter: blur(14px) saturate(1.4);
-    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    background: var(--color-paper);
   }
 
   .site-header.scrolled::after,
