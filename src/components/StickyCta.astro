@@ -1,16 +1,19 @@
 ---
 import site from '../content/settings/site.json';
+import { offerLive, offerSafeHref } from '../lib/offer';
 const cta = site.stickyCta;
+const href = offerSafeHref(cta.href);
+const label = !offerLive && cta.href.startsWith('/bfcm') ? 'See pricing' : cta.label;
 const path = Astro.url.pathname;
 // Hide on the page the button points to and on contact, where the form is the CTA.
-const show = cta.enabled && path !== cta.href && !path.startsWith('/contact') && !path.startsWith('/keystatic');
+const show = cta.enabled && path !== href && !path.startsWith('/contact') && !path.startsWith('/keystatic');
 ---
 
 {
   show && (
     <div class="sticky-cta" data-sticky-cta>
-      <a class="btn btn-primary" href={cta.href} data-track="sticky_cta">
-        {cta.label}
+      <a class="btn btn-primary" href={href} data-track="sticky_cta">
+        {label}
         
       </a>
     </div>

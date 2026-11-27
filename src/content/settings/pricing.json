@@ -1,12 +1,95 @@
 {
   "services": [
-    { "id": "cro-audit", "from": "From $599", "note": "one-time, audit + 3 fixes shipped" },
-    { "id": "ab-testing", "from": "$999/month", "note": "4 tests a month, or $299 for one test" },
-    { "id": "ga4-tag-manager", "from": "$349", "note": "one-time, setup or fix" },
-    { "id": "conversion-tracking", "from": "$349", "note": "one-time, or $599 with GA4 + GTM" },
-    { "id": "ai-automation", "from": "$499", "note": "per workflow, optional $99/month care" },
-    { "id": "ai-voice-agents", "from": "$499 setup", "note": "+ $99/month, call and AI usage at cost" },
-    { "id": "ai-agent-audit", "from": "$499", "note": "one-time, cost, reliability and security" },
-    { "id": "shopify-audits", "from": "From $599", "note": "one-time, audit + 3 fixes shipped" }
+    {
+      "id": "cro-audit",
+      "from": "From $599",
+      "note": "one-time, audit + 3 fixes shipped"
+    },
+    {
+      "id": "ab-testing",
+      "from": "$999/month",
+      "note": "4 tests a month, or $299 for one test"
+    },
+    {
+      "id": "ga4-tag-manager",
+      "from": "$349",
+      "note": "one-time, setup or fix"
+    },
+    {
+      "id": "conversion-tracking",
+      "from": "$349",
+      "note": "one-time, or $599 with GA4 + GTM"
+    },
+    {
+      "id": "ai-automation",
+      "from": "$499",
+      "note": "per workflow, optional $99/month care"
+    },
+    {
+      "id": "ai-voice-agents",
+      "from": "$499 setup",
+      "note": "+ $99/month, call and AI usage at cost"
+    },
+    {
+      "id": "ai-agent-audit",
+      "from": "$499",
+      "note": "one-time, cost, reliability and security"
+    },
+    {
+      "id": "shopify-audits",
+      "from": "From $599",
+      "note": "one-time, audit + 3 fixes shipped"
+    }
+  ],
+  "packages": [
+    {
+      "id": "quick-fix",
+      "service": "cro-audit",
+      "name": "Quick Fix",
+      "price": 799,
+      "badge": "",
+      "highlight": false,
+      "summary": "For stores that need the biggest mobile leaks closed, fast.",
+      "delivery": "Delivered in 48 hours",
+      "features": [
+        "Mobile product page + cart review",
+        "10-minute video walkthrough of what is costing you sales",
+        "Top 3 fixes built and shipped",
+        "Built on a duplicate theme, published after your OK"
+      ]
+    },
+    {
+      "id": "conversion-sprint",
+      "service": "cro-audit",
+      "name": "Conversion Sprint",
+      "price": 1199,
+      "badge": "Most popular",
+      "highlight": true,
+      "summary": "The full fix: audit, six shipped fixes and tracking you can trust.",
+      "delivery": "Live within 5 working days",
+      "features": [
+        "Product page, cart and home/collection review",
+        "Video walkthrough + written priority list",
+        "Top 6 fixes built and shipped",
+        "GA4 add_to_cart and purchase tracking check",
+        "Short summary of what moved after 30 days"
+      ]
+    },
+    {
+      "id": "sprint-test",
+      "service": "ab-testing",
+      "name": "Sprint + A/B Test",
+      "price": 1499,
+      "badge": "Best value",
+      "highlight": false,
+      "summary": "Everything in the Sprint, plus a proper A/B test to prove the biggest change.",
+      "delivery": "Fixes in 5 days, test runs 2 to 4 weeks",
+      "features": [
+        "Everything in Conversion Sprint",
+        "1 A/B test designed, built and launched (VWO, Convert or Shoplift)",
+        "GA4 tracking issues fixed, not just flagged",
+        "Test read-out with a clear keep / drop call"
+      ]
+    }
   ]
 }

@@ -1,4 +1,5 @@
 ---
+import { pricesHref } from '../lib/offer';
 // Honest comparison of how CRO help is usually bought. Generic, no named competitors.
 const cols = ['Typical agency', 'Audit-only freelancer', 'CROLANE'];
 const rows = [
@@ -39,7 +40,7 @@ const rows = [
       </table>
     </div>
     <div class="cp-cta" data-reveal>
-      <a class="btn btn-primary" href="/bfcm/" data-track="compare_cta">See fixed prices</a>
+      <a class="btn btn-primary" href={pricesHref} data-track="compare_cta">See fixed prices</a>
       <a class="link-arrow" href="/contact/?service=cro-audit" data-track="compare_quote">Or get a custom quote</a>
     </div>
   </div>

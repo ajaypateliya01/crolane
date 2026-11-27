@@ -1,24 +1,32 @@
 ---
 import bfcm from '../content/settings/bfcm.json';
+import pricing from '../content/settings/pricing.json';
 
 interface Props {
   /** Compact cards for teasers: hides the feature list. */
   compact?: boolean;
+  /** 'sale' shows the BFCM packages, 'regular' the everyday sprint packages. */
+  mode?: 'sale' | 'regular';
 }
-const { compact = false } = Astro.props;
+const { compact = false, mode = 'sale' } = Astro.props;
+const sale = mode === 'sale';
+// Everyday packages have no regular price line; give them a matching shape.
+const packages = sale
+  ? bfcm.packages.map((p) => ({ ...p, service: '' }))
+  : pricing.packages.map((p) => ({ ...p, regularPrice: 0 }));
 const money = (n: number) => `$${n.toLocaleString('en-US')}`;
 ---
 
 <div class:list={['pc-grid', { 'pc-compact': compact }]} data-reveal-group>
   {
-    bfcm.packages.map((p) => (
+    packages.map((p) => (
       <article class:list={['pc-card', { 'pc-hi': p.highlight }]}>
         {p.badge && <span class="pc-badge">{p.badge}</span>}
         <h3 class="pc-name">{p.name}</h3>
         <p class="pc-summary">{p.summary}</p>
         <div class="pc-price">
           <span class="pc-now">{money(p.price)}</span>
-          {p.regularPrice > p.price && (
+          {sale && p.regularPrice > p.price && (
             <span class="pc-reg">
               Regular {money(p.regularPrice)} from Dec 1
             </span>
@@ -39,7 +47,7 @@ const money = (n: number) => `$${n.toLocaleString('en-US')}`;
         )}
         <a
           class:list={['btn', p.highlight ? 'btn-primary' : 'btn-ghost', 'pc-cta']}
-          href={`/contact/?package=${p.id}`}
+          href={sale ? `/contact/?package=${p.id}` : `/contact/?service=${p.service}`}
           data-track="select_package"
           data-track-label={p.name}
           data-track-value={p.price}

@@ -11,6 +11,9 @@ import MiniAudit from '../components/MiniAudit.astro';
 import bfcm from '../content/settings/bfcm.json';
 import { SITE } from '../config/site';
 
+// After the sale, old links and outreach emails land on the pricing page.
+if (!bfcm.enabled) return Astro.redirect('/pricing/', 301);
+
 const title = 'Black Friday Shopify CRO Sprints from $599 | CROLANE';
 const description =
   'Fixed-price Shopify conversion sprints for BFCM: audit plus done-for-you fixes on product page, cart and mobile, live before Cyber Monday. From $599.';
