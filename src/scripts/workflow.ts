@@ -77,7 +77,7 @@ function initWorkflow(root: HTMLElement) {
       payloadEl.classList.toggle('is-outcome', isOutcome);
       payloadEl.setAttribute('aria-label', isOutcome ? 'Recorded outcome' : 'Sample payload');
       if (payloadLabel) {
-        payloadLabel.textContent = isOutcome ? 'Outcome · recorded' : 'Sample payload';
+        payloadLabel.textContent = isOutcome ? 'Outcome / recorded' : 'Sample payload';
       }
       // The run summary belongs to the finished outcome, inside the black box.
       if (summary) summary.hidden = !(runComplete && isOutcome);
@@ -119,7 +119,7 @@ function initWorkflow(root: HTMLElement) {
       return;
     }
 
-    if (runBtn) runBtn.textContent = 'Running…';
+    if (runBtn) runBtn.textContent = 'Running...';
     RUN_ORDER.forEach((id, i) => {
       const startAt = window.setTimeout(() => {
         if (i > 0) {

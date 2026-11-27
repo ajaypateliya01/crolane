@@ -16,7 +16,7 @@ const {
 <section id="mini-audit" class:list={['mini-audit', { 'ma-dark': dark }]} aria-labelledby="ma-title">
   <div class="container-x ma-grid">
     <div class="ma-copy">
-      <p class="eyebrow" data-reveal="fade">Free · 24 hours</p>
+      <p class="eyebrow" data-reveal="fade">Free, delivered in 24 hours</p>
       <h2 class="display-md" id="ma-title" data-reveal>{title}</h2>
       <p class="ma-lede" data-reveal data-reveal-delay="0.06">{copy}</p>
     </div>
@@ -70,7 +70,7 @@ const {
         return;
       }
       if (button) button.disabled = true;
-      if (status) status.textContent = 'Sending…';
+      if (status) status.textContent = 'Sending...';
       try {
         const res = await fetch('/api/contact', {
           method: 'POST',

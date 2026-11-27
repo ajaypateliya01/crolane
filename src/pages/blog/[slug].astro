@@ -55,7 +55,7 @@ const ld = [
     <header class="post-head container-x">
       <nav class="crumb" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a></nav>
       <p class="post-meta" data-reveal="fade">
-        {CATEGORY_LABELS[post.data.category] ?? post.data.category} · {fmtDate(post.data.date)} · {readMins(post.body)} min read
+        {CATEGORY_LABELS[post.data.category] ?? post.data.category} / {fmtDate(post.data.date)} / {readMins(post.body)} min read
       </p>
       <h1 class="display-lg" data-reveal>{post.data.title}</h1>
       {post.data.description && <p class="lede" data-reveal data-reveal-delay="0.06">{post.data.description}</p>}

@@ -4,6 +4,7 @@ import { SERVICES } from '../config/services';
 import { SITE } from '../config/site';
 import site from '../content/settings/site.json';
 import pricing from '../content/settings/pricing.json';
+import bfcm from '../content/settings/bfcm.json';
 
 // Services menu: two groups, each item shows its starting price.
 const AI_IDS = ['ai-automation', 'ai-voice-agents', 'ai-agent-audit'];
@@ -28,7 +29,7 @@ const isActiveService = path.startsWith('/services/');
     <a class="offer-bar" href={offer.href} data-track="offer_bar_click">
       <span class="offer-dot" aria-hidden="true"></span>
       <span class="offer-text">{offer.text}</span>
-      <span class="offer-link">{offer.linkLabel} →</span>
+      <span class="offer-link">{offer.linkLabel}</span>
     </a>
   )}
   <div class="container-x header-row">
@@ -64,12 +65,14 @@ const isActiveService = path.startsWith('/services/');
                 <p class="menu-intro-copy">
                   Fixed prices, developer-led, shipped live.
                 </p>
-                <a class="menu-offer" href="/bfcm/" data-track="menu_offer">
-                  <span class="label-mono">BFCM sprints</span>
-                  <strong>From $599</strong>
-                  <span>Live before Cyber Monday →</span>
-                </a>
-                <a class="menu-free" href="/#mini-audit" data-track="menu_free_audit">Free 3-leak video audit →</a>
+                {bfcm.enabled && (
+                  <a class="menu-offer" href="/bfcm/" data-track="menu_offer">
+                    <span class="label-mono">BFCM sprints</span>
+                    <strong>From ${Math.min(...bfcm.packages.map((p) => p.price))}</strong>
+                    <span>Live before Cyber Monday</span>
+                  </a>
+                )}
+                <a class="menu-free" href="/#mini-audit" data-track="menu_free_audit">Free 3-leak video audit</a>
                 <a class="link-arrow" href="/services/">
                   View overview
                   <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
@@ -161,7 +164,7 @@ const isActiveService = path.startsWith('/services/');
             >Services</a
           >
         </li>
-        <li><a href="/bfcm/" data-active={isActive('/bfcm/') ? 'true' : undefined}>Pricing · BFCM</a></li>
+        <li><a href="/bfcm/" data-active={isActive('/bfcm/') ? 'true' : undefined}>Pricing / BFCM</a></li>
         <li><a href="/blog/" data-active={isActive('/blog/') ? 'true' : undefined}>Blog</a></li>
         <li><a href="/about/" data-active={isActive('/about/') ? 'true' : undefined}>About</a></li>
         <li>

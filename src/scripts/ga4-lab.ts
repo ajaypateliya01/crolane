@@ -233,7 +233,7 @@ function initGa4Lab(root: HTMLElement) {
           els.status.textContent = 'One issue caught: the add-to-cart event name does not match the plan.';
         }, start + 600);
         later(() => {
-          setRow(id, 'passed', 'Fixed · Passed', '✓');
+          setRow(id, 'passed', 'Fixed / Passed', '✓');
           els.fixedEl.textContent = '1';
           bumpValidated();
           addLog('fix', 'Renamed to add_to_cart, published the tag and retested. Firing correctly.');
