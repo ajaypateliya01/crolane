@@ -44,16 +44,18 @@ const initials = f.name
 
   .fd-grid {
     display: grid;
-    grid-template-columns: 15rem minmax(0, 1fr);
+    grid-template-columns: 12rem minmax(0, 1fr);
     gap: clamp(1.75rem, 5vw, 4rem);
     align-items: center;
     max-width: 62rem;
   }
 
   .fd-photo {
-    width: 15rem;
+    width: 12rem;
     aspect-ratio: 1;
-    border-radius: 28px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    outline: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
     overflow: hidden;
     background: linear-gradient(140deg, var(--color-indigo), var(--color-violet) 55%, var(--color-amber));
     display: grid;
@@ -115,7 +117,7 @@ const initials = f.name
     }
 
     .fd-photo {
-      width: 9rem;
+      width: 7.5rem;
     }
 
     .fd-initials {
