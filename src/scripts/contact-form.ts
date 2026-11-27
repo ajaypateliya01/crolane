@@ -1,3 +1,4 @@
+import { sendEvent } from './track';
 /**
  * Contact form: client validation mirror, JSON submission with loading,
  * field errors, success and failure states. The form also works without
@@ -118,10 +119,8 @@ function initForm(root: HTMLElement) {
       if (anchor) successMsg.append(anchor);
     }
     if (success) success.hidden = false;
-    const w = window as unknown as { dataLayer?: Record<string, unknown>[] };
-    (w.dataLayer = w.dataLayer || []).push({
-      event: 'generate_lead',
-      lead_type: (root.querySelector<HTMLSelectElement>('select[name="service"]')?.value) || 'unknown',
+    sendEvent('generate_lead', {
+      lead_type: root.querySelector<HTMLSelectElement>('select[name="service"]')?.value || 'unknown',
     });
     form?.setAttribute('hidden', '');
     success?.querySelector<HTMLElement>('h3')?.focus?.();
